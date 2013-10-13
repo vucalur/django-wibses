@@ -1,0 +1,206 @@
+{
+  "sections": [
+    {
+      "params": {
+        "threshold": 50
+      },
+      "sentences": [
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        }
+      ],
+      "type": "synthetic"
+    },
+    {
+      "params": {
+        "threshold": 50
+      },
+      "sentences": [
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        },
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        },
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        }
+      ],
+      "type": "analytical"
+    },
+    {
+      "params": {
+        "threshold": 50
+      },
+      "sentences": [
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        },
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        },
+        {
+          "params": {
+            "obligatory": false,
+            "threshold": 55,
+            "name": "Sample Sentence"
+          },
+          "slots": [
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            },
+            {
+              "params": {
+                "obligatory": false,
+                "threshold": 60,
+                "name": "Sample slot"
+              },
+              "tokens": ["zdrowy", "zdrowy", "nera", "pożyczę"]
+            }
+          ]
+        }
+      ],
+      "type": "circumstances"
+    }
+  ],
+  "params": {
+    "name": "Some Semantic script"
+  }
+}

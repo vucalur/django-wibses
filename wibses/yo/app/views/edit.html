@@ -1,0 +1,11 @@
+<h1>'Allo, 'Allo!</h1>
+
+<ul class="list-inline">
+  <li ng-repeat="(key, value) in script.params">
+    <div class="input-group">
+      <span class="input-group-addon">{{ key }}</span>
+      <input type="text" class="form-control" value="{{ value }}">
+    </div>
+  </li>
+</ul>
+

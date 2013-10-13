@@ -1,11 +1,12 @@
 'use strict'
 
-angular.module('wibsesFrontApp', [])
-  .config ['$routeProvider', ($routeProvider) ->
-    $routeProvider
-      .when '/',
-        templateUrl: 'views/main.html'
-        controller: 'MainCtrl'
-      .otherwise
-        redirectTo: '/'
-  ]
+app = angular.module('wibsesFrontApp', ['ngRoute', 'wibsesFrontApp.controller'])
+
+app.config ['$routeProvider', ($routeProvider) ->
+  $routeProvider
+  .when '/editor',
+      templateUrl: 'views/edit.html'
+      controller: 'EditCtrl'
+  .otherwise
+      redirectTo: '/editor'
+]
