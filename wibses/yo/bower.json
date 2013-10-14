@@ -1,5 +1,5 @@
 {
-  "name": "wibsesFront",
+  "name": "wibses",
   "version": "0.0.0",
   "dependencies": {
     "json3": "~3.2.4",

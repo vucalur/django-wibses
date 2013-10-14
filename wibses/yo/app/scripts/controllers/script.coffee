@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesFrontApp.controller').controller 'ScriptCtrl',
+angular.module('wibsesApp.controller').controller 'ScriptCtrl',
   class ScriptCtrl
     @$inject: ['$scope', 'jsonStorageService']
     constructor: (@$scope, @jsonStorageService) ->

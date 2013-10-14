@@ -3,7 +3,7 @@
 describe 'Controller: ScriptCtrl', () ->
 
 #  # load the controller's module
-#  beforeEach module 'wibsesFrontApp'
+#  beforeEach module 'wibsesApp'
 #
 #  MainCtrl = {}
 #  scope = {}

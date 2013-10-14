@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesFrontApp.service').factory('jsonStorageService', ['$resource',
+angular.module('wibsesApp.service').factory('jsonStorageService', ['$resource',
   ($resource) ->
     $resource('data/scriptMock.json',
     {},

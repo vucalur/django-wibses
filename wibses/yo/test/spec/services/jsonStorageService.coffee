@@ -3,7 +3,7 @@
 describe 'Service: jsonStorageService', () ->
 #
 #  # load the service's module
-#  beforeEach module 'wibsesFrontApp'
+#  beforeEach module 'wibsesApp'
 #
 #  # instantiate service
 #  jsonStorageService = {}

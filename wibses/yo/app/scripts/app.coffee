@@ -1,11 +1,11 @@
 'use strict'
 
-angular.module('wibsesFrontApp', ['ngRoute', 'wibsesFrontApp.controller'])
-angular.module('wibsesFrontApp.controller', ['wibsesFrontApp.service'])
-angular.module('wibsesFrontApp.service', ['ngResource'])
+angular.module('wibsesApp', ['ngRoute', 'wibsesApp.controller'])
+angular.module('wibsesApp.controller', ['wibsesApp.service'])
+angular.module('wibsesApp.service', ['ngResource'])
 
 
-angular.module('wibsesFrontApp').config ['$routeProvider', ($routeProvider) ->
+angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
   $routeProvider
   .when '/editor',
       templateUrl: 'views/edit.html'

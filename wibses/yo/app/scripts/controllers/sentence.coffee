@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesFrontApp.controller').controller 'SentenceCtrl',
+angular.module('wibsesApp.controller').controller 'SentenceCtrl',
   class SentenceCtrl
     @$inject: ['$scope']
     constructor: (@$scope) ->
