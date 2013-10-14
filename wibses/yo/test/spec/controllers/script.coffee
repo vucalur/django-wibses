@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: MainCtrl', () ->
+describe 'Controller: ScriptCtrl', () ->
 
 #  # load the controller's module
 #  beforeEach module 'wibsesFrontApp'

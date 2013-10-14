@@ -42,7 +42,7 @@
           "params": {
             "obligatory": false,
             "threshold": 55,
-            "name": "Sample Sentence"
+            "name": "Sample Sentence 1"
           },
           "slots": [
             {
@@ -67,7 +67,7 @@
           "params": {
             "obligatory": false,
             "threshold": 55,
-            "name": "Sample Sentence"
+            "name": "Sample Sentence 2"
           },
           "slots": [
             {
@@ -92,7 +92,7 @@
           "params": {
             "obligatory": false,
             "threshold": 55,
-            "name": "Sample Sentence"
+            "name": "Sample Sentence 3"
           },
           "slots": [
             {
@@ -125,7 +125,7 @@
           "params": {
             "obligatory": false,
             "threshold": 55,
-            "name": "Sample Sentence"
+            "name": "Sample Sentence 1"
           },
           "slots": [
             {
@@ -150,7 +150,7 @@
           "params": {
             "obligatory": false,
             "threshold": 55,
-            "name": "Sample Sentence"
+            "name": "Sample Sentence 2"
           },
           "slots": [
             {
@@ -175,7 +175,7 @@
           "params": {
             "obligatory": false,
             "threshold": 55,
-            "name": "Sample Sentence"
+            "name": "Sample Sentence 3"
           },
           "slots": [
             {

@@ -1,12 +1,15 @@
 'use strict'
 
-app = angular.module('wibsesFrontApp', ['ngRoute', 'wibsesFrontApp.controller'])
+angular.module('wibsesFrontApp', ['ngRoute', 'wibsesFrontApp.controller'])
+angular.module('wibsesFrontApp.controller', ['wibsesFrontApp.service'])
+angular.module('wibsesFrontApp.service', ['ngResource'])
 
-app.config ['$routeProvider', ($routeProvider) ->
+
+angular.module('wibsesFrontApp').config ['$routeProvider', ($routeProvider) ->
   $routeProvider
   .when '/editor',
       templateUrl: 'views/edit.html'
-      controller: 'EditCtrl'
+      controller: 'ScriptCtrl'
   .otherwise
       redirectTo: '/editor'
 ]
