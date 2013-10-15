@@ -15,3 +15,6 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
       @$scope.script.params[@$scope.key] = @$scope.value;
       @$scope.key = @$scope.value = ''
       @$scope.$emit('ScriptChanged')
+
+    removeParam: (key) ->
+      delete @$scope.script.params[key]

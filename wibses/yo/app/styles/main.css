@@ -1,3 +1,8 @@
 .starter-template {
 	padding: 60px 15px;
 }
+
+ /*TODO vucalur: lame work-around, but UI needs redesign, hence this will be only temporary*/
+.glyphicon-remove {
+    color: #333333
+}

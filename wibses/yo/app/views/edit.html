@@ -6,6 +6,7 @@
       <div class="input-group">
         <span class="input-group-addon">{{ key }}</span>
         <input type="text" class="form-control" value="{{ value }}">
+        <span class="input-group-addon btn btn-danger" ng-click="scriCtrl.removeParam(key)"><span class="glyphicon glyphicon-remove"></span></span>
       </div>
     </li>
   </ul>
@@ -33,6 +34,7 @@
             <div class="input-group">
               <span class="input-group-addon">{{ key }}</span>
               <input type="text" class="form-control" value="{{ value }}">
+              <span class="input-group-addon btn btn-danger" ng-click="secCtrl.removeParam(key)"><span class="glyphicon glyphicon-remove"></span></span>
             </div>
           </li>
         </ul>
@@ -62,6 +64,7 @@
                   <div class="input-group">
                     <span class="input-group-addon">{{ key }}</span>
                     <input type="text" class="form-control" value="{{ value }}">
+                    <span class="input-group-addon btn btn-danger" ng-click="senCtrl.removeParam(key)"><span class="glyphicon glyphicon-remove"></span></span>
                   </div>
                 </li>
               </ul>
@@ -89,6 +92,7 @@
                         <div class="input-group">
                           <span class="input-group-addon">{{ key }}</span>
                           <input type="text" class="form-control" value="{{ value }}">
+                          <span class="input-group-addon btn btn-danger" ng-click="slotCtrl.removeParam(key)"><span class="glyphicon glyphicon-remove"></span></span>
                         </div>
                       </li>
                     </ul>
@@ -112,6 +116,7 @@
                         <li ng-repeat="token in slot.tokens track by $index">
                           <div class="input-group">
                             <span class="input-group-addon">{{ token }}</span>
+                            <span class="input-group-addon btn btn-danger" ng-click="slotCtrl.removeToken($index)"><span class="glyphicon glyphicon-remove"></span></span>
                           </div>
                         </li>
                       </ul>

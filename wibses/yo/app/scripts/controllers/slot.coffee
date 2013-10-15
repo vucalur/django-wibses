@@ -16,3 +16,8 @@ angular.module('wibsesApp.controller').controller 'SlotCtrl',
       @$scope.token = ''
       @$scope.$emit('ScriptChanged')
 
+    removeParam: (key) ->
+      delete @$scope.slot.params[key]
+
+    removeToken: (index) ->
+      delete @$scope.slot.tokens.splice(index, 1)

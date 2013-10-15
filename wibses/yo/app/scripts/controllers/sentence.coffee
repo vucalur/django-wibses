@@ -10,3 +10,6 @@ angular.module('wibsesApp.controller').controller 'SentenceCtrl',
       @$scope.sentence.params[@$scope.key] = @$scope.value;
       @$scope.key = @$scope.value = ''
       @$scope.$emit('ScriptChanged')
+
+    removeParam: (key) ->
+      delete @$scope.sentence.params[key]
