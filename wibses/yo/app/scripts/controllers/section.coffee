@@ -9,3 +9,4 @@ angular.module('wibsesApp.controller').controller 'SectionCtrl',
     addParam: ->
       @$scope.section.params[@$scope.key] = @$scope.value;
       @$scope.key = @$scope.value = ''
+      @$scope.$emit('ScriptChanged')

@@ -9,3 +9,4 @@ angular.module('wibsesApp.controller').controller 'SentenceCtrl',
     addParam: ->
       @$scope.sentence.params[@$scope.key] = @$scope.value;
       @$scope.key = @$scope.value = ''
+      @$scope.$emit('ScriptChanged')

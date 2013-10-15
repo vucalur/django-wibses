@@ -9,13 +9,15 @@
     "angular-mocks": "1.2.0-rc.2",
     "angular-scenario": "1.2.0-rc.2",
     "angular-route": "1.2.0-rc.2",
-    "angular-resource": "1.2.0-rc.2"
+    "angular-resource": "1.2.0-rc.2",
+    "angular-cookies": "1.2.0-rc.2"
   },
   "devDependencies": {
     "angular": "1.2.0-rc.2",
     "angular-mocks": "1.2.0-rc.2",
     "angular-scenario": "1.2.0-rc.2",
     "angular-route": "1.2.0-rc.2",
-    "angular-resource": "1.2.0-rc.2"
+    "angular-resource": "1.2.0-rc.2",
+    "angular-cookies": "1.2.0-rc.2"
   }
 }

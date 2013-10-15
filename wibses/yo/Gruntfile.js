@@ -12,6 +12,8 @@ var mountFolder = function (connect, dir) {
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
 module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
@@ -28,6 +30,7 @@ module.exports = function (grunt) {
   }
 
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-bower-install');
 
   grunt.initConfig({
@@ -82,13 +85,28 @@ module.exports = function (grunt) {
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost'
       },
+      // based on: http://www.fettblog.eu/blog/2013/09/20/using-grunt-connect-proxy/
+      proxies: [
+        {
+          context: '/',
+          host: 'localhost',
+          port: 8000, // Django port goes here
+          https: false,
+          changeOrigin: false,
+          xforward: false,
+          rewrite: {
+            '^/data': '/wibses/data'
+          }
+        }
+      ],
       livereload: {
         options: {
           middleware: function (connect) {
             return [
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              mountFolder(connect, yeomanConfig.app)
+              mountFolder(connect, yeomanConfig.app),
+              proxySnippet
             ];
           }
         }
@@ -353,6 +371,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'concurrent:server',
+      'configureProxies',
       'autoprefixer',
       'connect:livereload',
       'open',

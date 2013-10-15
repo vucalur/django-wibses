@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+# Django needs this to see it as a project

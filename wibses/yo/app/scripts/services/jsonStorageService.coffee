@@ -1,11 +1,18 @@
 'use strict'
 
-angular.module('wibsesApp.service').factory('jsonStorageService', ['$resource',
+service = angular.module('wibsesApp.service')
+
+service.config(['$httpProvider', ($httpProvider) ->
+#   TODO vucalur: Somehow this workaround is not working (403 response):
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken'
+])
+
+service.factory('jsonStorageService', ['$resource',
   ($resource) ->
-    $resource('data/scriptMock.json',
+    $resource('data/script',
     {},
-    {
-      query: {method: 'GET'}
-    }
+      query:
+        method: 'GET', isArray: false
     )
 ])

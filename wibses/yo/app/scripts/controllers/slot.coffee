@@ -9,8 +9,10 @@ angular.module('wibsesApp.controller').controller 'SlotCtrl',
     addParam: ->
       @$scope.slot.params[@$scope.key] = @$scope.value;
       @$scope.key = @$scope.value = ''
+      @$scope.$emit('ScriptChanged')
 
     addToken: ->
       @$scope.slot.tokens.push(@$scope.token)
       @$scope.token = ''
+      @$scope.$emit('ScriptChanged')
 
