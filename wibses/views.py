@@ -4,6 +4,7 @@ from datetime import datetime
 
 from django.http import HttpResponse, HttpResponseServerError
 from django.conf import settings
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -22,14 +23,14 @@ def load():
     with open(os.path.join(storage_dir, 'scriptMock.json'), 'r') as f:
         return f.read()
 
-#TODO vucalur: enable csrf - somehow renaming cookie & header on client side is not working
+# TODO vucalur: fully enable csrf protection - somehow it's not working on chromium - cookie settings ?
 @csrf_exempt
 def script(request):
     if request.method == 'GET':
         json_string = load()
         return HttpResponse(json_string, mimetype='application/json')
     elif request.method == 'POST':
-    #TODO vucalur: make Django threat POST as ajax :
+    # TODO vucalur: make Django threat POST as ajax :
     #if not request.is_ajax():  raise Http404 else:
         json_string = request.body
         try:

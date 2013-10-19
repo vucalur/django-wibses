@@ -93,10 +93,7 @@ module.exports = function (grunt) {
           port: 8000, // Django port goes here
           https: false,
           changeOrigin: false,
-          xforward: false,
-          rewrite: {
-            '^/data': '/wibses/data'
-          }
+          xforward: false
         }
       ],
       livereload: {
