@@ -1,0 +1,21 @@
+'use strict'
+
+angular.module('wibsesApp.directive')
+.directive 'parameters', () ->
+    templateUrl: 'directiveTemplates/parameters.html'
+    restrict: 'E'
+    scope:
+      params: '='
+    controller: ($scope, $element, $attrs) ->
+      $scope.key = $scope.value = ''
+
+      $scope.addParam = ->
+        $scope.params[$scope.key] = $scope.value
+        $scope.key = $scope.value = ''
+        $scope.$emit('ScriptChanged')
+
+      $scope.removeParam = (key) ->
+        delete $scope.params[key]
+        $scope.$emit('ScriptChanged')
+
+
