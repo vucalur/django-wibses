@@ -12,10 +12,8 @@ angular.module('wibsesApp.directive')
       $scope.addParam = ->
         $scope.params[$scope.key] = $scope.value
         $scope.key = $scope.value = ''
-        $scope.$emit('ScriptChanged')
 
       $scope.removeParam = (key) ->
         delete $scope.params[key]
-        $scope.$emit('ScriptChanged')
 
 

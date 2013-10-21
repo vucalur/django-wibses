@@ -7,8 +7,7 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
       # plain $http version:
 #      @jsonStorageService.query((data) => @$scope.script = data)
       @$scope.script = @jsonStorageService.query()
-      @$scope.$on('ScriptChanged', (e) =>
-        e.stopPropagation()
-        #        @$scope.script.$save()
+
+      @$scope.$watch('script', =>
         @jsonStorageService.save(script: @$scope.script)
-      )
+      , true)
