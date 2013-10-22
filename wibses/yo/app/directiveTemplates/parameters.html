@@ -1,11 +1,20 @@
-<ul class="list-inline">
-  <li ng-repeat="(key, value) in params">
-    <div class="input-group">
-      <span class="input-group-addon">{{ key }}</span>
-      <input type="text" class="form-control" value="{{ value }}">
-      <span class="input-group-addon btn btn-danger" ng-click="removeParam(key)"><span class="glyphicon glyphicon-remove"></span></span>
-    </div>
-  </li>
+<ul class="params list-inline">
+  <div class="row">
+    <li ng-repeat="(key, value) in params">
+      <div class="param-wrapper col-lg-3">
+        <div class="param input-group">
+          <span class="input-group-addon">{{ key }}</span>
+          <input type="text" class="form-control" value="{{ value }}">
+
+          <div class="input-group-btn">
+            <button class="remove-param btn btn-danger" type="button" ng-click="removeParam(key)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </div>
 </ul>
 
 <form class="form-inline" role="form" ng-submit="addParam()">

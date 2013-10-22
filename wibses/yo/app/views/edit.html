@@ -1,5 +1,4 @@
 <!--TODO vucalur: Break this bulky html to separate views-->
-<!--TODO vucalur: fix DRY violation-->
 <div class="script" ng-controller="ScriptCtrl as scriCtrl">
 
   <parameters params="script.params"></parameters>
@@ -27,25 +26,24 @@
                     <h4>Parameters:</h4>
                     <parameters params="slot.params"></parameters>
 
+                    <h4>Tokens:</h4>
+
                     <div class="tokens">
-                      <h4>Tokens:</h4>
                       <ul class="list-inline">
                         <li ng-repeat="token in slot.tokens track by $index">
-                          <div class="input-group">
-                            <span class="input-group-addon">{{ token }}</span>
-                            <span class="input-group-addon btn btn-danger" ng-click="slotCtrl.removeToken($index)"><span class="glyphicon glyphicon-remove"></span></span>
-                          </div>
+                           <!--TODO vucalur: fix pointy corners of the label-->
+                          <span class="token label label-info">{{ token }} <span class="remove-button glyphicon glyphicon-remove-circle" ng-click="slotCtrl.removeToken($index)"></span></span>
                         </li>
                       </ul>
-
-                      <form class="form-inline" role="form" ng-submit="slotCtrl.addToken()">
-                        <div class="form-group">
-                          <label class="sr-only" for="token">Token</label>
-                          <input type="text" class="form-control" id="token" placeholder="Token" ng-model="token">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                      </form>
                     </div>
+
+                    <form class="form-inline" role="form" ng-submit="slotCtrl.addToken()">
+                      <div class="form-group">
+                        <label class="sr-only" for="token">Token</label>
+                        <input type="text" class="form-control" id="token" placeholder="Token" ng-model="token">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
                   </div>
                 </li>
               </ul>

@@ -2,7 +2,36 @@
     padding: 60px 15px;
 }
 
-/*TODO vucalur: lame work-around, but UI needs redesign, hence this will be only temporary*/
-.glyphicon-remove {
-    color: #333333
+span.token {
+    font-size: 13px;
+}
+
+span.token .remove-button {
+    margin-right: 4px;
+    margin-left: 7px;
+}
+
+div.tokens {
+    margin-bottom: 9px;
+}
+
+div.tokens li {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.param .remove-param {
+    display: none;
+}
+
+.param:hover .remove-param {
+    display: block;
+}
+
+ul.params {
+    margin-bottom: 3px;
+}
+
+div.param-wrapper {
+    margin-bottom: 8px;
 }
