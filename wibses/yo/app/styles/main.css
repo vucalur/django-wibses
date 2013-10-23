@@ -35,3 +35,19 @@ ul.params {
 div.param-wrapper {
     margin-bottom: 8px;
 }
+
+.token-select select {
+   background: transparent;
+   width: 268px;
+   padding: 5px;
+   font-size: 16px;
+   border-radius: 2;
+   border-color: #fff0ed;
+   height: 35px;
+   -webkit-appearance: none;
+}
+
+#selected-token-forms{
+    height: 100px;
+    overflow-y: scroll;
+}

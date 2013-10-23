@@ -2,6 +2,6 @@ dist
 *.egg-info
 .idea
 *.iml
-
+*.pyc
 # below is assembled by grunt:
 wibses/static

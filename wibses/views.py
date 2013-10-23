@@ -4,8 +4,8 @@ from datetime import datetime
 
 from django.http import HttpResponse, HttpResponseServerError
 from django.conf import settings
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from wibses.dict_api import prepare_token_json
 
 
 def get_storage_dir():
@@ -38,3 +38,8 @@ def script(request):
             return HttpResponse('Ok - saved')
         except KeyError:
             HttpResponseServerError('Malformed data!')
+
+
+def token(request, token_form):
+    result_json = prepare_token_json(token_form)
+    return HttpResponse(result_json, mimetype='application/json')

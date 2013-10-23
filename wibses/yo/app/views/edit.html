@@ -31,7 +31,7 @@
                     <div class="tokens">
                       <ul class="list-inline">
                         <li ng-repeat="token in slot.tokens track by $index">
-                           <!--TODO vucalur: fix pointy corners of the label-->
+                          <!--TODO vucalur: fix pointy corners of the label-->
                           <span class="token label label-info">{{ token }} <span class="remove-button glyphicon glyphicon-remove-circle" ng-click="slotCtrl.removeToken($index)"></span></span>
                         </li>
                       </ul>
@@ -40,14 +40,31 @@
                     <form class="form-inline" role="form" ng-submit="slotCtrl.addToken()">
                       <div class="form-group">
                         <label class="sr-only" for="token">Token</label>
-                        <input type="text" class="form-control" id="token" placeholder="Token" ng-model="token">
+                        <input type="text" class="form-control" id="token" placeholder="Token" ng-model="token" ng-change="slotCtrl.onTokenChanged()">
                       </div>
+                      <span class="token-select">
+                          <select class="" ng-model="selectedToken" id="token-choose-select" ng-options="pt.base for pt in possibleTokens" required>
+                          </select>
+                      </span>
                       <button type="submit" class="btn btn-primary">Add</button>
                     </form>
-                  </div>
-                </li>
-              </ul>
+                    <br/>
 
+                    <div ng-hide="isnotTokenChanged" class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Token description</h3>
+                      </div>
+                      <div class="panel-body">
+                        <p>Token forms</p>
+                        <ul class="list-group" id="selected-token-forms">
+                          <li ng-repeat="form in selectedToken.forms">{{form}}</li>
+                        </ul>
+                        <p>Dictionary : {{ selectedToken.dic }}</p>
+
+                        <p>Type : {{ selectedToken.type }}</p>
+                      </div>
+                    </div>
+                  </div>
             </div>
           </li>
         </ul>
@@ -55,5 +72,9 @@
       </div>
     </li>
   </ul>
+
+</div>
+</li>
+</ul>
 
 </div>
