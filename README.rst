@@ -40,6 +40,15 @@ or:
 .. code-block:: bash
 
     $ grunt test
+    
+4. Commit messages
+
+- Be precise, concise and meaningful
+- Pick up a tense you like. It doesn't have to be a sentence at all, as long as above condition holds :)
+- Whenever there is a ticket created for what you are working on, reference it in a commit message, like:
+..
+
+    [#123] Implemented a mechanism to make "blah blah blah" sound wise
 
 ============
 Developer's Cheatsheet
