@@ -2,6 +2,9 @@
 Wibses
 ****************************************
 
+.. image:: https://travis-ci.org/vucalur/django-wibses.png?branch=master
+   :target: https://travis-ci.org/vucalur/django-wibses
+
 Wibses stands for Web Interface for Building SEmantic Scripts. (semi acronym)
 
 
@@ -12,7 +15,7 @@ Contributing
 Git Workflow
 ============
 
-- We use simplest possible rebase workflow based on `this <http://git-scm.com/book/en/Git-Branching-Rebasing>`_.  
+- We use simplest possible rebase workflow based on `this <http://git-scm.com/book/en/Git-Branching-Rebasing>`_.
 - Reading whole `Chapter 3 <http://git-scm.com/book/en/Git-Branching>`_ is strongly encouraged.
 - Do not even try invoking ``$ git pull`` or committing 3-way-merge crap like ``Merge branch 'master' of github.com: blah blah blah`` :-)
   3-way-merges obfuscate history and screw annotations in IDE - Existing code that you are merging in gets annotated with your name, even if you aren't the author.
@@ -33,7 +36,7 @@ Plain old local commmits of your work to master branch:
 Some advice:
 
 - Use ``git commit --amend``. It's more reliable and faster than local history in IDE.
-- If you have a tendency to break down single unit of work into multiple commits locally, remember to squash them before submmiting to repo.
+- If you have a tendency to break down single unit of work into multiple commits locally, remember to squash them before submitting to repo.
 
 Synchronizing with repo:
 ----------------------
@@ -78,7 +81,7 @@ Code Analysis
 CI
 ============
 
-- Make sure both e2e & unit tests pass. They will be executed by: ``$ grunt`` or ``$ grunt test`` or ``$ karma start``
+- Make sure both e2e & unit tests pass. They will be executed by: ``$ grunt`` (both unit&e2e) or ``$ grunt test`` (both unit&e2e) or ``$ grunt test:unit`` & ``$ grunt test:e2e``
 
     
 Commit messages

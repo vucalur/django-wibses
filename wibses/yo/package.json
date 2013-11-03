@@ -40,7 +40,8 @@
     "karma": "~0.10.2",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "grunt-bower-install": "~0.6.1",
-    "grunt-connect-proxy": "~0.1.6"
+    "grunt-connect-proxy": "~0.1.6",
+    "grunt-contrib-livereload": "~0.1.2"
   },
   "engines": {
     "node": ">=0.8.0"
