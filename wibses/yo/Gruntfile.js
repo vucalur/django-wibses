@@ -32,6 +32,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-bower-install');
+  grunt.loadNpmTasks('grunt-contrib-livereload');
 
   grunt.initConfig({
     yeoman: yeomanConfig,
@@ -327,9 +328,15 @@ module.exports = function (grunt) {
       ]
     },
     karma: {
+      e2e: {
+        configFile: 'karma-e2e.conf.js',
+        singleRun: true,
+        autoWatch: false
+      },
       unit: {
         configFile: 'karma.conf.js',
-        singleRun: true
+        singleRun: true,
+        autoWatch: false
       }
     },
     cdnify: {
@@ -376,12 +383,25 @@ module.exports = function (grunt) {
     ]);
   });
 
+  // Needed for travis-ci
   grunt.registerTask('test', [
+//    'test:unit',
+    'test:e2e'
+  ]);
+
+  grunt.registerTask('test:unit', [
     'clean:server',
-    'concurrent:test',
-    'autoprefixer',
+    'coffee',
     'connect:test',
-    'karma'
+    'karma:unit'
+  ]);
+
+  grunt.registerTask('test:e2e', [
+    'clean:server',
+    'coffee',
+    'livereload-start',
+    'connect:livereload',
+    'karma:e2e'
   ]);
 
   grunt.registerTask('build', [
@@ -401,7 +421,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'jshint',
-    'test',
+    'test:unit',
+    'test:e2e',
     'build'
   ]);
 };

@@ -15,9 +15,20 @@ module.exports = function (config) {
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/scripts/*.coffee',
       'app/scripts/**/*.coffee',
-      'test/mock/**/*.coffee',
-      'test/spec/**/*.coffee'
+//      'test/mock/**/*.coffee',
+      'test/spec/**/*.coffee',
+      'app/directiveTemplates/**/*.html'
     ],
+
+    preprocessors: {
+      '**/*.coffee': 'coffee',
+      'app/directiveTemplates/**/*.html': 'ng-html2js'
+    },
+
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path (in directives templates are referenced directiveTemplates/sth.html, not app/directiveTemplates/sth.html)
+      stripPrefix: 'app/'
+    },
 
     // list of files / patterns to exclude
     exclude: [],
@@ -31,7 +42,7 @@ module.exports = function (config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // Start these browsers, currently available:
@@ -42,7 +53,7 @@ module.exports = function (config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
