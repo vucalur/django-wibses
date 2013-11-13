@@ -81,7 +81,7 @@ Code Analysis
 CI
 ============
 
-- Make sure both e2e & unit tests pass. They will be executed by: ``$ grunt`` or ``$ grunt test`` or ``$ karma start``
+- Make sure both e2e & unit tests pass. They will be executed by: ``$ grunt`` (both unit&e2e) or ``$ grunt test`` (both unit&e2e) or ``$ grunt test:unit`` & ``$ grunt test:e2e``
 
     
 Commit messages

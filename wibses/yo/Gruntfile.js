@@ -30,10 +30,6 @@ module.exports = function (grunt) {
   }
 
 
-  grunt.loadNpmTasks('grunt-connect-proxy');
-  grunt.loadNpmTasks('grunt-bower-install');
-  grunt.loadNpmTasks('grunt-contrib-livereload');
-
   grunt.initConfig({
     yeoman: yeomanConfig,
     'bower-install': {
@@ -111,6 +107,7 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+          port: 9001, // work-around - changing from 9000 (connect:livereload (test:e2e) tries to bind to 9000 before connect:test (test:unit) closes it
           middleware: function (connect) {
             return [
               mountFolder(connect, '.tmp'),
@@ -131,7 +128,8 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:<%= connect.options.port %>'
+        url: 'http://localhost:<%= connect.options.port %>',
+        app: 'chrome'
       }
     },
     clean: {
@@ -328,15 +326,15 @@ module.exports = function (grunt) {
       ]
     },
     karma: {
-      e2e: {
-        configFile: 'karma-e2e.conf.js',
+      options: {
         singleRun: true,
         autoWatch: false
       },
       unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true,
-        autoWatch: false
+        configFile: 'karma.conf.js'
+      },
+      e2e: {
+        configFile: 'karma-e2e.conf.js'
       }
     },
     cdnify: {
@@ -367,6 +365,10 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
+  grunt.loadNpmTasks('grunt-bower-install');
+  grunt.loadNpmTasks('grunt-contrib-livereload');
+
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
@@ -385,7 +387,7 @@ module.exports = function (grunt) {
 
   // Needed for travis-ci
   grunt.registerTask('test', [
-//    'test:unit',
+    'test:unit',
     'test:e2e'
   ]);
 

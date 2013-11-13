@@ -6,6 +6,9 @@ grunt build
 cd ..
 
 rm -rf static/wibses/*
+if [[ ! -d static/wibses ]]; then
+    mkdir -p static/wibses
+fi
 
 # TODO vucalur: only a work-around to get lazily fetched bootstrap resources (problem lies in lame grunt build)
 cp -vr yo/app/bower_components/bootstrap/dist/fonts static/wibses
