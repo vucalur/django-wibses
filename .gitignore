@@ -5,3 +5,5 @@ dist
 *.pyc
 # below is assembled by grunt:
 wibses/static
+*.log
+*~

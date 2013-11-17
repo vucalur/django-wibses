@@ -19,13 +19,23 @@ angular.module('wibsesApp.controller').controller 'SlotCtrl',
     removeToken: (index) ->
       delete @$scope.slot.tokens.splice(index, 1)
 
-    onTokenChanged: ->
-      if @$scope.token.length > 0
-        @$scope.possibleTokens = @tokenProviderService.get(tokenForm: @$scope.token, =>
-          @$scope.selectedToken = @$scope.possibleTokens[0]
-        )
-        @$scope.isnotTokenChanged = false
-      else
-        @$scope.possibleTokens = []
-        @$scope.isnotTokenChanged = true
+    delayedRequestFunction: ->
+
+      requestFunction = undefined
+
+      onTokenChanged: ->
+        if requestFunction != undefined
+          clearTimeout(requestFunction)
+        requestFunction = setTimeout(($) =>
+          if @$scope.token.length > 0
+            @$scope.possibleTokens = @tokenProviderService.get(tokenForm: @$scope.token, =>
+              @$scope.selectedToken = @$scope.possibleTokens[0]
+              requestFunction = undefined
+            )
+            @$scope.isnotTokenChanged = false
+          else
+            @$scope.possibleTokens = []
+            @$scope.isnotTokenChanged = true
+        , 500)
+
 

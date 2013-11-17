@@ -5,7 +5,11 @@ from datetime import datetime
 from django.http import HttpResponse, HttpResponseServerError
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from wibses.dict_api import prepare_token_json
+from wibses.dict_api import DictionaryUtils
+
+
+DictionaryUtils.add_dictionary_storages_paths(getattr(settings, 'PYDIC_STORAGES'))
+DictionaryUtils.initialize_from_current_config()
 
 
 def get_storage_dir():
@@ -41,5 +45,5 @@ def script(request):
 
 
 def token(request, token_form):
-    result_json = prepare_token_json(token_form)
+    result_json = DictionaryUtils.get_manager().get_tokens_for_word_form(token_form)
     return HttpResponse(result_json, mimetype='application/json')
