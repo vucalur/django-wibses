@@ -2,12 +2,12 @@
 
 angular.module('wibsesApp.controller').controller 'SlotCtrl',
   class SlotCtrl
-    @$inject: ['$scope', 'tokenProviderService']
-    constructor: (@$scope, @tokenProviderService) ->
+    @$inject: ['$scope', '$timeout', 'tokenProviderService']
+    constructor: (@$scope, @$timeout, @tokenProviderService) ->
       @$scope.token = ''
       @$scope.possibleTokens = []
       @$scope.selectedToken = undefined
-      @$scope.isnotTokenChanged = true
+      @$scope.hasTokenChangedAndAintBlank = false
 
     addToken: ->
       newToken =
@@ -19,28 +19,25 @@ angular.module('wibsesApp.controller').controller 'SlotCtrl',
       @$scope.token = ''
       @$scope.possibleTokens = []
       @$scope.selectedToken = undefined
-      @$scope.isnotTokenChanged = true
+      @$scope.hasTokenChangedAndAintBlank = false
 
     removeToken: (index) ->
       delete @$scope.slot.tokens.splice(index, 1)
 
-    delayedRequestFunction: ->
-
-    requestFunction = undefined
-
-    onTokenChanged: ->
-      if requestFunction != undefined
-        clearTimeout(requestFunction)
-      requestFunction =  setTimeout(($) =>
-                                        if @$scope.token.length > 0
-                                          @$scope.possibleTokens = @tokenProviderService.get(tokenForm: @$scope.token, =>
-                                            @$scope.selectedToken = @$scope.possibleTokens[0]
-                                            requestFunction = undefined
-                                          )
-                                          @$scope.isnotTokenChanged = false
-                                        else
-                                          @$scope.possibleTokens = []
-                                          @$scope.isnotTokenChanged = true
-                                    , 500)
+#    TODO vucalur: wrap this idle-timeout mechanism to DOM (via custom directive)
+    onTokenTextChanged: ->
+      @$timeout.cancel @requestOnIdle
+      @requestOnIdle = @$timeout(=>
+        if @$scope.token.length > 0
+          @$scope.possibleTokens = @tokenProviderService.get(
+            tokenForm: @$scope.token,
+            =>
+              @$scope.selectedToken = @$scope.possibleTokens[0]
+          )
+          @$scope.hasTokenChangedAndAintBlank = true
+        else
+          @$scope.possibleTokens = []
+          @$scope.hasTokenChangedAndAintBlank = false
+      , 500)
 
 

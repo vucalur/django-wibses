@@ -40,7 +40,7 @@
                     <form class="form-inline" role="form" ng-submit="slotCtrl.addToken()">
                       <div class="form-group">
                         <label class="sr-only" for="token">Token</label>
-                        <input type="text" class="form-control" id="token" placeholder="Token" ng-model="token" ng-change="slotCtrl.onTokenChanged()">
+                        <input type="text" class="form-control" id="token" placeholder="Token" ng-model="token" ng-change="slotCtrl.onTokenTextChanged()">
                       </div>
                       <span class="token-select">
                           <select class="" ng-model="selectedToken" id="token-choose-select" ng-options="pt.base for pt in possibleTokens" required>
@@ -50,7 +50,7 @@
                     </form>
                     <br/>
 
-                    <div ng-hide="isnotTokenChanged" class="panel panel-default">
+                    <div ng-show="hasTokenChangedAndAintBlank" class="panel panel-default">
                       <div class="panel-heading">
                         <h3 class="panel-title">Token description</h3>
                       </div>
