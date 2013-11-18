@@ -2,9 +2,9 @@
 
 angular.module('wibsesApp.service').factory('tokenProviderService', ['$resource',
   ($resource) ->
-    $resource('/wibses/dicapi/:tokenForm',
+    $resource('/wibses/dics/token/:tokenForm',
     {},
       get:
-        method: 'GET', params: { tokenForm: ''}, isArray: true
+        method: 'GET',  isArray: true
     )
 ])

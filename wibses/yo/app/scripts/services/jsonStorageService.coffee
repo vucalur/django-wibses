@@ -9,10 +9,12 @@ service.config(['$httpProvider', ($httpProvider) ->
 
 service.factory 'jsonStorageService', ['$resource',
   ($resource) ->
-    $resource('/wibses/data/script',
-    {},
-      query:
-        method: 'GET', isArray: false
+    $resource('/wibses/data/:apiName',
+    {apiName: 'api'},
+      get_script:
+        method : 'GET', params : {action : 'script'}, isArray : false,
+      store:
+        method : 'POST', params : { action : 'store' }
     )
 ]
 

@@ -1,11 +1,9 @@
 import os
 import json
 
-from django.conf import settings
-
 from pydic import PyDic
-
-from . import ENV_DIC_PATHS_NAME, ENV_DIC_STORAGE_PATH_NAME
+from wibses import ENV_DIC_PATHS_NAME, ENV_DIC_STORAGE_PATH_NAME
+from wibses.utils import get_folder_containing_names
 
 
 class NotRegisteredDictionaryException(Exception):
@@ -29,8 +27,12 @@ class DictionaryManager:
     def get_tokens_for_word_form(self, form):
         result = [{'base': form, 'id': '-', 'type': 'quotation', 'dic': "-", 'forms': [form]}]
 
+        result_tail = []
         for registered_dic in self._dictionaries_map.values():
-            result.extend(self.__get_tokens_from_dic(form, registered_dic))
+            result_tail.extend(self.__get_tokens_from_dic(form, registered_dic))
+
+        result_tail.sort(key=lambda x: x['base'])
+        result.extend(result_tail)
 
         return json.dumps(result, indent=1)
 
@@ -64,21 +66,6 @@ class DictionaryManager:
 
         dic_instance = self._dictionaries_map[dic_name]
         return self.__get_tokens_from_dic(form, dic_instance)
-
-
-def get_folder_containing_names(path, incl_file_names=False, incl_dir_names=False):
-    if not (incl_dir_names or incl_file_names):
-        return None
-
-    from os import walk
-
-    for dir_name, dir_names, file_names in walk(path):
-        if incl_file_names and incl_dir_names:
-            return dir_names, file_names
-        elif incl_dir_names:
-            return dir_names
-        elif incl_file_names:
-            return file_names
 
 
 class DictionaryUtils:
