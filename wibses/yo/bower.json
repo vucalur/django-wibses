@@ -2,22 +2,22 @@
   "name": "wibses",
   "version": "0.0.0",
   "dependencies": {
-    "json3": "~3.2.4",
+    "json3": "~3.2.5",
     "es5-shim": "~2.1.0",
-    "bootstrap": "~3.0.0",
-    "angular": "1.2.0-rc.2",
-    "angular-mocks": "1.2.0-rc.2",
-    "angular-scenario": "1.2.0-rc.2",
-    "angular-route": "1.2.0-rc.2",
-    "angular-resource": "1.2.0-rc.2",
-    "angular-cookies": "1.2.0-rc.2"
+    "bootstrap": "~3.0.2",
+    "angular": "1.2.1",
+    "angular-mocks": "1.2.1",
+    "angular-scenario": "1.2.1",
+    "angular-route": "1.2.1",
+    "angular-resource": "1.2.1",
+    "angular-cookies": "1.2.1"
   },
   "devDependencies": {
-    "angular": "1.2.0-rc.2",
-    "angular-mocks": "1.2.0-rc.2",
-    "angular-scenario": "1.2.0-rc.2",
-    "angular-route": "1.2.0-rc.2",
-    "angular-resource": "1.2.0-rc.2",
-    "angular-cookies": "1.2.0-rc.2"
+    "angular": "1.2.1",
+    "angular-mocks": "1.2.1",
+    "angular-scenario": "1.2.1",
+    "angular-route": "1.2.1",
+    "angular-resource": "1.2.1",
+    "angular-cookies": "1.2.1"
   }
 }
