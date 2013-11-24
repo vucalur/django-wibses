@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('wibsesApp', ['ngRoute', 'wibsesApp.controller', 'wibsesApp.directive'])
-angular.module('wibsesApp.controller', ['wibsesApp.service'])
+angular.module('wibsesApp.controller', ['wibsesApp.service', 'ui.bootstrap.typeahead'])
 angular.module('wibsesApp.service', ['ngResource'])
 angular.module('wibsesApp.directive', [])
 

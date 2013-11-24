@@ -10,7 +10,8 @@
     "angular-scenario": "1.2.1",
     "angular-route": "1.2.1",
     "angular-resource": "1.2.1",
-    "angular-cookies": "1.2.1"
+    "angular-cookies": "1.2.1",
+    "angular-ui-bootstrap": "git://github.com/angular-ui/bootstrap#bootstrap3"
   },
   "devDependencies": {
     "angular": "1.2.1",

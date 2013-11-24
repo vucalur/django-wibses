@@ -18,7 +18,7 @@ from wibses.data_store.script_api import ScriptUtils
 #region REST help functions
 
 def create_http_json_response(json_response):
-    return HttpResponse(json_response, mimetype='application/json')
+    return HttpResponse(json_response, content_type='application/json')
 
 
 def http_ok_response():

@@ -88,9 +88,7 @@ module.exports = function (grunt) {
           context: '/',
           host: 'localhost',
           port: 8000, // Django port goes here
-          https: false,
-          changeOrigin: false,
-          xforward: false
+          xforward: true
         }
       ],
       livereload: {

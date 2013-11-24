@@ -2,7 +2,7 @@
 
 angular.module('wibsesApp.directive')
 .directive 'parameters', () ->
-    templateUrl: 'directiveTemplates/parameters.html'
+    templateUrl: 'template/parameters.html'
     restrict: 'E'
     scope:
       params: '='

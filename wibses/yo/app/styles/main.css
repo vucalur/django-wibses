@@ -36,18 +36,37 @@ div.param-wrapper {
     margin-bottom: 8px;
 }
 
-.token-select select {
-   background: transparent;
-   width: 268px;
-   padding: 5px;
-   font-size: 16px;
-   border-radius: 2;
-   border-color: #fff0ed;
-   height: 35px;
-   -webkit-appearance: none;
+.token-add .dropdown-menu {
+    max-height: 500px;
+    overflow-y: auto;
 }
 
-#selected-token-forms{
-    height: 100px;
-    overflow-y: scroll;
+.token-suggestion-match {
+    margin-top: 15px;
+}
+
+.token-suggestion-match .forms {
+    max-width: 550px;
+    overflow-x: auto;
+    padding-left: 14px;
+    padding-top: 7px;
+    margin-left: 45px;
+    margin-top: 7px;
+}
+
+.token-suggestion-match .forms ul {
+    padding-bottom: 10px;
+}
+
+.badge.badge-warning {
+    background-color: #efb73e;
+}
+
+.badge.badge-success.inverse {
+    color: #38b44a;
+    background-color: #FFFFFF;
+}
+
+.token-id {
+    margin-left: 17px;
 }

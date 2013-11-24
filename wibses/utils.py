@@ -37,3 +37,42 @@ def get_repo_name_for_script(script_name):
 
 def get_script_name_from_repo(repo_dir_name):
     return repo_dir_name[1:]
+
+
+def jsonp(f):
+    """
+    Wrap a json response in a callback, and set the mimetype (Content-Type) header accordingly
+    (will wrap in text/javascript if there is a callback). If the "callback" or "jsonp" paramters
+    are provided, will wrap the json output in callback({thejson})
+
+    Usage:
+
+    @jsonp
+    def my_json_view(request):
+        d = { 'key': 'value' }
+        return HTTPResponse(json.dumps(d), content_type='application/json')
+
+
+    Based on: https://gist.github.com/sivy/871954
+    """
+    from functools import wraps
+
+    @wraps(f)
+    def jsonp_wrapper(request, *args, **kwargs):
+        resp = f(request, *args, **kwargs)
+        if resp.status_code != 200:
+            return resp
+
+        callback = None
+        if 'callback' in request.GET:
+            callback = request.GET['callback']
+        elif 'jsonp' in request.GET:
+            callback = request.GET['jsonp']
+        else:
+            return resp
+
+        resp['Content-Type'] = 'application/javascript; charset=utf-8'
+        resp.content = "%s(%s);" % (callback, resp.content)
+        return resp
+
+    return jsonp_wrapper

@@ -1,0 +1,22 @@
+<!--token: {'base': form, 'id': '-', 'type': 'quotation', 'dic': "-", 'forms': [form]}-->
+<a tabindex="-1" class="token-suggestion-match">
+  <span bind-html-unsafe="match.model.base | typeaheadHighlight:query"></span>
+
+  <div class="pull-right">
+    <span class="label label-success">
+      <span class="badge badge-success inverse">dictionary</span>
+      <span bind-html-unsafe="match.model.dic"></span>
+    </span>
+    <span class="label label-success token-id">
+      <span class="badge badge-success inverse">id</span>
+      <span bind-html-unsafe="match.model.id"></span>
+    </span>
+  </div>
+
+  <div class="forms">
+    <ul class="list-inline">
+      <li ng-repeat="form in match.model.forms"><span class="badge badge-warning">{{form}}</span></li>
+    </ul>
+  </div>
+
+</a>
