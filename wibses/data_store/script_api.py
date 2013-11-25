@@ -16,7 +16,7 @@ from wibses.data_store.exceptions import NoSuchScriptInStorageException, BadScri
 from wibses.data_store.repo_management import get_repo_for_script, list_script_history, \
     get_particular_script_version, create_repo_for_script, update_script_in_repo
 from wibses.utils import get_folder_containing_names, merge_into_path, get_script_name_from_repo, \
-    get_repo_name_for_script, create_template_script_json
+    get_repo_name_for_script
 
 
 class ScriptManagerNotInitializedException(Exception):
@@ -79,11 +79,12 @@ class StorageDaemon(threading.Thread):
 
 
 class ScriptManager:
-    def __init__(self, script_storage_path, storage_checker_period):
+    def __init__(self, script_storage_path, storage_checker_period, script_template_filename):
         self._script_storage_path = script_storage_path
         self._scripts_repositories = {}
         self._storage_operations_lock = Lock()
         self._storage_daemon = StorageDaemon(storage_checker_period, self)
+        self._template_script_text = open(script_template_filename, "r").read()
 
         inner_dirs = get_folder_containing_names(script_storage_path, incl_dir_names=True)
         for candidate in inner_dirs:
@@ -214,28 +215,28 @@ class ScriptManager:
         if script_name in self._scripts_repositories:
             raise ScriptAlreadyExistsInStorageException(script_name)
 
-        template_script_text = create_template_script_json()
         script_path = merge_into_path([self._script_storage_path,
                                        get_repo_name_for_script(script_name),
                                        script_name + ".json"])
         repo = create_repo_for_script(self._script_storage_path, script_name)
 
         script_file = open(script_path, "w")
-        script_file.writelines([template_script_text])
+        script_file.writelines([self._template_script_text])
         script_file.close()
 
-        self.copy_to_storage(script_name + '.json', template_script_text)
+        self.copy_to_storage(script_name + '.json', self._template_script_text)
 
         update_script_in_repo(repo, script_name + ".json", "{'%s':'%s'}" % (REQUEST_PARAM_NAME__USER, creator_name))
         self._scripts_repositories[script_name] = repo
 
-        return json.dumps(json.loads(template_script_text), indent=JSON_INDENT)
+        return json.dumps(json.loads(self._template_script_text), indent=JSON_INDENT)
 
 
 class ScriptUtils:
     __script_storage_manager = None
     __script_storage_path = None
     __script_storage_checking_period = STORAGE_DEFAULT_SCAN_PERIOD_MS
+    __script_template_filename = None
 
     @staticmethod
     def setup_storage_daemon_shutdown_hook(script_manager):
@@ -260,15 +261,21 @@ class ScriptUtils:
         if ENV_SCRIPT_STORAGE_PATH_NAME in environ:
             script_storage_dir = environ[ENV_SCRIPT_STORAGE_PATH_NAME]
             ScriptUtils.__script_storage_manager = ScriptManager(script_storage_dir,
-                                                                 ScriptUtils.__script_storage_checking_period)
+                                                                 ScriptUtils.__script_storage_checking_period,
+                                                                 ScriptUtils.__script_template_filename)
             ScriptUtils.setup_storage_daemon_shutdown_hook(ScriptUtils.__script_storage_manager)
 
     @staticmethod
     def initialize_from_current_config():
         if ScriptUtils.__script_storage_path is not None:
             ScriptUtils.__script_storage_manager = ScriptManager(ScriptUtils.__script_storage_path,
-                                                                 ScriptUtils.__script_storage_checking_period)
+                                                                 ScriptUtils.__script_storage_checking_period,
+                                                                 ScriptUtils.__script_template_filename)
             ScriptUtils.setup_storage_daemon_shutdown_hook(ScriptUtils.__script_storage_manager)
+
+    @staticmethod
+    def set_script_template_filename(filename):
+        ScriptUtils.__script_template_filename = filename
 
     @staticmethod
     def get_manager():

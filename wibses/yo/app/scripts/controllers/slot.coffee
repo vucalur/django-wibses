@@ -10,7 +10,12 @@ angular.module('wibsesApp.controller').controller 'SlotCtrl',
       @$scope.isnotTokenChanged = true
 
     addToken: ->
-      @$scope.slot.tokens.push(@$scope.selectedToken.base)
+      newToken =
+        label: @$scope.selectedToken.base
+        id: @$scope.selectedToken.id
+        type: @$scope.selectedToken.type
+        dic: @$scope.selectedToken.dic
+      @$scope.slot.tokens.push(newToken)
       @$scope.token = ''
       @$scope.possibleTokens = []
       @$scope.selectedToken = undefined

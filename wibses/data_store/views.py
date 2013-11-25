@@ -9,6 +9,7 @@ from wibses.data_store.script_api import ScriptUtils
 
 
 ScriptUtils.set_dictionary_storage_path(getattr(settings, 'SCRIPT_STORAGE'))
+ScriptUtils.set_script_template_filename(getattr(settings, 'JSON_TEMPLATE_SCRIPT_FILENAME'))
 ScriptUtils.initialize_from_current_config()
 
 
@@ -29,7 +30,6 @@ def process_request_params(request_dict, param_names):
     lost_params = []
     for p in param_names:
         p_value = request_dict.get(p, None)
-        print p_value
         if p_value is None:
             lost_params.append(p)
         else:
