@@ -88,11 +88,11 @@ Commit messages
 ============
 
 - Be precise, concise and meaningful
-- Pick up a tense you like. It doesn't have to be a sentence at all, as long as above condition holds :)
+- Use `Git Commit Guidelines from AngularJS project <https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#git-commit-guidelines>`_
 - Whenever there is a ticket created for what you are working on, reference it in a commit message, like:
 ..
 
-    [#123] Implemented a mechanism to make "blah blah blah" sound wise
+    feat(blah): #123 Implemented a mechanism to make "blah blah blah" sound wise
 
 ============
 Developer's Cheatsheet
