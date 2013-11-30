@@ -1,0 +1,82 @@
+{
+    "sections": [
+        {
+            "params": {
+                "threshold": 1
+            },
+            "sentences": [
+                {
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 1,
+                        "name": "Sample Sentence"
+                    },
+                    "slots": [
+                        {
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 1,
+                                "name": "Sample slot"
+                            },
+                            "tokens": []
+                        }
+                    ]
+                }
+            ],
+            "type": "synthetic"
+        },
+        {
+            "params": {
+                "threshold": 50
+            },
+            "sentences": [
+                {
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 1,
+                        "name": "Sample Sentence 2"
+                    },
+                    "slots": [
+                        {
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 1,
+                                "name": "Sample slot"
+                            },
+                            "tokens": []
+                        }
+                    ]
+                }
+            ],
+            "type": "analytical"
+        },
+        {
+            "params": {
+                "threshold": 50
+            },
+            "sentences": [
+                {
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence 1"
+                    },
+                    "slots": [
+                        {
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            },
+                            "tokens": []
+                        }
+                    ]
+                }
+            ],
+            "type": "circumstances"
+        }
+    ],
+    "params": {
+        "name": "Script"
+    }
+}

@@ -245,7 +245,7 @@ class ScriptUtils:
         atexit.register(st_daemon_shutdown_hook)
 
     @staticmethod
-    def set_dictionary_storage_path(storage_path):
+    def set_scripts_storage_path(storage_path):
         ScriptUtils.__script_storage_path = storage_path
 
     @staticmethod

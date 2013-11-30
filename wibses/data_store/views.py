@@ -1,16 +1,16 @@
-
 from django.http import HttpResponse, HttpResponseServerError
-from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from wibses.data_store import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, REQUEST_PARAM_NAME__NEW_SCRIPT_NAME, REQUEST_PARAM_NAME_ACTION, REQUEST_PARAM_NAME__SCRIPT_NAME, REQUEST_PARAM_NAME__SCRIPT_REVISION
-from wibses.data_store.exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, RequestTypeDoesNotSupportedException, NotSupportedApiActionException
+from wibses.data_store import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, REQUEST_PARAM_NAME__NEW_SCRIPT_NAME,\
+    REQUEST_PARAM_NAME_ACTION, REQUEST_PARAM_NAME__SCRIPT_NAME, REQUEST_PARAM_NAME__SCRIPT_REVISION
+from wibses.data_store.exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, \
+    RequestTypeDoesNotSupportedException, NotSupportedApiActionException
 
 from wibses.data_store.script_api import ScriptUtils
 
 
-ScriptUtils.set_dictionary_storage_path(getattr(settings, 'SCRIPT_STORAGE'))
-ScriptUtils.set_script_template_filename(getattr(settings, 'JSON_TEMPLATE_SCRIPT_FILENAME'))
-ScriptUtils.initialize_from_current_config()
+# ScriptUtils.set_scripts_storage_path(getattr(settings, 'SCRIPT_STORAGE'))
+# ScriptUtils.set_script_template_filename(getattr(settings, 'JSON_TEMPLATE_SCRIPT_FILENAME'))
+# ScriptUtils.initialize_from_current_config()
 
 
 #region REST url functions mapping

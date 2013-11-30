@@ -1,0 +1,316 @@
+{
+    "params": {
+        "name": "Some Semantic script"
+    },
+    "sections": [
+        {
+            "type": "synthetic",
+            "params": {
+                "threshold": 50
+            },
+            "sentences": [
+                {
+                    "slots": [
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        }
+                    ],
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "analytical",
+            "params": {
+                "threshold": 50
+            },
+            "sentences": [
+                {
+                    "slots": [
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        },
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        }
+                    ],
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence 1"
+                    }
+                },
+                {
+                    "slots": [
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        },
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        }
+                    ],
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence 2"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "circumstances",
+            "params": {
+                "threshold": 50
+            },
+            "sentences": [
+                {
+                    "slots": [
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        },
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        }
+                    ],
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence 1"
+                    }
+                },
+                {
+                    "slots": [
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        },
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        }
+                    ],
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence 2"
+                    }
+                },
+                {
+                    "slots": [
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        },
+                        {
+                            "tokens": [
+                                {
+                                    "id": "190012@sjp",
+                                    "label": "zdrowy",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                },
+                                {
+                                    "id": "125634@sjp",
+                                    "label": "pożyczę",
+                                    "dic": "sjp",
+                                    "type": "token"
+                                }
+                            ],
+                            "params": {
+                                "obligatory": false,
+                                "threshold": 60,
+                                "name": "Sample slot"
+                            }
+                        }
+                    ],
+                    "params": {
+                        "obligatory": false,
+                        "threshold": 55,
+                        "name": "Sample Sentence 3"
+                    }
+                }
+            ]
+        }
+    ]
+}
