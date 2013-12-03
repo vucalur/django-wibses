@@ -1,5 +1,7 @@
 from wibses.data_store import HTTP__EXCEPTION_TAG__MISSING_PARAMS, HTTP__EXCEPTION_TAG__NOT_PROPER_REQUEST_TYPE, \
-    HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE, HTTP__EXCEPTION_TAG__BAD_SCRIPT_REVISION, HTTP__EXCEPTION_TAG__SCRIPT_ALREADY_IN_STORAGE, HTTP__EXCEPTION_TAG__NOT_SUPPORTED_REQUEST_TYPE, HTTP__EXCEPTION_TAG__NOT_SUPPORTED_ACTION
+    HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE, HTTP__EXCEPTION_TAG__BAD_SCRIPT_REVISION,\
+    HTTP__EXCEPTION_TAG__SCRIPT_ALREADY_IN_STORAGE, HTTP__EXCEPTION_TAG__NOT_SUPPORTED_REQUEST_TYPE, \
+    HTTP__EXCEPTION_TAG__NOT_SUPPORTED_ACTION, HTTP__EXCEPTION_TAG__NOT_VALID_JSON_SCRIPT, HTTP__EXCEPTION_TAG__NOT_JSON_OBJECT
 
 
 class MissingRequestParamException(Exception):
@@ -94,3 +96,25 @@ class NotSupportedApiActionException(Exception):
 
     def get_supported_actions(self):
         return self._supported_actions
+
+
+class ScriptValidationException(Exception):
+    def __init__(self, errors_list):
+        self._errors = errors_list
+        description = HTTP__EXCEPTION_TAG__NOT_VALID_JSON_SCRIPT + ": "
+        for error in errors_list:
+            description += error.get_err_msg() + " in " + error.get_place() + ";  "
+        Exception.__init__(self, description)
+
+    def get_errors(self):
+        return self._errors
+
+
+class NotJsonObjectException(Exception):
+    def __init__(self, not_json_object):
+        self._passed_object = not_json_object
+        description = '%s: passed object : %s' % (HTTP__EXCEPTION_TAG__NOT_JSON_OBJECT, str(not_json_object))
+        Exception.__init__(self, description)
+
+    def get_passed_object(self):
+        return self._passed_object

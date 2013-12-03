@@ -10,7 +10,7 @@ from wibses.py_dict.dict_api import DictionaryUtils
 #temporary configs
 PROJECT_DIR = os.path.dirname(__file__)
 
-PYDIC_STORAGES = [os.path.join(PROJECT_DIR, 'dictionaries')]
+PYDIC_STORAGES = ['/home/ork/Study/Inzynierka/Projekt/dictionaries']
 SCRIPT_STORAGE = os.path.join(PROJECT_DIR, 'scripts')
 JSON_TEMPLATE_SCRIPT_FILENAME = os.path.join(os.path.join(PROJECT_DIR, "configs"), "empty_template.json")
 

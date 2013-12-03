@@ -6,6 +6,7 @@ import threading
 from gitdb.exc import BadObject
 import time
 import re
+import os
 
 from wibses import ENV_SCRIPT_STORAGE_PATH_NAME
 from wibses.data_store import JSON_INDENT, REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION, \
@@ -15,6 +16,7 @@ from wibses.data_store.exceptions import NoSuchScriptInStorageException, BadScri
     ScriptAlreadyExistsInStorageException
 from wibses.data_store.repo_management import get_repo_for_script, list_script_history, \
     get_particular_script_version, create_repo_for_script, update_script_in_repo
+from wibses.data_store.validation import get_semantic_validator
 from wibses.utils import get_folder_containing_names, merge_into_path, get_script_name_from_repo, \
     get_repo_name_for_script
 
@@ -58,17 +60,22 @@ class StorageDaemon(threading.Thread):
     def do_work(self):
         file_names = get_folder_containing_names(self._script_manager._script_storage_path, incl_file_names=True)
         patt = r'(.+)\.json'
-        script_names_without_ext = map(lambda x: re.search(patt, x).group(1),
+        script_names_without_ext = set(map(lambda x: re.search(patt, x).group(1),
                                        filter(lambda x: re.search(patt, x) is not None,
-                                              file_names))
+                                              file_names)))
         manager_scripts = self._script_manager._scripts_repositories
         for script_name in script_names_without_ext:
-            if script_name not in manager_scripts:
+            script_candidate_path = merge_into_path([
+                self._script_manager._script_storage_path,
+                script_name + ".json"
+            ])
+            if (script_name not in manager_scripts) and \
+                    (get_semantic_validator().validate_script_file(script_candidate_path)):
+
                 script_path = merge_into_path([self._script_manager._script_storage_path,
                                                get_repo_name_for_script(script_name),
                                                script_name + ".json"])
                 repo = create_repo_for_script(self._script_manager._script_storage_path, script_name)
-
                 shutil.copyfile(merge_into_path([self._script_manager._script_storage_path, script_name + ".json"]),
                                 script_path)
 
@@ -76,6 +83,17 @@ class StorageDaemon(threading.Thread):
                                       script_name + ".json", "{'%s':'%s'}" % (REQUEST_PARAM_NAME__USER,
                                                                               DEFAULT_STORAGE_SCRIPT_CREATOR_NAME))
                 self._script_manager._scripts_repositories[script_name] = repo
+
+        for registered_script in list(self._script_manager._scripts_repositories.keys()):
+            if registered_script not in script_names_without_ext:
+                del self._script_manager._scripts_repositories[registered_script]
+                script_repo_name = get_repo_name_for_script(registered_script)
+                script_repo_path = merge_into_path([
+                    self._script_manager._script_storage_path,
+                    script_repo_name
+                ])
+
+                shutil.rmtree(script_repo_path, True)
 
 
 class ScriptManager:
@@ -94,10 +112,14 @@ class ScriptManager:
                                                                                       incl_file_names=True)
             if ".git" in candidate_inner_dirs:
                 script_name = get_script_name_from_repo(candidate)
-                self._scripts_repositories[script_name] = get_repo_for_script(script_storage_path, script_name)
                 script_name_with_ext = script_name + ".json"
-                shutil.copyfile(merge_into_path([self._script_storage_path, candidate, script_name_with_ext]),
-                                merge_into_path([self._script_storage_path, script_name_with_ext]))
+                script_source_path = merge_into_path([self._script_storage_path, candidate, script_name_with_ext])
+
+                if get_semantic_validator().validate_script_file(script_source_path):
+                    self._scripts_repositories[script_name] = get_repo_for_script(script_storage_path, script_name)
+                    shutil.copyfile(script_source_path,
+                                    merge_into_path([self._script_storage_path, script_name_with_ext]))
+
         self._storage_daemon.start()
 
     def stop_storage_daemon(self):

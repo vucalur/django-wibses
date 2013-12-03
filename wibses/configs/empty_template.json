@@ -1,82 +1,104 @@
 {
-    "sections": [
-        {
-            "params": {
-                "threshold": 1
-            },
-            "sentences": [
-                {
-                    "params": {
-                        "obligatory": false,
-                        "threshold": 1,
-                        "name": "Sample Sentence"
-                    },
-                    "slots": [
-                        {
-                            "params": {
-                                "obligatory": false,
-                                "threshold": 1,
-                                "name": "Sample slot"
-                            },
-                            "tokens": []
-                        }
-                    ]
-                }
-            ],
-            "type": "synthetic"
-        },
-        {
-            "params": {
-                "threshold": 50
-            },
-            "sentences": [
-                {
-                    "params": {
-                        "obligatory": false,
-                        "threshold": 1,
-                        "name": "Sample Sentence 2"
-                    },
-                    "slots": [
-                        {
-                            "params": {
-                                "obligatory": false,
-                                "threshold": 1,
-                                "name": "Sample slot"
-                            },
-                            "tokens": []
-                        }
-                    ]
-                }
-            ],
-            "type": "analytical"
-        },
-        {
-            "params": {
-                "threshold": 50
-            },
-            "sentences": [
-                {
-                    "params": {
-                        "obligatory": false,
-                        "threshold": 55,
-                        "name": "Sample Sentence 1"
-                    },
-                    "slots": [
-                        {
-                            "params": {
-                                "obligatory": false,
-                                "threshold": 60,
-                                "name": "Sample slot"
-                            },
-                            "tokens": []
-                        }
-                    ]
-                }
-            ],
-            "type": "circumstances"
-        }
-    ],
     "params": {
-        "name": "Script"
+        "name": "New Script"
+    },
+    "synthetic": {
+        "params": {
+            "threshold": 1
+        },
+        "sentences": [
+            {
+                "slots": [
+                    {
+                        "tokens": [
+                            {
+                                "id": "190012@sjp",
+                                "label": "zdrowy",
+                                "dic": "sjp",
+                                "type": "token"
+                            }
+                        ],
+                        "params": {
+                            "name": "slot",
+                            "weight": 1,
+                            "obligatory": false,
+                            "min": 1
+                        }
+                    }
+                ],
+                "params": {
+                    "threshold": 1,
+                    "obligatory": false,
+                    "name": "sentence",
+                    "weight": 1
+                }
+            }
+        ]
+    },
+    "analytical": {
+        "params": {
+            "threshold": 1
+        },
+        "sentences": [
+            {
+                "slots": [
+                    {
+                        "tokens": [
+                            {
+                                "id": "190012@sjp",
+                                "label": "zdrowy",
+                                "dic": "sjp",
+                                "type": "token"
+                            }
+                        ],
+                        "params": {
+                            "weight": 1,
+                            "name": "slot",
+                            "obligatory": false,
+                            "min": 1
+                        }
+                    }
+                ],
+                "params": {
+                    "threshold": 1,
+                    "obligatory": false,
+                    "name": "sentence",
+                    "weight": 1
+                }
+            }
+        ]
+    },
+    "circumstances": {
+        "params": {
+            "threshold": 1
+        },
+        "sentences": [
+            {
+                "params": {
+                    "threshold": 1,
+                    "obligatory": false,
+                    "weight": 1,
+                    "name": "sentence"
+                },
+                "slots": [
+                    {
+                        "tokens": [
+                            {
+                                "id": "125634@sjp",
+                                "label": "pożyczę",
+                                "dic": "sjp",
+                                "type": "token"
+                            }
+                        ],
+                        "params": {
+                            "weight": 1,
+                            "name": "slot",
+                            "min": 1,
+                            "obligatory": false
+                        }
+                    }
+                ]
+            }
+        ]
     }
 }
