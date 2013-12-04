@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import jsonschema as js_schm_validate
 import json
+from wibses.data_store import JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__THRESHOLD, JSON_ATTR_NAME__OBLIGATORY, JSON_ATTR_NAME__WEIGHT, JSON_ATTR_NAME__MIN, JSON_ATTR_NAME__LABEL, JSON_ATTR_NAME__TYPE, JSON_ATTR_NAME__ID, JSON_ATTR_NAME__DIC, JSON_ATTR_NAME__PARAMS, JSON_ATTR_NAME__TOKENS, JSON_ATTR_NAME__SLOTS, JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__SYNTHETIC, JSON_ATTR_NAME__ANALYTICAL, JSON_ATTR_NAME__CIRCUMSTANCES
 from wibses.data_store.exceptions import ScriptValidationException, NotJsonObjectException
 
 __script_schema = None
@@ -14,9 +15,10 @@ def get_schema():
         __script_params_schema = {
             "type": "object",
             "properties": {
-                "name": {"type": "string"}
+                JSON_ATTR_NAME__NAME: {"type": "string", "minLength": 1},
+                JSON_ATTR_NAME__ID: {"type": "string"}
             },
-            "required": ["name"],
+            "required": [JSON_ATTR_NAME__NAME],
             "additionalProperties": False
         }
 #endregion
@@ -24,9 +26,9 @@ def get_schema():
         __section_params_schema = {
             "type": "object",
             "properties": {
-                "threshold": {"type": "integer"}
+                JSON_ATTR_NAME__THRESHOLD: {"type": "integer"}
             },
-            "required": ["threshold"],
+            "required": [JSON_ATTR_NAME__THRESHOLD],
             "additionalProperties": True
         }
 #endregion
@@ -34,12 +36,13 @@ def get_schema():
         __sentence_params_schema = {
             "type": "object",
             "properties": {
-                "obligatory": {"type": "boolean"},
-                "threshold": {"type": "integer"},
-                "name": {"type": "string"},
-                "weight": {"type": "number"}
+                JSON_ATTR_NAME__OBLIGATORY: {"type": "boolean"},
+                JSON_ATTR_NAME__THRESHOLD: {"type": "integer"},
+                JSON_ATTR_NAME__NAME: {"type": "string"},
+                JSON_ATTR_NAME__WEIGHT: {"type": "number"}
             },
-            "required": ["obligatory", "threshold", "name", "weight"],
+            "required": [JSON_ATTR_NAME__OBLIGATORY, JSON_ATTR_NAME__THRESHOLD,
+                         JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__WEIGHT],
             "additionalProperties": True
         }
 
@@ -48,12 +51,13 @@ def get_schema():
         __slot_params_schema = {
             "type": "object",
             "properties": {
-                "obligatory": {"type": "boolean"},
-                "min": {"type": "integer"},
-                "name": {"type": "string"},
-                "weight": {"type": "number"}
+                JSON_ATTR_NAME__OBLIGATORY: {"type": "boolean"},
+                JSON_ATTR_NAME__MIN: {"type": "integer"},
+                JSON_ATTR_NAME__NAME: {"type": "string"},
+                JSON_ATTR_NAME__WEIGHT: {"type": "number"}
             },
-            "required": ["name", "min", "obligatory", "weight"],
+            "required": [JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__MIN,
+                         JSON_ATTR_NAME__OBLIGATORY, JSON_ATTR_NAME__WEIGHT],
             "additionalProperties": True
         }
 #endregion
@@ -61,51 +65,52 @@ def get_schema():
         __token_schema = {
             "type": "object",
             "properties": {
-                "label": {"type": "string"},
-                "type": {"type": "string", "enum": ["token", "quotation"]},
-                "id": {"type": "string"},
-                "dic": {"type": "string"}
+                JSON_ATTR_NAME__LABEL: {"type": "string"},
+                JSON_ATTR_NAME__TYPE: {"type": "string", "enum": ["token", "quotation"]},
+                JSON_ATTR_NAME__ID: {"type": "string"},
+                JSON_ATTR_NAME__DIC: {"type": "string"}
             },
             "additionalProperties": False,
-            "required": ["label", "type", "id", "dic"]
+            "required": [JSON_ATTR_NAME__LABEL, JSON_ATTR_NAME__TYPE,
+                         JSON_ATTR_NAME__ID, JSON_ATTR_NAME__DIC]
         }
 #endregion
 #region slot
         __slot_schema = {
             "type": "object",
             "properties": {
-                "params": __slot_params_schema,
-                "tokens": {
+                JSON_ATTR_NAME__PARAMS: __slot_params_schema,
+                JSON_ATTR_NAME__TOKENS: {
                     "type": "array",
                     "minItems": 1,
                     "items": __token_schema
                 }
             },
             "additionalProperties": False,
-            "required": ["tokens", "params"]
+            "required": [JSON_ATTR_NAME__TOKENS, JSON_ATTR_NAME__PARAMS]
         }
 #endregion
 #region sentence
         __sentence_schema = {
             "type": "object",
             "properties": {
-                "params": __sentence_params_schema,
-                "slots": {
+                JSON_ATTR_NAME__PARAMS: __sentence_params_schema,
+                JSON_ATTR_NAME__SLOTS: {
                     "type": "array",
                     "minItems": 1,
                     "items": __slot_schema
                 }
             },
             "additionalProperties": False,
-            "required": ["slots", "params"]
+            "required": [JSON_ATTR_NAME__SLOTS, JSON_ATTR_NAME__PARAMS]
         }
 #endregion
 #region syntethic section
         __syntethic_section_schema = {
             "type": "object",
             "properties": {
-                "params": __section_params_schema,
-                "sentences": {
+                JSON_ATTR_NAME__PARAMS: __section_params_schema,
+                JSON_ATTR_NAME__SENTENCES: {
                     "type": "array",
                     "items": __sentence_schema,
                     "minItems": 1,
@@ -113,50 +118,51 @@ def get_schema():
                 }
             },
             "additionalProperties": False,
-            "required": ["sentences", "params"]
+            "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
         }
 #endregion
 #region analytical section
         __analytical_section_schema = {
             "type": "object",
             "properties": {
-                "params": __section_params_schema,
-                "sentences": {
+                JSON_ATTR_NAME__PARAMS: __section_params_schema,
+                JSON_ATTR_NAME__SENTENCES: {
                     "type": "array",
                     "items": __sentence_schema,
                     "minItems": 1,
                 }
             },
             "additionalProperties": False,
-            "required": ["sentences", "params"]
+            "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
         }
 #endregion
 #region circumstances section
         __circumstances_section_schema = {
             "type": "object",
             "properties": {
-                "params": __section_params_schema,
-                "sentences": {
+                JSON_ATTR_NAME__PARAMS: __section_params_schema,
+                JSON_ATTR_NAME__SENTENCES: {
                     "type": "array",
                     "items": __sentence_schema,
                     "minItems": 1,
                 }
             },
             "additionalProperties": False,
-            "required": ["sentences", "params"]
+            "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
         }
 #endregion
 #region general script schema
         __script_schema = {
             "type": "object",
             "properties": {
-                "params": __script_params_schema,
-                "synthetic": __syntethic_section_schema,
-                "analytical": __analytical_section_schema,
-                "circumstances": __circumstances_section_schema
+                JSON_ATTR_NAME__PARAMS: __script_params_schema,
+                JSON_ATTR_NAME__SYNTHETIC: __syntethic_section_schema,
+                JSON_ATTR_NAME__ANALYTICAL: __analytical_section_schema,
+                JSON_ATTR_NAME__CIRCUMSTANCES: __circumstances_section_schema
             },
             "additionalProperties": False,
-            "required": ["params", "synthetic", "analytical", "circumstances"]
+            "required": [JSON_ATTR_NAME__PARAMS, JSON_ATTR_NAME__SYNTHETIC,
+                         JSON_ATTR_NAME__ANALYTICAL, JSON_ATTR_NAME__CIRCUMSTANCES]
         }
 #endregion
 
@@ -185,15 +191,19 @@ class SemanticScriptValidator:
     def __init__(self):
         self._validator = js_schm_validate.Draft4Validator(get_schema())
 
-    def validate_script_text(self, json_text):
-        try:
-            json_obj = json.loads(json_text)
-        except Exception:
-            raise NotJsonObjectException(json_text)
+    def validate_script(self, json_obj, is_text=True, with_raise=True):
+        if is_text:
+            try:
+                json_obj = json.loads(json_obj)
+            except Exception:
+                raise NotJsonObjectException(json_obj)
 
         errors = sorted(self._validator.iter_errors(json_obj), key=lambda e: e.path)
         if len(errors) == 0:
             return True
+
+        if not with_raise:
+            return False
 
         errors_wrappers = []
         for err in errors:
@@ -207,7 +217,7 @@ class SemanticScriptValidator:
         f.close()
 
         try:
-            self.validate_script_text(script_text)
+            self.validate_script(script_text)
         except Exception:
             return False
 

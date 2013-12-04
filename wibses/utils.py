@@ -1,4 +1,8 @@
+import json
 import os
+from wibses import ASCI_GENERATOR_ALPHABET
+from wibses.data_store import JSON_INDENT
+from wibses.data_store.exceptions import NotJsonObjectException
 
 
 def get_folder_containing_names(path, incl_file_names=False, incl_dir_names=False):
@@ -31,11 +35,11 @@ def merge_into_path(files_paths_list):
     return result_path
 
 
-def get_repo_name_for_script(script_name):
+def get_repo_dir_name_for_script_filename(script_name):
     return "." + script_name
 
 
-def get_script_name_from_repo(repo_dir_name):
+def get_script_file_name_from_repo_dir_name(repo_dir_name):
     return repo_dir_name[1:]
 
 
@@ -76,3 +80,55 @@ def jsonp(f):
         return resp
 
     return jsonp_wrapper
+
+
+class ASCIIdGenerator:
+    def __init__(self, positions_count):
+        self._positions_count = positions_count
+        self._my_alphabet = list(set(ASCI_GENERATOR_ALPHABET))
+        self._current_indexes = [0] * positions_count
+        self._alph_length = len(self._my_alphabet)
+
+    def __fall_over(self):
+        idx = self._positions_count - 1
+        self._current_indexes[idx] += 1
+        move = 0
+
+        while idx >= 0:
+            curr_idx = self._current_indexes[idx]
+            new_val = curr_idx + move
+            self._current_indexes[idx] = new_val % self._alph_length
+            move = new_val / self._alph_length
+            idx -= 1
+
+    def next_id(self):
+        result = ""
+        for idx in self._current_indexes:
+            result += self._my_alphabet[idx]
+
+        self.__fall_over()
+
+        return result
+
+
+def read_script_object(file_path):
+    f = open(file_path, "r")
+    json_txt = f.read().replace("\n", "")
+    f.close()
+
+    try:
+        return json.loads(json_txt)
+    except Exception:
+        raise NotJsonObjectException(json_txt)
+
+
+def write_script_object(file_path, script_object):
+    f = open(file_path, "w")
+    try:
+        json_txt = json.dumps(script_object, indent=JSON_INDENT)
+    except Exception:
+        f.close()
+        raise NotJsonObjectException(str(script_object))
+
+    f.write(json_txt)
+    f.close()

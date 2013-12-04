@@ -1,3 +1,7 @@
+#ASCI generator configs
+ASCI_GENERATOR_ALPHABET = ['a','b','c','d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                           'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
 ENV_DIC_PATHS_NAME = "PYDIC_PATH"
 ENV_DIC_STORAGE_PATH_NAME = "PYDIC_STORAGE_PATH"
 
@@ -21,3 +25,4 @@ ScriptUtils.initialize_from_current_config()
 
 DictionaryUtils.add_dictionary_storages_paths(PYDIC_STORAGES)
 DictionaryUtils.initialize_from_current_config()
+

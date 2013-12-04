@@ -1,6 +1,7 @@
 {
     "params": {
-        "name": "New Script"
+        "name": "New Script",
+        "id": ""
     },
     "synthetic": {
         "params": {
