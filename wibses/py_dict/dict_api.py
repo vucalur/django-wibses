@@ -2,8 +2,7 @@ import os
 import json
 
 from pydic import PyDic
-from wibses import ENV_DIC_PATHS_NAME, ENV_DIC_STORAGE_PATH_NAME
-from wibses.utils import get_folder_containing_names
+from ..utils import get_folder_containing_names, merge_into_path
 
 
 class NotRegisteredDictionaryException(Exception):
@@ -16,13 +15,19 @@ class NotRegisteredDictionaryException(Exception):
 
 
 class DictionaryManager:
-    def __init__(self, dictionaries_folders_list):
+    def __init__(self, dictionaries_storages_list):
         self._dictionaries_map = dict()
-        for dic_dir in dictionaries_folders_list:
-            assert isinstance(dic_dir, str)
-            dic_name = dic_dir.split(os.sep)[-1]
-            dic_instance = PyDic(dic_dir)
-            self._dictionaries_map[dic_name] = dic_instance
+        for storage in dictionaries_storages_list:
+            storage_list_dicts = get_folder_containing_names(storage, incl_dir_names=True)
+            for dic_dir in storage_list_dicts:
+                dic_dir = merge_into_path([storage, dic_dir])
+                assert isinstance(dic_dir, str)
+                dic_name = dic_dir.split(os.sep)[-1]
+                try:
+                    dic_instance = PyDic(dic_dir)
+                    self._dictionaries_map[dic_name] = dic_instance
+                except Exception as e:
+                    print str(e)
 
     def get_tokens_for_word_form(self, form):
         result = [{'base': form, 'id': '-', 'type': 'quotation', 'dic': "-", 'forms': [form]}]
@@ -70,45 +75,17 @@ class DictionaryManager:
 
 class DictionaryUtils:
     __dictionary_manager = DictionaryManager([])
-    __dictionary_paths = []
+    __dictionary_storage_paths = set([])
 
     @staticmethod
-    def add_dictionary_paths(dictionary_paths):
-        DictionaryUtils.__dictionary_paths.extend(dictionary_paths)
+    def add_dictionary_storages_paths(storage_paths_list):
+        DictionaryUtils.__dictionary_storage_paths |= set((map(lambda x: str(x),
+                                                           filter(lambda x: os.path.exists(x),
+                                                                  storage_paths_list))))
 
     @staticmethod
-    def add_dictionary_storages_paths(storage_paths):
-        for storage_path in storage_paths:
-            dics_names = get_folder_containing_names(storage_path, incl_dir_names=True)
-            for dic_name in dics_names:
-                DictionaryUtils.__dictionary_paths.append(storage_path + os.sep + dic_name)
-
-    @staticmethod
-    def initialize_from_environment():
-        unique_pydics = set([])
-
-        import os
-
-        environ = os.environ
-
-        if ENV_DIC_PATHS_NAME in environ:
-            pydics_env_var = environ[ENV_DIC_PATHS_NAME]
-            pydics = str(pydics_env_var).split(os.pathsep)
-            unique_pydics |= set(pydics)
-
-        if ENV_DIC_STORAGE_PATH_NAME in environ:
-            pydics_storage_env_var = environ[ENV_DIC_STORAGE_PATH_NAME]
-            pydics_storages = str(pydics_storage_env_var).split(os.pathsep)
-            for storage in pydics_storages:
-                for dic_name in get_folder_containing_names(storage, incl_dir_names=True):
-                    unique_pydics.add(storage + os.sep + dic_name)
-
-        pydics_paths = list(unique_pydics)
-        DictionaryUtils.__dictionary_manager = DictionaryManager(pydics_paths)
-
-    @staticmethod
-    def initialize_from_current_config():
-        DictionaryUtils.__dictionary_manager = DictionaryManager(DictionaryUtils.__dictionary_paths)
+    def initialize():
+        DictionaryUtils.__dictionary_manager = DictionaryManager(DictionaryUtils.__dictionary_storage_paths)
 
     @staticmethod
     def get_manager():

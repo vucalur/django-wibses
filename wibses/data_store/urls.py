@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from wibses.data_store.views import rest__list_storage_scripts, rest__save_script_in_storage, \
+from views import rest__list_storage_scripts, rest__save_script_in_storage, \
     rest__list_script_history, rest__get_script_of_revision, rest__fork_script_of_revision, \
     rest__create_new_script, rest__get_script, rest__params_api
 

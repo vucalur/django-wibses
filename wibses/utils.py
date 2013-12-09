@@ -1,8 +1,9 @@
 import json
 import os
-from wibses import ASCI_GENERATOR_ALPHABET
-from wibses.data_store import JSON_INDENT
-from wibses.data_store.exceptions import NotJsonObjectException
+
+from . import ASCI_GENERATOR_ALPHABET
+from data_store import JSON_INDENT
+from data_store.exceptions import NotJsonObjectException
 
 
 def get_folder_containing_names(path, incl_file_names=False, incl_dir_names=False):

@@ -1,17 +1,24 @@
+import os
 from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
-from wibses.data_store import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, REQUEST_PARAM_NAME__NEW_SCRIPT_NAME,\
-    REQUEST_PARAM_NAME_ACTION, REQUEST_PARAM_NAME__SCRIPT_ID, REQUEST_PARAM_NAME__SCRIPT_REVISION
-from wibses.data_store.exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, \
+
+from . import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, \
+    REQUEST_PARAM_NAME_ACTION, REQUEST_PARAM_NAME__SCRIPT_ID, REQUEST_PARAM_NAME__SCRIPT_REVISION, \
+    REQUEST_PARAM_NAME__STORAGE_FILENAME
+from exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, \
     RequestTypeDoesNotSupportedException, NotSupportedApiActionException
+from script_api import ScriptUtils
+from validation import get_semantic_validator
+from .. import JSON_TEMPLATE_SCRIPT_FILENAME, ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE
 
-from wibses.data_store.script_api import ScriptUtils
 
+ScriptUtils.set_script_template_filename(JSON_TEMPLATE_SCRIPT_FILENAME)
+ScriptUtils.set_scripts_storage_path(os.environ.get(ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE))
+ScriptUtils.initialize()
 
 #region REST url functions mapping
 
 #region REST help functions
-from wibses.data_store.validation import get_semantic_validator
 
 
 def create_http_json_response(json_response):
@@ -149,14 +156,17 @@ def rest__fork_script_of_revision(request, script_id=None, revision=None, get_fr
         request_params = process_request_params(request.GET,
                                                 [REQUEST_PARAM_NAME__USER,
                                                 REQUEST_PARAM_NAME__SCRIPT_ID,
-                                                REQUEST_PARAM_NAME__SCRIPT_REVISION])
+                                                REQUEST_PARAM_NAME__SCRIPT_REVISION,
+                                                REQUEST_PARAM_NAME__STORAGE_FILENAME])
         script_id = request_params[REQUEST_PARAM_NAME__SCRIPT_ID]
         revision = request_params[REQUEST_PARAM_NAME__SCRIPT_REVISION]
     else:
-        request_params = process_request_params(request.GET, [REQUEST_PARAM_NAME__USER])
+        request_params = process_request_params(request.GET, [REQUEST_PARAM_NAME__USER,
+                                                              REQUEST_PARAM_NAME__STORAGE_FILENAME])
     user_name = request_params[REQUEST_PARAM_NAME__USER]
+    storage_filename = request_params[REQUEST_PARAM_NAME__STORAGE_FILENAME]
 
-    scripts_json = ScriptUtils.get_manager().fork_script_of_revision(script_id, revision, user_name)
+    scripts_json = ScriptUtils.get_manager().fork_script_of_revision(script_id, revision, user_name, storage_filename)
     return create_http_json_response(scripts_json)
 
 
@@ -164,10 +174,12 @@ def rest__fork_script_of_revision(request, script_id=None, revision=None, get_fr
 @handle_exceptions
 @get_only
 def rest__create_new_script(request, get_from_params=False):
-    request_params = process_request_params(request.GET, [REQUEST_PARAM_NAME__USER])
+    request_params = process_request_params(request.GET, [REQUEST_PARAM_NAME__USER,
+                                                          REQUEST_PARAM_NAME__STORAGE_FILENAME])
 
     curr_user = request_params[REQUEST_PARAM_NAME__USER]
-    new_script_json = ScriptUtils.get_manager().create_script_in_repo(curr_user)
+    storage_filename = request_params[REQUEST_PARAM_NAME__STORAGE_FILENAME]
+    new_script_json = ScriptUtils.get_manager().create_script_in_repo(curr_user, storage_filename)
     return create_http_json_response(new_script_json)
 
 

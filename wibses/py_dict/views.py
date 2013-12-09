@@ -1,10 +1,11 @@
+import os
 from django.http import HttpResponse
-from wibses.py_dict.dict_api import DictionaryUtils
-from wibses.utils import jsonp
+from dict_api import DictionaryUtils
+from ..utils import jsonp
+from .. import ENV_DIC_STORAGE_PATH_NAME, DEFAULT_PYDIC_STORAGES
 
-
-# DictionaryUtils.add_dictionary_storages_paths(getattr(settings, 'PYDIC_STORAGES'))
-# DictionaryUtils.initialize_from_current_config()
+DictionaryUtils.add_dictionary_storages_paths(os.environ.get(ENV_DIC_STORAGE_PATH_NAME, DEFAULT_PYDIC_STORAGES))
+DictionaryUtils.initialize()
 
 
 @jsonp

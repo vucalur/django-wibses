@@ -1,16 +1,16 @@
-import atexit
 import json
 from multiprocessing.synchronize import Lock
+import signal
 import shutil
 import threading
 import datetime
 from gitdb.exc import BadObject
 import time
 import re
-import os
 import ConfigParser
+import os
 
-from wibses import ENV_SCRIPT_STORAGE_PATH_NAME
+
 from wibses.data_store import JSON_INDENT, REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION, \
     JSON_ATTR_NAME__MODIFIED_DATE, JSON_ATTR_NAME__CHANGER, STORAGE_DEFAULT_SCAN_PERIOD_MS, \
     DEFAULT_STORAGE_SCRIPT_CREATOR_NAME, STORAGE_ID_GENERATOR_POSITIONS_COUNT, JSON_ATTR_NAME__PARAMS, \
@@ -42,20 +42,19 @@ def synchronized(function, *args, **kwargs):
 
 class StorageDaemon(threading.Thread):
     def __init__(self, checking_period_ms, script_manager):
+        threading.Thread.__init__(self)
         self._sleep_per_in_seconds = checking_period_ms / 1000.0
         assert isinstance(script_manager, ScriptManager)
         self._script_manager = script_manager
         self._stop = False
         self._checked_file_paths = set()
-        threading.Thread.__init__(self)
+        self.daemon = True
 
     def get_lock(self):
         return self._script_manager.get_lock()
 
-    def stop_me(self):
-        self._stop = True
-
     def run(self):
+
         while not self._stop:
             self.do_work()
             time.sleep(self._sleep_per_in_seconds)
@@ -73,6 +72,7 @@ class StorageDaemon(threading.Thread):
                 self._script_manager._script_storage_path,
                 script_filename + ".json"
             ])
+
             if script_candidate_path not in self._checked_file_paths:
                 try:
                     script_obj = read_script_object(script_candidate_path)
@@ -122,6 +122,9 @@ class StorageDaemon(threading.Thread):
         for registered_script_filename in iteration_list:
             if registered_script_filename not in storage_filenames_with_ext:
                 script_id = self._script_manager._script_id_by_original_filename[registered_script_filename]
+                removed_script_file_path = merge_into_path([self._script_manager._script_storage_path,
+                                                            registered_script_filename])
+                self._checked_file_paths.remove(removed_script_file_path)
                 del self._script_manager._repositories_by_script_id[script_id]
                 del self._script_manager._scripts_modification_info_by_id[script_id]
                 del self._script_manager._script_id_by_original_filename[registered_script_filename]
@@ -151,6 +154,7 @@ class ScriptManager:
         self.__script_id_generator = ASCIIdGenerator(STORAGE_ID_GENERATOR_POSITIONS_COUNT)
 
         inner_dirs = get_folder_containing_names(script_storage_path, incl_dir_names=True)
+
         for repo_candidate_dir in inner_dirs:
             candidate_path = merge_into_path([script_storage_path, repo_candidate_dir])
             candidate_inner_dirs, candidate_inner_files = get_folder_containing_names(candidate_path,
@@ -171,7 +175,6 @@ class ScriptManager:
                         script_id = script_obj[JSON_ATTR_NAME__PARAMS][JSON_ATTR_NAME__ID]
 
                         self._script_repo_file_path_by_id[script_id] = script_source_path
-
                         repo = get_repo_for_script(script_storage_path, script_file_name)
                         self._repositories_by_script_id[script_id] = repo
 
@@ -200,10 +203,10 @@ class ScriptManager:
                             pass
 
                         self._script_id_by_original_filename[active_filename] = script_id
-                        scriptfile_in_storage_path = merge_into_path([self._script_storage_path, active_filename])
-                        self._script_storage_file_path_by_id[script_id] = scriptfile_in_storage_path
-                        shutil.copyfile(script_source_path, scriptfile_in_storage_path)
-                        self._script_repo_file_path_by_id[script_id] = scriptfile_in_storage_path
+                        script_file_in_storage_path = merge_into_path([self._script_storage_path, active_filename])
+                        self._script_storage_file_path_by_id[script_id] = script_file_in_storage_path
+                        shutil.copyfile(script_source_path, script_file_in_storage_path)
+                        self._script_repo_file_path_by_id[script_id] = script_file_in_storage_path
 
                 except Exception:
                     pass
@@ -261,14 +264,14 @@ class ScriptManager:
         return self._unsynch_get_script_revision(script_id, revision_hash)
 
     @synchronized
-    def fork_script_of_revision(self, script_name, revision_hash, creator_name):
-        json_to_fork = self._unsynch_get_script_revision(script_name, revision_hash)
-        res = self._unsynch_create_script_in_repo(creator_name, json_to_fork)
+    def fork_script_of_revision(self, script_id, revision_hash, creator_name, storage_filename):
+        json_to_fork = self._unsynch_get_script_revision(script_id, revision_hash)
+        res = self._unsynch_create_script_in_repo(creator_name, script_text=json_to_fork, st_filename=storage_filename)
         return res
 
     @synchronized
-    def create_script_in_repo(self, creator_name):
-        res = self._unsynch_create_script_in_repo(creator_name)
+    def create_script_in_repo(self, creator_name, storage_filename):
+        res = self._unsynch_create_script_in_repo(creator_name, st_filename=storage_filename)
         return res
 
     def __unsynch_get_script_history_objects_list(self, repo):
@@ -285,20 +288,33 @@ class ScriptManager:
                            JSON_ATTR_NAME__CHANGER: user_name})
         return r_list
 
-    def _unsynch_create_script_in_repo(self, creator_name, script_text=None):
+    def _unsynch_create_script_in_repo(self, creator_name, script_text=None, st_filename=None):
         script_id = self.unsynch_get_free_script_id()
+
+        if st_filename is None:
+            st_filename = script_id
+        elif st_filename.endswith(".json"):
+            st_filename = st_filename[0:st_filename.index(".json")]
+
+        counter = 1
+        begin_name = st_filename
+        while True:
+            if not os.path.exists(merge_into_path([self._script_storage_path, st_filename + ".json"])):
+                break
+            st_filename = "%s(%d)" % (begin_name, counter)
+            counter += 1
 
         script_path = merge_into_path([self._script_storage_path,
                                        get_repo_dir_name_for_script_filename(script_id),
                                        script_id + ".json"])
-        repo = create_repo_for_script(self._script_storage_path, script_id + '.json', script_id)
+        self._script_storage_file_path_by_id[script_id] = script_path
+        repo = create_repo_for_script(self._script_storage_path, st_filename + '.json', script_id)
 
         new_script_obj = self._template_script_object
         if script_text is not None:
             new_script_obj = json.loads(script_text)
 
         new_script_obj[JSON_ATTR_NAME__PARAMS][JSON_ATTR_NAME__ID] = script_id
-
         script_name = new_script_obj[JSON_ATTR_NAME__PARAMS][JSON_ATTR_NAME__NAME]
         when_changed = datetime.datetime.fromtimestamp(time.time()).strftime(TIMESTAMP_FORMAT)
 
@@ -308,14 +324,13 @@ class ScriptManager:
             JSON_ATTR_NAME__NAME: script_name,
             JSON_ATTR_SCRIPT_ID: script_id
         }
-        self._script_id_by_original_filename[script_id + '.json'] = script_id
+        self._script_id_by_original_filename[st_filename + '.json'] = script_id
         self._script_repo_file_path_by_id[script_id] = script_path
 
         write_script_object(script_path, new_script_obj)
-
         update_script_in_repo(repo, script_id + ".json", "{'%s':'%s'}" % (REQUEST_PARAM_NAME__USER, creator_name))
         self._repositories_by_script_id[script_id] = repo
-        shutil.copy(script_path, merge_into_path([self._script_storage_path, script_id + '.json']))
+        shutil.copy(script_path, merge_into_path([self._script_storage_path, st_filename + '.json']))
 
         return json.dumps(new_script_obj, indent=JSON_INDENT)
 
@@ -331,7 +346,6 @@ class ScriptManager:
             raise BadScriptRevisionException(revision_hash)
 
         script_json = json.loads(script_text)
-
         return json.dumps(script_json, indent=JSON_INDENT)
 
     def unsynch_get_free_script_id(self):
@@ -341,10 +355,6 @@ class ScriptManager:
             script_id = self.__script_id_generator.next_id()
 
         return script_id
-
-    def stop_storage_daemon(self):
-        self._storage_daemon.stop_me()
-        self._storage_daemon.join()
 
     def get_lock(self):
         return self._storage_operations_lock
@@ -362,12 +372,6 @@ class ScriptUtils:
     __script_template_filename = None
 
     @staticmethod
-    def setup_storage_daemon_shutdown_hook(script_manager):
-        def st_daemon_shutdown_hook():
-            script_manager.stop_storage_daemon()
-        atexit.register(st_daemon_shutdown_hook)
-
-    @staticmethod
     def set_scripts_storage_path(storage_path):
         ScriptUtils.__script_storage_path = storage_path
 
@@ -376,26 +380,12 @@ class ScriptUtils:
         ScriptUtils.__script_storage_checking_period = new_period
 
     @staticmethod
-    def initialize_from_environment():
-        import os
-
-        environ = os.environ
-
-        if ENV_SCRIPT_STORAGE_PATH_NAME in environ:
-            script_storage_dir = environ[ENV_SCRIPT_STORAGE_PATH_NAME]
-            ScriptUtils.__script_storage_manager = ScriptManager(script_storage_dir,
-                                                                 ScriptUtils.__script_storage_checking_period,
-                                                                 ScriptUtils.__script_template_filename)
-            ScriptUtils.setup_storage_daemon_shutdown_hook(ScriptUtils.__script_storage_manager)
-
-    @staticmethod
-    def initialize_from_current_config():
-        if ScriptUtils.__script_storage_path is not None:
+    def initialize():
+        if ScriptUtils.__script_storage_manager is None and (ScriptUtils.__script_storage_path is not None):
+            print "initialize"
             ScriptUtils.__script_storage_manager = ScriptManager(ScriptUtils.__script_storage_path,
                                                                  ScriptUtils.__script_storage_checking_period,
                                                                  ScriptUtils.__script_template_filename)
-            ScriptUtils.setup_storage_daemon_shutdown_hook(ScriptUtils.__script_storage_manager)
-
     @staticmethod
     def set_script_template_filename(filename):
         ScriptUtils.__script_template_filename = filename

@@ -3,9 +3,9 @@ import re
 import git
 
 from datetime import datetime
-from wibses.data_store import TIMESTAMP_FORMAT, REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES,\
+from . import TIMESTAMP_FORMAT, REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES,\
     REPO_CONF_SECTION__SCRIPT_INFO, REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP, REPO_CONF_FILENAME
-from wibses.utils import merge_into_path, get_repo_dir_name_for_script_filename
+from ..utils import merge_into_path, get_repo_dir_name_for_script_filename
 
 
 def create_repo_for_script(scripts_store_path, script_filename_with_ext, script_id):
@@ -21,7 +21,7 @@ def create_repo_for_script(scripts_store_path, script_filename_with_ext, script_
     repo_cfg_file_text = "[%s]\n%s = %s\n" % (REPO_CONF_SECTION__SCRIPT_INFO,
                                               REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP,
                                               script_filename_with_ext)
-    repo_cfg_file_fp = open(merge_into_path([script_dir, REPO_CONF_FILENAME]),"w")
+    repo_cfg_file_fp = open(merge_into_path([script_dir, REPO_CONF_FILENAME]), "w")
     repo_cfg_file_fp.write(repo_cfg_file_text)
     repo_cfg_file_fp.close()
 

@@ -6,6 +6,6 @@ angular.module('wibsesApp.service').service 'tokenProviderService',
     constructor: (@$http) ->
       return
     getSuggestions: (tokenPrefix) ->
-      @$http.jsonp("/wibses/dics/token/#{ tokenPrefix }?callback=JSON_CALLBACK").then((response) ->
+      @$http.jsonp("/wibses/pydict/token/#{ tokenPrefix }?callback=JSON_CALLBACK").then((response) ->
         response.data
       )

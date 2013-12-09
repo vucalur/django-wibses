@@ -1,4 +1,4 @@
-from wibses.data_store import HTTP__EXCEPTION_TAG__MISSING_PARAMS, HTTP__EXCEPTION_TAG__NOT_PROPER_REQUEST_TYPE, \
+from . import HTTP__EXCEPTION_TAG__MISSING_PARAMS, HTTP__EXCEPTION_TAG__NOT_PROPER_REQUEST_TYPE, \
     HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE, HTTP__EXCEPTION_TAG__BAD_SCRIPT_REVISION,\
     HTTP__EXCEPTION_TAG__SCRIPT_ALREADY_IN_STORAGE, HTTP__EXCEPTION_TAG__NOT_SUPPORTED_REQUEST_TYPE, \
     HTTP__EXCEPTION_TAG__NOT_SUPPORTED_ACTION, HTTP__EXCEPTION_TAG__NOT_VALID_JSON_SCRIPT, \
@@ -33,14 +33,14 @@ class NotProperRequestTypeForUrl(Exception):
 
 
 class NoSuchScriptInStorageException(Exception):
-    def __init__(self, script_name):
+    def __init__(self, script_id):
         description = HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE + \
-            ": %s" % script_name
-        self._script_name = script_name
+            ": %s" % script_id
+        self._script_id = script_id
         Exception.__init__(self, description)
 
-    def get_script_name(self):
-        return self._script_name
+    def get_script_id(self):
+        return self._script_id
 
 
 class BadScriptRevisionException(Exception):
@@ -104,7 +104,7 @@ class ScriptValidationException(Exception):
         self._errors = errors_list
         description = HTTP__EXCEPTION_TAG__NOT_VALID_JSON_SCRIPT + ": "
         for error in errors_list:
-            description += error.get_err_msg() + " in " + error.get_place() + ";  "
+            description += error.get_err_msg() + " - " + error.get_place() + ";  "
         Exception.__init__(self, description)
 
     def get_errors(self):

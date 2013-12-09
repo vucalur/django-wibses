@@ -4,7 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('',
     url(r'^data/', include('wibses.data_store.urls')),
-    url(r'^dics/', include('wibses.py_dict.urls')),
+    url(r'^pydict/', include('wibses.py_dict.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
