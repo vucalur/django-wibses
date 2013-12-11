@@ -116,3 +116,9 @@ Installing beta/RC dependency version with bower (work-around-ish way)
     $ grunt bower-install
     
 The last one sometimes has to be invoked a couple of times to inject all stuff properly.
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/vucalur/django-wibses/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
