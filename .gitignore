@@ -1,9 +1,13 @@
-dist
+/dist
+/wibses/docs/build
 *.egg-info
+*.pyc
+
 .idea
 *.iml
-*.pyc
-# below is assembled by grunt:
-wibses/static
+
 *.log
 *~
+
+# below is assembled by grunt
+/wibses/static
