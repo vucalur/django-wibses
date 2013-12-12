@@ -11,7 +11,8 @@
     "angular-route": "1.2.1",
     "angular-resource": "1.2.1",
     "angular-cookies": "1.2.1",
-    "angular-ui-bootstrap": "git://github.com/angular-ui/bootstrap#bootstrap3"
+    "angular-ui-bootstrap": "git://github.com/angular-ui/bootstrap#bootstrap3",
+    "bootstrap-united": "http://bootswatch.com/united/bootstrap.css"
   },
   "devDependencies": {
     "angular": "1.2.1",
