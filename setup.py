@@ -11,7 +11,7 @@ setup(
     version='0.1',
     packages=['wibses'],
     include_package_data=True,
-    license='BSD License',  # example license
+    license='BSD License', # example license   TODO vucalur: LICENSE
     description='Web interface for building semantic scripts with lightweight Django backend.',
     long_description=README,
     url='http://www.example.com/',

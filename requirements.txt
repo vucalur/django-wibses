@@ -7,3 +7,4 @@ git+https://github.com/vucalur/pydic
 pysqlite==2.6.3
 Sphinx==1.1.3
 sphinx-rtd-theme==0.1.5
+jsonschema==2.3.0
