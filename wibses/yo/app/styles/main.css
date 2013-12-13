@@ -2,6 +2,22 @@
     padding: 60px 15px;
 }
 
+.section.circumstances {
+    background-color: #c8e5bc;
+}
+
+.section.analytical {
+    background-color: #336699;
+}
+
+.section.synthetic {
+    background-color: #009998;
+}
+
+.section h1 {
+    text-align: center;
+}
+
 span.token {
     font-size: 13px;
 }

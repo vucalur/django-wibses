@@ -9,24 +9,11 @@ service.config(['$httpProvider', ($httpProvider) ->
 
 service.factory 'jsonStorageService', ['$resource',
   ($resource) ->
-    $resource('/wibses/data/:apiName',
-    {apiName: 'api'},
+    return $resource('/wibses/data/api',
+    {},
       get_script:
-        method : 'GET', params : {action : 'script'}, isArray : false,
+        method: 'GET', params: {action: 'script'}, isArray: false,
       store:
-        method : 'POST', params : { action : 'store' }
+        method: 'POST', params: { action: 'store' }
     )
 ]
-
-
-# using plain $http (useful for xcrf settings inspection):
-
-#service.service 'jsonStorageService',
-#  class JsonStorageService
-#    @$inject: ['$http']
-#    constructor: (@$http) ->
-#    query: (callback) ->
-#      @$http.get('/wibses/data/script').success callback
-#    save: (data) ->
-#      @$http.post('/wibses/data/script', data)
-
