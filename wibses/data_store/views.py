@@ -154,10 +154,10 @@ def rest__get_script_of_revision(request, script_id=None, revision=None, get_fro
 def rest__fork_script_of_revision(request, script_id=None, revision=None, get_from_params=False):
     if get_from_params:
         request_params = process_request_params(request.GET,
-                                                [REQUEST_PARAM_NAME__USER,
-                                                REQUEST_PARAM_NAME__SCRIPT_ID,
-                                                REQUEST_PARAM_NAME__SCRIPT_REVISION,
-                                                REQUEST_PARAM_NAME__STORAGE_FILENAME])
+            [REQUEST_PARAM_NAME__USER,
+             REQUEST_PARAM_NAME__SCRIPT_ID,
+             REQUEST_PARAM_NAME__SCRIPT_REVISION,
+             REQUEST_PARAM_NAME__STORAGE_FILENAME])
         script_id = request_params[REQUEST_PARAM_NAME__SCRIPT_ID]
         revision = request_params[REQUEST_PARAM_NAME__SCRIPT_REVISION]
     else:

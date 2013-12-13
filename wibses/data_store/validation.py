@@ -1,11 +1,14 @@
 # -*- coding: UTF-8 -*-
-import jsonschema as js_schm_validate
 import json
+
+import jsonschema as js_schm_validate
+
 from . import JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__THRESHOLD, JSON_ATTR_NAME__OBLIGATORY, \
     JSON_ATTR_NAME__WEIGHT, JSON_ATTR_NAME__MIN, JSON_ATTR_NAME__LABEL, JSON_ATTR_NAME__TYPE, JSON_ATTR_NAME__ID, \
     JSON_ATTR_NAME__DIC, JSON_ATTR_NAME__PARAMS, JSON_ATTR_NAME__TOKENS, JSON_ATTR_NAME__SLOTS, \
     JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__SYNTHETIC, JSON_ATTR_NAME__ANALYTICAL, JSON_ATTR_NAME__CIRCUMSTANCES
 from exceptions import ScriptValidationException, NotJsonObjectException
+
 
 __script_schema = None
 
@@ -14,7 +17,7 @@ def get_schema():
     global __script_schema
     if __script_schema is None:
         dummy = None
-#region script params
+        #region script params
         __script_params_schema = {
             "type": "object",
             "properties": {
@@ -24,8 +27,8 @@ def get_schema():
             "required": [JSON_ATTR_NAME__NAME],
             "additionalProperties": False
         }
-#endregion
-#region section params
+        #endregion
+        #region section params
         __section_params_schema = {
             "type": "object",
             "properties": {
@@ -34,8 +37,8 @@ def get_schema():
             "required": [JSON_ATTR_NAME__THRESHOLD],
             "additionalProperties": True
         }
-#endregion
-#region sentence params
+        #endregion
+        #region sentence params
         __sentence_params_schema = {
             "type": "object",
             "properties": {
@@ -49,8 +52,8 @@ def get_schema():
             "additionalProperties": True
         }
 
-#endregion
-#region slot params
+        #endregion
+        #region slot params
         __slot_params_schema = {
             "type": "object",
             "properties": {
@@ -63,8 +66,8 @@ def get_schema():
                          JSON_ATTR_NAME__OBLIGATORY, JSON_ATTR_NAME__WEIGHT],
             "additionalProperties": True
         }
-#endregion
-#region token
+        #endregion
+        #region token
         __token_schema = {
             "type": "object",
             "properties": {
@@ -77,8 +80,8 @@ def get_schema():
             "required": [JSON_ATTR_NAME__LABEL, JSON_ATTR_NAME__TYPE,
                          JSON_ATTR_NAME__ID, JSON_ATTR_NAME__DIC]
         }
-#endregion
-#region slot
+        #endregion
+        #region slot
         __slot_schema = {
             "type": "object",
             "properties": {
@@ -92,8 +95,8 @@ def get_schema():
             "additionalProperties": False,
             "required": [JSON_ATTR_NAME__TOKENS, JSON_ATTR_NAME__PARAMS]
         }
-#endregion
-#region sentence
+        #endregion
+        #region sentence
         __sentence_schema = {
             "type": "object",
             "properties": {
@@ -107,8 +110,8 @@ def get_schema():
             "additionalProperties": False,
             "required": [JSON_ATTR_NAME__SLOTS, JSON_ATTR_NAME__PARAMS]
         }
-#endregion
-#region syntethic section
+        #endregion
+        #region syntethic section
         __syntethic_section_schema = {
             "type": "object",
             "properties": {
@@ -123,8 +126,8 @@ def get_schema():
             "additionalProperties": False,
             "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
         }
-#endregion
-#region analytical section
+        #endregion
+        #region analytical section
         __analytical_section_schema = {
             "type": "object",
             "properties": {
@@ -138,8 +141,8 @@ def get_schema():
             "additionalProperties": False,
             "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
         }
-#endregion
-#region circumstances section
+        #endregion
+        #region circumstances section
         __circumstances_section_schema = {
             "type": "object",
             "properties": {
@@ -153,8 +156,8 @@ def get_schema():
             "additionalProperties": False,
             "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
         }
-#endregion
-#region general script schema
+        #endregion
+        #region general script schema
         __script_schema = {
             "type": "object",
             "properties": {
@@ -167,7 +170,7 @@ def get_schema():
             "required": [JSON_ATTR_NAME__PARAMS, JSON_ATTR_NAME__SYNTHETIC,
                          JSON_ATTR_NAME__ANALYTICAL, JSON_ATTR_NAME__CIRCUMSTANCES]
         }
-#endregion
+        #endregion
 
     return __script_schema
 

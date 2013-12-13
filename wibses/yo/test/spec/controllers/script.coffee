@@ -18,5 +18,5 @@ describe 'Controller: ScriptCtrl', () ->
 #  it 'should attach a list of awesomeThings to the scope', () ->
 #    expect(scope.awesomeThings.length).toBe 3
 
-  it 'dummy', () ->
-    expect(123).toBe 123
+   it 'dummy', () ->
+      expect(123).toBe 123

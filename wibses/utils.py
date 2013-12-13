@@ -29,7 +29,7 @@ def merge_into_path(files_paths_list):
 
     while True:
         old_len = len(result_path)
-        result_path = result_path.replace(os.sep*2, os.sep)
+        result_path = result_path.replace(os.sep * 2, os.sep)
         if old_len == len(result_path):
             break
 

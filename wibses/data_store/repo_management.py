@@ -1,9 +1,10 @@
 import os
 import re
+from datetime import datetime
+
 import git
 
-from datetime import datetime
-from . import TIMESTAMP_FORMAT, REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES,\
+from . import TIMESTAMP_FORMAT, REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES, \
     REPO_CONF_SECTION__SCRIPT_INFO, REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP, REPO_CONF_FILENAME
 from ..utils import merge_into_path, get_repo_dir_name_for_script_filename
 
@@ -12,7 +13,7 @@ def create_repo_for_script(scripts_store_path, script_filename_with_ext, script_
     script_dir = merge_into_path([scripts_store_path, get_repo_dir_name_for_script_filename(script_id)])
     if not os.path.exists(script_dir):
         os.mkdir(script_dir)
-    #create gitignore file
+    # create gitignore file
     gitignore_fp = open(merge_into_path([script_dir, REPO_GITIGNORE_FILENAME]), 'w')
     for l in REPO_IGNORED_FILENAMES:
         gitignore_fp.write(l + '\n')

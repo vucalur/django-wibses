@@ -13,5 +13,5 @@ describe 'Service: jsonStorageService', () ->
 #  it 'should do something', () ->
 #    expect(!!jsonStorageService).toBe true
 
-  it 'dummy', () ->
-    expect(123).toBe 123
+   it 'dummy', () ->
+      expect(123).toBe 123

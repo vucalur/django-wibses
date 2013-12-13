@@ -1,15 +1,14 @@
 import json
 from multiprocessing.synchronize import Lock
-import signal
 import shutil
 import threading
 import datetime
-from gitdb.exc import BadObject
 import time
 import re
 import ConfigParser
 import os
 
+from gitdb.exc import BadObject
 
 from wibses.data_store import JSON_INDENT, REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION, \
     JSON_ATTR_NAME__MODIFIED_DATE, JSON_ATTR_NAME__CHANGER, STORAGE_DEFAULT_SCAN_PERIOD_MS, \
@@ -37,6 +36,7 @@ def synchronized(function, *args, **kwargs):
         finally:
             args[0].get_lock().release()
         return k
+
     return decorator
 
 
@@ -64,8 +64,8 @@ class StorageDaemon(threading.Thread):
         file_names = get_folder_containing_names(self._script_manager._script_storage_path, incl_file_names=True)
         patt = r'(.+)\.json'
         script_names_without_ext = set(map(lambda x: re.search(patt, x).group(1),
-                                       filter(lambda x: re.search(patt, x) is not None,
-                                              file_names)))
+            filter(lambda x: re.search(patt, x) is not None,
+                file_names)))
         manager_scripts = self._script_manager._repositories_by_script_id
         for script_filename in script_names_without_ext:
             script_candidate_path = merge_into_path([
@@ -79,7 +79,7 @@ class StorageDaemon(threading.Thread):
                     if get_semantic_validator().validate_script(script_obj, is_text=False, with_raise=False):
                         s_par_dict = script_obj[JSON_ATTR_NAME__PARAMS]
                         if not (JSON_ATTR_NAME__ID in s_par_dict and
-                                s_par_dict[JSON_ATTR_NAME__ID] in manager_scripts):
+                                        s_par_dict[JSON_ATTR_NAME__ID] in manager_scripts):
                             script_id = self._script_manager.unsynch_get_free_script_id()
 
                             script_obj[JSON_ATTR_NAME__PARAMS][JSON_ATTR_NAME__ID] = script_id
@@ -101,13 +101,13 @@ class StorageDaemon(threading.Thread):
                             self._script_manager._script_repo_file_path_by_id[script_id] = script_path
                             self._script_manager._script_id_by_original_filename[script_filename + '.json'] = script_id
                             repo = create_repo_for_script(self._script_manager._script_storage_path,
-                                                          script_filename_with_ext=script_filename + '.json',
-                                                          script_id=script_id)
+                                script_filename_with_ext=script_filename + '.json',
+                                script_id=script_id)
                             shutil.copyfile(script_candidate_path, script_path)
 
                             update_script_in_repo(repo, script_id + ".json",
-                                                  "{'%s':'%s'}" % (REQUEST_PARAM_NAME__USER,
-                                                                   DEFAULT_STORAGE_SCRIPT_CREATOR_NAME))
+                                "{'%s':'%s'}" % (REQUEST_PARAM_NAME__USER,
+                                                 DEFAULT_STORAGE_SCRIPT_CREATOR_NAME))
 
                             self._script_manager._repositories_by_script_id[script_id] = repo
                             self._script_manager._script_storage_file_path_by_id[script_id] = script_candidate_path
@@ -158,8 +158,8 @@ class ScriptManager:
         for repo_candidate_dir in inner_dirs:
             candidate_path = merge_into_path([script_storage_path, repo_candidate_dir])
             candidate_inner_dirs, candidate_inner_files = get_folder_containing_names(candidate_path,
-                                                                                      incl_dir_names=True,
-                                                                                      incl_file_names=True)
+                incl_dir_names=True,
+                incl_file_names=True)
             if ".git" in candidate_inner_dirs:
                 script_file_name = get_script_file_name_from_repo_dir_name(repo_candidate_dir)
                 script_file_name_with_ext = script_file_name + ".json"
@@ -192,12 +192,12 @@ class ScriptManager:
                         active_filename = script_file_name_with_ext
                         try:
                             conf_file_fp = open(merge_into_path([self._script_storage_path,
-                                                                repo_candidate_dir,
-                                                                REPO_CONF_FILENAME]), 'r')
+                                                                 repo_candidate_dir,
+                                                                 REPO_CONF_FILENAME]), 'r')
                             configuration = ConfigParser.ConfigParser()
                             configuration.readfp(conf_file_fp)
                             active_filename = configuration.get(REPO_CONF_SECTION__SCRIPT_INFO,
-                                                                REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP)
+                                REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP)
                             conf_file_fp.close()
                         except Exception:
                             pass
@@ -384,8 +384,9 @@ class ScriptUtils:
         if ScriptUtils.__script_storage_manager is None and (ScriptUtils.__script_storage_path is not None):
             print "initialize"
             ScriptUtils.__script_storage_manager = ScriptManager(ScriptUtils.__script_storage_path,
-                                                                 ScriptUtils.__script_storage_checking_period,
-                                                                 ScriptUtils.__script_template_filename)
+                ScriptUtils.__script_storage_checking_period,
+                ScriptUtils.__script_template_filename)
+
     @staticmethod
     def set_script_template_filename(filename):
         ScriptUtils.__script_template_filename = filename

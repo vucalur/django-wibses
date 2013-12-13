@@ -14,5 +14,5 @@ describe 'Directive: parameters', () ->
 #    element = angular.element '<parameters></parameters>'
 #    element = $compile(element) scope
 #    expect(element.text()).toBe 'this is the parameters directive'
-  it 'dummy', () ->
-    expect(1).toBe 1
+   it 'dummy', () ->
+      expect(1).toBe 1

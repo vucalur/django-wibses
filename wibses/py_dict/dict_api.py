@@ -80,8 +80,8 @@ class DictionaryUtils:
     @staticmethod
     def add_dictionary_storages_paths(storage_paths_list):
         DictionaryUtils.__dictionary_storage_paths |= set((map(lambda x: str(x),
-                                                           filter(lambda x: os.path.exists(x),
-                                                                  storage_paths_list))))
+            filter(lambda x: os.path.exists(x),
+                storage_paths_list))))
 
     @staticmethod
     def initialize():

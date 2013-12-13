@@ -8,16 +8,16 @@ angular.module('wibsesApp.filter', [])
 
 
 angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
-  $routeProvider
-  .when '/editor',
-      templateUrl: 'views/edit.html'
-      controller: 'ScriptCtrl'
-      controllerAs: 'ctrl'
-      resolve:
-        script: ['jsonStorageService', (jsonStorageService) ->
-          scriptId = 'script1'
-          return jsonStorageService.get_script({script_id: scriptId}).$promise
-        ]
-  .otherwise
-      redirectTo: '/editor'
+   $routeProvider
+   .when '/editor',
+         templateUrl: 'views/edit.html'
+         controller: 'ScriptCtrl'
+         controllerAs: 'ctrl'
+         resolve:
+            script: ['jsonStorageService', (jsonStorageService) ->
+               scriptId = 'script1'
+               return jsonStorageService.get_script({script_id: scriptId}).$promise
+            ]
+   .otherwise
+         redirectTo: '/editor'
 ]
