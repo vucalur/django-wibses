@@ -25,6 +25,14 @@ module.exports = function (grunt) {
          dist: 'dist'
       },
 
+      // grunt-bower-install
+      'bower-install': {
+         target: {
+            html: '<%= yeoman.app %>/index.html',
+            ignorePath: '<%= yeoman.app %>/'
+         }
+      },
+
       // Watches files for changes and runs tasks based on the changed files
       watch: {
          coffee: {
@@ -356,6 +364,8 @@ module.exports = function (grunt) {
          }
       }
    });
+
+   grunt.loadNpmTasks('grunt-bower-install');
 
 
    grunt.registerTask('serve', function (target) {
