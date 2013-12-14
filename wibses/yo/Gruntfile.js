@@ -7,6 +7,9 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
 module.exports = function (grunt) {
 
    // Load grunt tasks automatically
@@ -64,6 +67,14 @@ module.exports = function (grunt) {
 
       // The actual grunt server settings
       connect: {
+         proxies: [
+            {
+               context: '/',
+               host: 'localhost',
+               port: 8000, // Django port goes here
+               xforward: true
+            }
+         ],
          options: {
             port: 9000,
             // Change this to '0.0.0.0' to access the server from outside.
@@ -76,7 +87,17 @@ module.exports = function (grunt) {
                base: [
                   '.tmp',
                   '<%= yeoman.app %>'
-               ]
+               ],
+               // http://stackoverflow.com/a/19403176/1432478 this Dude just have saved half of my day :-)
+               middleware: function (connect, options) {
+                  var middlewares = [];
+                  options.base.forEach(function (base) {
+                     // Serve static files.
+                     middlewares.push(connect.static(base));
+                  });
+                  middlewares.push(proxySnippet);
+                  return middlewares;
+               }
             }
          },
          test: {
@@ -366,6 +387,7 @@ module.exports = function (grunt) {
    });
 
    grunt.loadNpmTasks('grunt-bower-install');
+   grunt.loadNpmTasks('grunt-connect-proxy');
 
 
    grunt.registerTask('serve', function (target) {
@@ -375,6 +397,7 @@ module.exports = function (grunt) {
 
       grunt.task.run([
          'clean:server',
+         'configureProxies',
          'concurrent:server',
          'autoprefixer',
          'connect:livereload',
