@@ -1,3 +1,5 @@
+require('protractor-coffee-preprocessor');
+
 // A reference configuration file.
 exports.config = {
    // The address of a running selenium server.
@@ -8,7 +10,7 @@ exports.config = {
    // Spec patterns are relative to the location of this config.
    // For example: 'spec/*_spec.js',
    specs: [
-      'test/e2e/**/*.js'
+      'test/e2e/**/*.coffee'
    ],
 
    // ----- Capabilities to be passed to the webdriver instance ----
@@ -22,9 +24,13 @@ exports.config = {
       'chromeOptions': {'args': ['--disable-extensions']}
    },
 
+   plugins: [
+      'protractor-coffee-preprocessor'
+   ],
+
    // A base URL for your application under test. Calls to protractor.get()
    // with relative paths will be prepended with this.
-   baseUrl: 'http://localhost:8000',
+   baseUrl: 'http://localhost:9000',
 
    // Selector for the element housing the angular app - this defaults to
    // body, but is necessary if ng-app is on a descendant of <body>
@@ -35,7 +41,7 @@ exports.config = {
       // onComplete will be called just before the driver quits.
       onComplete: null,
       // If true, display spec names.
-      isVerbose: false,
+      isVerbose: true,
       // If true, print colors to the terminal.
       showColors: true,
       // If true, include stack traces in failures.

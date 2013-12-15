@@ -42,7 +42,8 @@
       "karma-ng-html2js-preprocessor": "~0.1.0",
       "grunt-bower-install": "~0.7.0",
       "grunt-connect-proxy": "~0.1.6",
-      "protractor": "~0.14.0"
+      "protractor": "~0.14.0",
+      "protractor-coffee-preprocessor": "0.0.1"
    },
    "engines": {
       "node": ">=0.8.0"

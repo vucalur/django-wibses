@@ -418,8 +418,8 @@ module.exports = function (grunt) {
 
    // Needed for Travis-CI
    grunt.registerTask('test', [
-      'test:unit',
-      'test:e2e'
+      'test:unit'
+//      'test:e2e'   // now e2e executed manually due to lack of protractor-karma-travis integration (yet!)
    ]);
 
    grunt.registerTask('test:unit', [
@@ -429,12 +429,13 @@ module.exports = function (grunt) {
       'karma:unit'
    ]);
 
-   grunt.registerTask('test:e2e', [
-      'clean:server',
-      'coffee',
-      'connect:livereload',
-      'karma:e2e'
-   ]);
+// now e2e executed manually due to lack of protractor-karma-travis integration (yet!)
+//   grunt.registerTask('test:e2e', [
+//      'clean:server',
+//      'coffee',
+//      'connect:livereload',
+//      'karma:e2e'
+//   ]);
 
    grunt.registerTask('build', [
       'clean:dist',

@@ -70,16 +70,65 @@ Code Analysis
 
 - Feel free to ask for a code-review
 
+
 CI
 ==================
 
-- Make sure both e2e & unit tests pass. They can be executed by:
+Unit tests
+******************
+Unit tests are executed after each commit by Travis-CI.
 
-  - ``$ grunt`` (both unit&e2e)
-  - ``$ grunt test`` (both unit&e2e)
+They can be executed locally by running one of following commands:
+
+  - ``$ grunt``
+  - ``$ grunt test``
   - ``$ grunt test:unit``
-  - ``$ grunt test:e2e``
-- Travis is configured to execute both unit&e2e for the frontend part, so if you screw sth up don't worry, Travis-CI will get you :-)
+
+E2E tests
+******************
+End-to-end test can be executed only locally due to limitations of grunt-protractor-travis combination.
+
+**Historical note**\ : Previously ngScenario was the framework used for e2e testing. Back then e2e test were also executed by Travis-CI.
+We have decided to switch to Protractor as advised by Angular documentation (ngScenario was becoming deprecated).
+Due to lack of good support for grunt-protractor-travis combination e2e test are executed only locally.
+We hope that good integration will be available soon.
+
+**In short: It's each developer's responsibility to make sure e2e tests pass before committing.**
+
+Running e2e tests
+--------------------
+
+  - Navigate to ``yo`` subdirectory
+  - Download the Protractor dependencies:
+
+    .. code-block:: bash
+
+        $ ./node_modules/protractor/bin/webdriver-manager update
+
+  - Start the Selenium server:
+
+    .. code-block:: bash
+
+        $ ./node_modules/protractor/bin/webdriver-manager start
+
+  - Start backend (django) server if your tests rely on backend and it's not being mocked
+  - Start the frontend server:
+
+    .. code-block:: bash
+
+        $ grunt serve
+
+  - Run Protractor:
+
+    .. code-block:: bash
+
+        $ ./node_modules/protractor/bin/protractor protractor-config.js
+
+
+Debugging e2e tests
+--------------------
+
+You may find `this <https://github.com/angular/protractor/blob/master/docs/debugging.md>`_ helpful
 
 Commit messages
 ==================

@@ -1,6 +1,7 @@
+protractor = require("protractor")
+
 describe 'Routing', ->
-
-   it 'does redirect', ->
-      browser().navigateTo '/'
-      expect(browser().location().url()).toBe '/editor'
-
+   ptor = protractor.getInstance()
+   it 'does redirect to default route', ->
+      ptor.get ''
+      expect(browser.getCurrentUrl()).toMatch /#\/editor$/
