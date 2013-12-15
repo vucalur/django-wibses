@@ -304,10 +304,9 @@ class ScriptManager:
             st_filename = "%s(%d)" % (begin_name, counter)
             counter += 1
 
-        script_path = merge_into_path([self._script_storage_path,
-                                       get_repo_dir_name_for_script_filename(script_id),
-                                       script_id + ".json"])
-        self._script_storage_file_path_by_id[script_id] = script_path
+        script_in_storage_path = merge_into_path([self._script_storage_path,
+                                                  st_filename + ".json"])
+        self._script_storage_file_path_by_id[script_id] = script_in_storage_path
         repo = create_repo_for_script(self._script_storage_path, st_filename + '.json', script_id)
 
         new_script_obj = self._template_script_object
@@ -325,12 +324,15 @@ class ScriptManager:
             JSON_ATTR_SCRIPT_ID: script_id
         }
         self._script_id_by_original_filename[st_filename + '.json'] = script_id
-        self._script_repo_file_path_by_id[script_id] = script_path
+        script_in_repo_path = merge_into_path([self._script_storage_path,
+                                               get_repo_dir_name_for_script_filename(script_id),
+                                               script_id + ".json"])
+        self._script_repo_file_path_by_id[script_id] = script_in_repo_path
 
-        write_script_object(script_path, new_script_obj)
+        write_script_object(script_in_repo_path, new_script_obj)
         update_script_in_repo(repo, script_id + ".json", "{'%s':'%s'}" % (REQUEST_PARAM_NAME__USER, creator_name))
         self._repositories_by_script_id[script_id] = repo
-        shutil.copy(script_path, merge_into_path([self._script_storage_path, st_filename + '.json']))
+        shutil.copy(script_in_repo_path, merge_into_path([self._script_storage_path, st_filename + '.json']))
 
         return json.dumps(new_script_obj, indent=JSON_INDENT)
 
