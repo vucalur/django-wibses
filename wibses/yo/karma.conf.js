@@ -17,12 +17,12 @@ module.exports = function (config) {
          'app/scripts/**/*.coffee',
 //      'test/mock/**/*.coffee',
          'test/spec/**/*.coffee',
-         'app/directiveTemplates/**/*.html'
+         'app/template/**/*.html'
       ],
 
       preprocessors: {
          '**/*.coffee': 'coffee',
-         'app/directiveTemplates/**/*.html': 'ng-html2js'
+         'app/template/**/*.html': 'ng-html2js'
       },
 
       ngHtml2JsPreprocessor: {

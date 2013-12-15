@@ -4,7 +4,7 @@
       <div class="param-wrapper col-lg-3">
         <div class="param input-group">
           <span class="input-group-addon">{{ key }}</span>
-          <input type="text" class="form-control" value="{{ value }}">
+          <input type="text" class="form-control" ng-model="params[key]">
 
           <div class="input-group-btn">
             <button class="remove-param btn btn-danger" type="button" ng-click="removeParam(key)">
