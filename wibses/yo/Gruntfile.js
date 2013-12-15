@@ -379,9 +379,15 @@ module.exports = function (grunt) {
 
       // Test settings
       karma: {
+         options: {
+            singleRun: true,
+            autoWatch: false
+         },
          unit: {
-            configFile: 'karma.conf.js',
-            singleRun: true
+            configFile: 'karma.conf.js'
+         },
+         e2e: {
+            configFile: 'karma-e2e.conf.js'
          }
       }
    });
@@ -410,12 +416,24 @@ module.exports = function (grunt) {
       grunt.task.run(['serve']);
    });
 
+   // Needed for Travis-CI
    grunt.registerTask('test', [
+      'test:unit',
+      'test:e2e'
+   ]);
+
+   grunt.registerTask('test:unit', [
       'clean:server',
-      'concurrent:test',
-      'autoprefixer',
+      'coffee',
       'connect:test',
-      'karma'
+      'karma:unit'
+   ]);
+
+   grunt.registerTask('test:e2e', [
+      'clean:server',
+      'coffee',
+      'connect:livereload',
+      'karma:e2e'
    ]);
 
    grunt.registerTask('build', [
