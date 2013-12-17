@@ -24,6 +24,25 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
   text-align: center;
 }
 
+/*Generic validation*/
+/*Subject selector (CCS 4 draft) not yet supported*/
+//div! > .ng-valid.ng-dirty {
+//  @extend .has-success;
+//}
+//
+//div! > .ng-invalid.ng-dirty {
+//  @extend .has-error;
+//}
+
+/*Generic validation*/
+.form-valid {
+  @extend .has-success;
+}
+
+.form-invalid {
+  @extend .has-error;
+}
+
 /*Sections background*/
 .section.circumstances {
   background-color: #c8e5bc;
