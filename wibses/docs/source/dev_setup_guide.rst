@@ -76,9 +76,6 @@ Step-by-step setup guide
       $ cd wibses/yo
       $ npm install
       $ bower install
-      $ cp app/bower_components/bootstrap-united/index.css app/bower_components/bootstrap/dist/css/bootstrap.css
-
-.. TODO vucalur: automate bootstrap-united theme install
 
 7. Sitll inside ``wibses/yo`` run the frontend development server:
 

@@ -1,0 +1,111 @@
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+
+// Default bootstrap with theme usage pattern:
+//@import 'sass-bootstrap/lib/bootstrap';
+//@import 'sass-bootstrap/lib/theme';
+// Default bootstrap with theme usage pattern - END
+
+// Theme from bootswatch usage pattern:
+@import "sass-bootstrap/lib/variables";
+@import "bootswatch-scss/united/variables";
+// work-around for "bootswatch-scss/united/variables" setting $icon-font-path to total crap:
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+@import "sass-bootstrap/lib/bootstrap";
+@import "bootswatch-scss/united/bootswatch";
+
+@import 'sass-bootstrap/lib/theme';
+// Theme from bootswatch usage pattern - END
+
+.starter-template {
+  padding: 60px 15px;
+}
+
+.section h1 {
+  text-align: center;
+}
+
+/*Sections background*/
+.section.circumstances {
+  background-color: #c8e5bc;
+}
+
+.section.analytical {
+  background-color: #336699;
+}
+
+.section.synthetic {
+  background-color: #009998;
+}
+
+/*Tokens list*/
+span.token {
+  font-size: 13px;
+}
+
+span.token .remove-button {
+  margin-right: 4px;
+  margin-left: 7px;
+}
+
+div.tokens {
+  margin-bottom: 9px;
+}
+
+div.tokens li {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+/*Param on hover remove button*/
+.param .remove-param {
+  display: none;
+}
+
+.param:hover .remove-param {
+  display: block;
+}
+
+/*Params list*/
+ul.params {
+  margin-bottom: 3px;
+}
+
+div.param-wrapper {
+  margin-bottom: 8px;
+}
+
+/*Token autocomplete menu*/
+.token-add .dropdown-menu {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.token-suggestion-match {
+  margin-top: 15px;
+}
+
+.token-suggestion-match .forms {
+  max-width: 550px;
+  overflow-x: auto;
+  padding-left: 14px;
+  padding-top: 7px;
+  margin-left: 45px;
+  margin-top: 7px;
+}
+
+.token-suggestion-match .forms ul {
+  padding-bottom: 10px;
+}
+
+.badge.badge-warning {
+  background-color: #efb73e;
+}
+
+.badge.badge-success.inverse {
+  color: #38b44a;
+  background-color: #FFFFFF;
+}
+
+.token-id {
+  margin-left: 17px;
+}

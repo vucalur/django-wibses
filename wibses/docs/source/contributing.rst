@@ -44,7 +44,7 @@ Now, synchronize with repo:
   # Now you can submit your code with plain old push:
   $ git push
 
-Note: `fetch` & `rebase` can be replaced with `$ git pull --rebase`.
+Note: ``fetch`` & ``rebase`` can be replaced with ``$ git pull --rebase``.
 
 For more information what's happening here, refer to `Rebasing subchapter of ProGit <http://git-scm.com/book/en/Git-Branching-Rebasing>`_.
 

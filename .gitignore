@@ -11,3 +11,6 @@
 
 # below is assembled by grunt
 /wibses/static
+
+/wibses/dictonaries
+/wibses/scripts
