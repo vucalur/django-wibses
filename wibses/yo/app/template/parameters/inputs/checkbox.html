@@ -1,0 +1,13 @@
+<div class="param input-group">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-model="params[key]">{{key}}
+    </label>
+  </div>
+
+  <div class="input-group-btn">
+    <button class="remove-param btn btn-danger" type="button" ng-click="removeParam(key)">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
+  </div>
+</div>

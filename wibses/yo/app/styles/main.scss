@@ -128,3 +128,12 @@ div.param-wrapper {
 .token-id {
   margin-left: 17px;
 }
+
+//Script actions bar
+#script-actions-bar {
+  background: rgba($navbar-default-bg, .45);
+  #save {
+    float: right;
+    margin-right: 13px;
+  }
+}
