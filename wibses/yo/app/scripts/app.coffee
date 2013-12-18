@@ -1,10 +1,10 @@
 'use strict'
 
 angular.module('wibsesApp', ['ngRoute', 'wibsesApp.controller', 'wibsesApp.directive'])
-angular.module('wibsesApp.controller', ['wibsesApp.service', 'wibsesApp.filter', 'ui.bootstrap.typeahead'])
-#TODO vucalur: refactor modules
-angular.module('wibsesApp.controller.auxiliary', ['wibsesApp.service', 'ui.bootstrap.modal'])
-angular.module('wibsesApp.service', ['ngResource', 'ngGrid', 'wibsesApp.controller.auxiliary'])
+angular.module('wibsesApp.controller', ['wibsesApp.service', 'wibsesApp.filter', 'ui.bootstrap.typeahead', 'wibsesApp.modal.service'])
+angular.module('wibsesApp.service', ['ngResource'])
+angular.module('wibsesApp.modal.service', ['ngResource', 'ngGrid', 'wibsesApp.modal.controller'])
+angular.module('wibsesApp.modal.controller', ['wibsesApp.service', 'ui.bootstrap.modal'])
 angular.module('wibsesApp.directive', [])
 angular.module('wibsesApp.filter', [])
 
@@ -17,7 +17,7 @@ angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
          controllerAs: 'ctrl'
          resolve:
             script: ['jsonStorageService', (jsonStorageService) ->
-               scriptId = 'script1'
+               scriptId = 'aaaaaaaaaa'
                return jsonStorageService.getScript({scriptId: scriptId}).$promise
             ]
    .otherwise

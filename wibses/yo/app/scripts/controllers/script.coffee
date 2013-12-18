@@ -2,8 +2,8 @@
 
 angular.module('wibsesApp.controller').controller 'ScriptCtrl',
    class ScriptCtrl
-      @$inject: ['$scope', '$log', '$timeout', 'selectScriptModalService', 'jsonStorageService', 'script']
-      constructor: (@$scope, @$log, @$timeout, @selectScriptModalService, @jsonStorageService, script) ->
+      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'jsonStorageService', 'script']
+      constructor: (@$scope, @$log, @$timeout, @modalService, @jsonStorageService, script) ->
          @$scope.script = script
          @$scope.currentUser = 'dummy-user'
 
@@ -25,11 +25,21 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
          return ['synthetic', 'analytical', 'circumstances']
 
       selectScriptModalAction: =>
+         # TODO vucalur: refactor this callback passing throught multiple levels - perhabs with $q api ?
          onNewScriptSelected = (scriptInfo) =>
             @$log.info 'Loading new script'
             @$scope.script = @jsonStorageService.getScript({scriptId: scriptInfo.script_id})
 
-         @selectScriptModalService.openScriptsInRepoModal(onNewScriptSelected)
+         @modalService.openScriptsInRepoModal(onNewScriptSelected)
+
+      # TODO vucalur: refactor this copy-pastish odd thing
+      selectRevisionModalAction: =>
+         onNewScriptSelected = (scriptInfo) =>
+            @$log.info 'Loading another version of the script'
+            @$scope.script = @jsonStorageService.revision({scriptId: @$scope.script.params.id, revision: scriptInfo.revision})
+
+         @modalService.openRevisionsInRepoModal(@$scope.script.params.id, onNewScriptSelected)
+
 
       #      TODO vucalur: not working ...
       #      canSave: ->

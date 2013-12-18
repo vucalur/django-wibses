@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('wibsesApp.service')
-.factory('selectScriptModalService', ['jsonStorageService', '$modal',
+angular.module('wibsesApp.modal.service')
+.factory('modalService', ['jsonStorageService', '$modal',
       (@jsonStorageService, @$modal) ->
          @onNewScriptSelected
          service =
@@ -15,6 +15,18 @@ angular.module('wibsesApp.service')
                      resolve:
                         scripts: =>
                            return @jsonStorageService.getScripts().$promise
+                  )
+
+            openRevisionsInRepoModal: (scriptId, onNewScriptSelected) =>
+               @onNewScriptSelected = onNewScriptSelected
+               @scriptsModal = null
+               if not @scriptsModal?
+                  @scriptsModal = @$modal.open(
+                     templateUrl: 'template/scripts/script-revisions.html'
+                     controller: 'ScriptRevisionsCtrl'
+                     resolve:
+                        revisions: =>
+                           return @jsonStorageService.revisions({scriptId: scriptId}).$promise
                   )
 
             closeScriptsModal: (success, scriptInfo) =>
