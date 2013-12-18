@@ -9,6 +9,7 @@ angular.module('wibsesApp.directive')
       controller: ($scope, $element, $attrs) ->
          $scope.key = $scope.value = ''
 
+         #         TODO vucalur: move to some config
          $scope.getInputType = (key) ->
             switch key
                when "min" then "number"
@@ -26,7 +27,7 @@ angular.module('wibsesApp.directive')
                when "weight" then ret = (Number) value
                when "obligatory" then ret = (value != "false")
                else
-                  value
+                  ret = value
             ret
 
          $scope.canAdd = ->

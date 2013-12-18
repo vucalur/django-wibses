@@ -59,8 +59,11 @@
 
   <div id="script-actions-bar" class="navbar-default navbar-fixed-bottom" role="navigation">
     <!--TODO vucalur: ng-disabled not working ...-->
-    <button id="save" class="btn btn-info" ng-click="ctrl.saveScript()"> <!--ng-disabled="!ctrl.canSave()">-->
+    <button class="btn btn-info" ng-click="ctrl.saveScript()"> <!--ng-disabled="!ctrl.canSave()">-->
       <span class="glyphicon glyphicon-save"></span> Save script
+    </button>
+    <button class="btn btn-info" ng-click="ctrl.selectScriptModalAction()">
+      <span class="glyphicon glyphicon-list"></span> Show available scripts
     </button>
   </div>
 </div>

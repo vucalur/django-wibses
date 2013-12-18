@@ -2,7 +2,9 @@
 
 angular.module('wibsesApp', ['ngRoute', 'wibsesApp.controller', 'wibsesApp.directive'])
 angular.module('wibsesApp.controller', ['wibsesApp.service', 'wibsesApp.filter', 'ui.bootstrap.typeahead'])
-angular.module('wibsesApp.service', ['ngResource'])
+#TODO vucalur: refactor modules
+angular.module('wibsesApp.controller.auxiliary', ['wibsesApp.service', 'ui.bootstrap.modal'])
+angular.module('wibsesApp.service', ['ngResource', 'ngGrid', 'wibsesApp.controller.auxiliary'])
 angular.module('wibsesApp.directive', [])
 angular.module('wibsesApp.filter', [])
 
@@ -16,7 +18,7 @@ angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
          resolve:
             script: ['jsonStorageService', (jsonStorageService) ->
                scriptId = 'script1'
-               return jsonStorageService.get_script({script_id: scriptId}).$promise
+               return jsonStorageService.getScript({scriptId: scriptId}).$promise
             ]
    .otherwise
          redirectTo: '/editor'

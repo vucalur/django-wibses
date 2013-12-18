@@ -43,17 +43,23 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
   @extend .has-error;
 }
 
-/*Sections background*/
+/*Sections*/
 .section.circumstances {
   background-color: #c8e5bc;
 }
 
 .section.analytical {
-  background-color: #336699;
+  background-color: #76A9DB;
 }
 
 .section.synthetic {
-  background-color: #009998;
+  background-color: #5CCECD;
+}
+
+.section {
+  padding: 20px;
+  border: 10px;
+  margin-top: 21px;
 }
 
 /*Tokens list*/
@@ -132,8 +138,19 @@ div.param-wrapper {
 //Script actions bar
 #script-actions-bar {
   background: rgba($navbar-default-bg, .45);
-  #save {
+  button {
     float: right;
     margin-right: 13px;
   }
+}
+
+// Scripts list
+.gridStyle {
+  //    border: 1px solid rgb(212,212,212);
+  width: 600px;
+  height: 300px
+}
+
+.scripts-list-modal {
+   width: 680px;
 }
