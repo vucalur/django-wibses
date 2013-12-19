@@ -35,3 +35,20 @@ angular.module('wibsesApp.modal.controller')
 
             @$scope.loadSelected = (scriptInfo) =>
                modalService.closeScriptsModal true, scriptInfo
+
+            @$scope.forkSelected = (scriptInfo) =>
+               modalService.openForkNameModal( (forkFileName) ->
+                  scriptInfo.forkFileName = forkFileName
+                  modalService.closeScriptsModal true, scriptInfo, true
+               )
+
+
+.controller 'ForkNameCtrl',
+      class Ctrl
+         @$inject: ['$scope', 'modalService']
+         constructor: (@$scope, modalService) ->
+            @$scope.name = undefined
+            @$scope.choose = (forkName) ->
+               modalService.closeForkNameModal true, forkName
+
+

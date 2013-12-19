@@ -4,6 +4,7 @@ angular.module('wibsesApp.modal.service')
 .factory('modalService', ['jsonStorageService', '$modal',
       (@jsonStorageService, @$modal) ->
          @onNewScriptSelected
+         @onForkRevisionClicked
          service =
             openScriptsInRepoModal: (onNewScriptSelected) =>
                @onNewScriptSelected = onNewScriptSelected
@@ -17,8 +18,9 @@ angular.module('wibsesApp.modal.service')
                            return @jsonStorageService.getScripts().$promise
                   )
 
-            openRevisionsInRepoModal: (scriptId, onNewScriptSelected) =>
+            openRevisionsInRepoModal: (scriptId, onNewScriptSelected, @onForkRevisionClicked) =>
                @onNewScriptSelected = onNewScriptSelected
+               @onForkRevisionClicked = onForkRevisionClicked
                @scriptsModal = null
                if not @scriptsModal?
                   @scriptsModal = @$modal.open(
@@ -29,12 +31,31 @@ angular.module('wibsesApp.modal.service')
                            return @jsonStorageService.revisions({scriptId: scriptId}).$promise
                   )
 
-            closeScriptsModal: (success, scriptInfo) =>
+            closeScriptsModal: (success, scriptInfo, forkInvoked) =>
                if @scriptsModal?
                   @scriptsModal.close(success)
                   if success
-                     @onNewScriptSelected(scriptInfo)
+                     if forkInvoked
+                        @onForkRevisionClicked(scriptInfo)
+                     else
+                        @onNewScriptSelected(scriptInfo)
                   @scriptsModal = null
+
+            openForkNameModal: (onNameSelected) =>
+               @onNameSelected = onNameSelected
+               @forkNameModal = null
+               if not @forkNameModal?
+                  @forkNameModal = @$modal.open(
+                     templateUrl: 'template/OUR/uiModals/fork-name.html'
+                     controller: 'ForkNameCtrl'
+                  )
+
+            closeForkNameModal: (success, chosenName) =>
+               if @forkNameModal?
+                  @forkNameModal.close(success)
+                  if success
+                     @onNameSelected(chosenName)
+                  @forkNameModal = null
 
          return service
    ])

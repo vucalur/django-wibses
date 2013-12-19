@@ -2,8 +2,8 @@
 
 angular.module('wibsesApp.controller').controller 'ScriptCtrl',
    class ScriptCtrl
-      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'jsonStorageService', 'script']
-      constructor: (@$scope, @$log, @$timeout, @modalService, @jsonStorageService, script) ->
+      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'jsonStorageService', 'forkService', 'script']
+      constructor: (@$scope, @$log, @$timeout, @modalService, @jsonStorageService, @forkService, script) ->
          @$scope.script = script
          @$scope.currentUser = 'dummy-user'
 
@@ -38,7 +38,16 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
             @$log.info 'Loading another version of the script'
             @$scope.script = @jsonStorageService.revision({scriptId: @$scope.script.params.id, revision: scriptInfo.revision})
 
-         @modalService.openRevisionsInRepoModal(@$scope.script.params.id, onNewScriptSelected)
+         onForkRevisionClicked = (scriptInfo) =>
+            @$log.info 'Loading a new fork of the script'
+            @$scope.script = @forkService.fork(
+               scriptId: @$scope.script.params.id
+               revision: scriptInfo.revision
+               user: @$scope.currentUser
+               storage_filename: scriptInfo.forkFileName
+            )
+
+         @modalService.openRevisionsInRepoModal(@$scope.script.params.id, onNewScriptSelected, onForkRevisionClicked)
 
 
       #      TODO vucalur: not working ...

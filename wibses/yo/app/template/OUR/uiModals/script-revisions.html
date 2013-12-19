@@ -6,6 +6,10 @@
   </div>
 </div>
 <div class="modal-footer">
+  <button class="btn btn-info" ng-click="forkSelected(selectedRevisions[0])">
+    <span class="glyphicon glyphicon-share"></span>
+    Fork selected
+  </button>
   <button class="btn btn-primary" ng-click="loadSelected(selectedRevisions[0])">Load selected</button>
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
