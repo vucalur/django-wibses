@@ -10,7 +10,7 @@ angular.module('wibsesApp.modal.service')
                @scriptsModal = null
                if not @scriptsModal?
                   @scriptsModal = @$modal.open(
-                     templateUrl: 'template/scripts/scripts-list.html'
+                     templateUrl: 'template/OUR/uiModals/scripts-list.html'
                      controller: 'ScriptsListCtrl'
                      resolve:
                         scripts: =>
@@ -22,7 +22,7 @@ angular.module('wibsesApp.modal.service')
                @scriptsModal = null
                if not @scriptsModal?
                   @scriptsModal = @$modal.open(
-                     templateUrl: 'template/scripts/script-revisions.html'
+                     templateUrl: 'template/OUR/uiModals/script-revisions.html'
                      controller: 'ScriptRevisionsCtrl'
                      resolve:
                         revisions: =>

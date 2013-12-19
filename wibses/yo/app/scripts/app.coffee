@@ -12,7 +12,7 @@ angular.module('wibsesApp.filter', [])
 angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
    $routeProvider
    .when '/editor',
-         templateUrl: 'template/edit.html'
+         templateUrl: 'template/OUR/edit.html'
          controller: 'ScriptCtrl'
          controllerAs: 'ctrl'
          resolve:
