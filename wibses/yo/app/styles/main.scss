@@ -1,4 +1,4 @@
-$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+$icon-font-path: "/fonts/";
 
 // Default bootstrap with theme usage pattern:
 //@import 'sass-bootstrap/lib/bootstrap';
@@ -9,7 +9,7 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 @import "sass-bootstrap/lib/variables";
 @import "bootswatch-scss/united/variables";
 // work-around for "bootswatch-scss/united/variables" setting $icon-font-path to total crap:
-$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+$icon-font-path: "/fonts/";
 @import "sass-bootstrap/lib/bootstrap";
 @import "bootswatch-scss/united/bootswatch";
 
@@ -152,5 +152,5 @@ div.param-wrapper {
 }
 
 .scripts-list-modal {
-   width: 680px;
+  width: 680px;
 }

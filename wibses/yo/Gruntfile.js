@@ -300,7 +300,7 @@ module.exports = function (grunt) {
                {
                   expand: true,
                   cwd: '<%= yeoman.app %>',
-                  src: ['*.html', 'views/*.html'],
+                  src: ['*.html', 'template/**/*.html'],
                   dest: '<%= yeoman.dist %>'
                }
             ]
@@ -424,11 +424,19 @@ module.exports = function (grunt) {
          e2e: {
             configFile: 'karma-e2e.conf.js'
          }
+      },
+
+      // copying bootstrap's fonts
+      shell: {
+         copyBootstrapFonts: {
+            command: 'rm -rf <%= yeoman.app %>/fonts; cp -vr <%= yeoman.app %>/bower_components/sass-bootstrap/fonts <%= yeoman.app %>/fonts'
+         }
       }
    });
 
    grunt.loadNpmTasks('grunt-bower-install');
    grunt.loadNpmTasks('grunt-connect-proxy');
+   grunt.loadNpmTasks('grunt-shell');
 
 
    grunt.registerTask('serve', function (target) {
@@ -438,6 +446,7 @@ module.exports = function (grunt) {
 
       grunt.task.run([
          'clean:server',
+         'shell:copyBootstrapFonts',
          'configureProxies',
          'concurrent:server',
          'autoprefixer',
@@ -473,6 +482,7 @@ module.exports = function (grunt) {
 //   ]);
 
    grunt.registerTask('build', [
+      'shell:copyBootstrapFonts',
       'clean:dist',
       'useminPrepare',
       'concurrent:dist',
@@ -489,6 +499,7 @@ module.exports = function (grunt) {
 
    grunt.registerTask('default', [
       'newer:jshint',
+      'shell:copyBootstrapFonts',
       'test',
       'build'
    ]);
