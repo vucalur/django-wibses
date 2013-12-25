@@ -206,22 +206,30 @@ module.exports = function (grunt) {
             generatedImagesDir: '.tmp/images/generated',
             imagesDir: '<%= yeoman.app %>/images',
             javascriptsDir: '<%= yeoman.app %>/scripts',
-            fontsDir: '<%= yeoman.app %>/styles/fonts',
+            fontsDir: '<%= yeoman.app %>/styles/fonts',  /*Do not set to '<%= yeoman.app %>/fonts' since it'll rename files, but leave out references in generated css*/
             importPath: '<%= yeoman.app %>/bower_components',
             httpImagesPath: '/images',
             httpGeneratedImagesPath: '/images/generated',
-            httpFontsPath: '/styles/fonts',
+            httpFontsPath: '/styles/fonts',  /*Do not set to '/fonts' since it'll rename files, but leave out references in generated css*/
             relativeAssets: false,
             assetCacheBuster: false
          },
          dist: {
             options: {
-               generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+               generatedImagesDir: '<%= yeoman.dist %>/images/generated',
+               importPath: [
+                  '<%= yeoman.app %>/bower_components',
+                  '<%= yeoman.app %>/styles/prod'
+               ]
             }
          },
          server: {
             options: {
-               debugInfo: true
+               debugInfo: true,
+               importPath: [
+                  '<%= yeoman.app %>/bower_components',
+                  '<%= yeoman.app %>/styles/dev'
+               ]
             }
          }
       },

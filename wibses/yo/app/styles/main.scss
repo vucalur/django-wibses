@@ -1,4 +1,4 @@
-$icon-font-path: "/fonts/";
+@import "variables";
 
 // Default bootstrap with theme usage pattern:
 //@import 'sass-bootstrap/lib/bootstrap';
@@ -9,7 +9,7 @@ $icon-font-path: "/fonts/";
 @import "sass-bootstrap/lib/variables";
 @import "bootswatch-scss/united/variables";
 // work-around for "bootswatch-scss/united/variables" setting $icon-font-path to total crap:
-$icon-font-path: "/fonts/";
+@import "variables";
 @import "sass-bootstrap/lib/bootstrap";
 @import "bootswatch-scss/united/bootswatch";
 
