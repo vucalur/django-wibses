@@ -49,7 +49,7 @@ class DictionaryManager:
             forms = dic_instance.id_forms(token_id)
             return {'dic': dic_instance.name, 'id': token_id, 'base': base_form, 'forms': forms, 'type': "token"}
 
-        possible_words = dic_instance.forms_for_prefix(form)
+        possible_words = dic_instance.words_for_prefix(form)
         token_ids = set([])
 
         for word in possible_words:
