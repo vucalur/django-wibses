@@ -10,8 +10,10 @@ Prerequisites
 - Here are packages for \*buntu 13.10 64 bit. Install their equivalents on the OS of your choice:
 
    - **General**\ : ``bash-completion git ubuntu-restricted-extras meld``
-   - **Node.JS**\ : ``npm nodejs``
+   - **Database**\ : ``sqlite libsqlite3-dev``
+   - **Node.JS**\ : ``npm nodejs (sudo add-apt-repository -y ppa:chris-lea/node.js)``
    - **Python 2.7**\ : ``python python-gpgme python-software-properties python-pip python-sphinx python-dev``
+   - **Other**\ : ``ruby-compass ruby1.9.1``
 
 
 
