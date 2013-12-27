@@ -1,8 +1,9 @@
 import os
-import json
 
 from pydic import PyDic
 from ..utils import get_folder_containing_names, merge_into_path
+from wibses import JSON_INDENT
+from wibses.utils import dump_json
 
 
 class NotRegisteredDictionaryException(Exception):
@@ -39,7 +40,7 @@ class DictionaryManager:
         result_tail.sort(key=lambda x: x['base'])
         result.extend(result_tail)
 
-        return json.dumps(result, indent=1)
+        return dump_json(result, JSON_INDENT)
 
     def __get_tokens_from_dic(self, form, dic_instance):
 
@@ -49,7 +50,7 @@ class DictionaryManager:
             forms = dic_instance.id_forms(token_id)
             return {'dic': dic_instance.name, 'id': token_id, 'base': base_form, 'forms': forms, 'type': "token"}
 
-        possible_words = dic_instance.words_for_prefix(form)
+        possible_words = dic_instance.forms_for_prefix(form)
         token_ids = set([])
 
         for word in possible_words:

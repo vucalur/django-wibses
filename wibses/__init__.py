@@ -16,3 +16,5 @@ DEFAULT_SCRIPT_STORAGE = '/home/ork/scr_storage'
 
 #Configuration of dictionary manager and script storage manager
 JSON_TEMPLATE_SCRIPT_FILENAME = os.path.join(os.path.join(PROJECT_DIR, "configs"), "empty_template.json")
+
+JSON_INDENT = 2

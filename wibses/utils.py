@@ -1,8 +1,7 @@
 import json
 import os
 
-from . import ASCI_GENERATOR_ALPHABET
-from data_store import JSON_INDENT
+from . import ASCI_GENERATOR_ALPHABET, JSON_INDENT
 from data_store.exceptions import NotJsonObjectException
 
 
@@ -36,12 +35,19 @@ def merge_into_path(files_paths_list):
     return result_path
 
 
-def get_repo_dir_name_for_script_filename(script_name):
+def get_repo_dir_name_for_script_id(script_name):
     return "." + script_name
 
 
-def get_script_file_name_from_repo_dir_name(repo_dir_name):
+def get_script_id_for_repo_dir_name(repo_dir_name):
     return repo_dir_name[1:]
+
+
+def dump_json(json_obj, indentation):
+    if indentation <= 0:
+        return json.dumps(json_obj)
+    else:
+        return json.dumps(json_obj, indent=indentation)
 
 
 def jsonp(f):
@@ -88,7 +94,7 @@ class ASCIIdGenerator:
         self._positions_count = positions_count
         self._my_alphabet = list(set(ASCI_GENERATOR_ALPHABET))
         self._current_indexes = [0] * positions_count
-        self._alph_length = len(self._my_alphabet)
+        self._alphabet_length = len(self._my_alphabet)
 
     def __fall_over(self):
         idx = self._positions_count - 1
@@ -98,8 +104,8 @@ class ASCIIdGenerator:
         while idx >= 0:
             curr_idx = self._current_indexes[idx]
             new_val = curr_idx + move
-            self._current_indexes[idx] = new_val % self._alph_length
-            move = new_val / self._alph_length
+            self._current_indexes[idx] = new_val % self._alphabet_length
+            move = new_val / self._alphabet_length
             idx -= 1
 
     def next_id(self):
@@ -126,7 +132,7 @@ def read_script_object(file_path):
 def write_script_object(file_path, script_object):
     f = open(file_path, "w")
     try:
-        json_txt = json.dumps(script_object, indent=JSON_INDENT)
+        json_txt = dump_json(script_object, JSON_INDENT)
     except Exception:
         f.close()
         raise NotJsonObjectException(str(script_object))

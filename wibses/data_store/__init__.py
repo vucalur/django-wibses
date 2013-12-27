@@ -19,7 +19,6 @@ REQUEST_PARAM_NAME__SCRIPT_ID = 'script_id'
 REQUEST_PARAM_NAME__SCRIPT_REVISION = 'revision'
 REQUEST_PARAM_NAME__STORAGE_FILENAME = "storage_filename"
 
-JSON_INDENT = 2
 
 #json keywords
 JSON_ATTR_NAME__REVISION = 'revision'

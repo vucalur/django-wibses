@@ -4,6 +4,7 @@ gitdb==0.5.4
 GitPython==0.3.2.RC1
 marisa-trie==0.5.1
 git+https://github.com/vucalur/pydic
+git+https://github.com/repoze/repoze.lru
 pysqlite==2.6.3
 Sphinx==1.2
 sphinx-rtd-theme==0.1.5

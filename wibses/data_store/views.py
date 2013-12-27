@@ -75,13 +75,6 @@ def handle_exceptions(function, *args, **kwargs):
     return decorator
 
 
-def validate_request_json(function, *args, **kwargs):
-    def decorator(*args, **kwargs):
-        get_semantic_validator().validate_script(args[0].body)
-        return function(*args, **kwargs)
-
-    return decorator
-
 #endregion
 
 
@@ -108,7 +101,6 @@ def rest__list_storage_scripts(request, get_from_params=False):
 @csrf_exempt
 @handle_exceptions
 @post_only
-@validate_request_json
 def rest__save_script_in_storage(request, script_id=None, get_from_params=False):
     if get_from_params:
         request_params = process_request_params(request.GET, [REQUEST_PARAM_NAME__USER,
