@@ -13,6 +13,8 @@ PROJECT_DIR = os.path.dirname(__file__)
 #default paths configs
 DEFAULT_PYDIC_STORAGES = ['/home/ork/Study/Inzynierka/Projekt/dictionaries']
 DEFAULT_SCRIPT_STORAGE = '/home/ork/scr_storage'
+
+DEFAULT_SCRIPT_FORMAT_CONFIG_FILE = os.path.join(os.path.join(PROJECT_DIR, "configs"), "script_format.cfg")
 JSON_TEMPLATE_SCRIPT_FILENAME = os.path.join(os.path.join(PROJECT_DIR, "configs"), "empty_template.json")
 
 #default constants config

@@ -119,3 +119,8 @@ class NotJsonObjectException(Exception):
 
     def get_passed_object(self):
         return self._passed_object
+
+
+class ScriptFormatConfigurationException(Exception):
+    def __init__(self, msg):
+        Exception.__init__(self, msg)

@@ -1,178 +1,17 @@
 # -*- coding: UTF-8 -*-
+from ConfigParser import NoOptionError, NoSectionError
+import ConfigParser
 import json
+import os
+import jsonschema as js_schema_validate
 
-import jsonschema as js_schm_validate
-
-from . import JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__THRESHOLD, JSON_ATTR_NAME__OBLIGATORY, \
-    JSON_ATTR_NAME__WEIGHT, JSON_ATTR_NAME__MIN, JSON_ATTR_NAME__LABEL, JSON_ATTR_NAME__TYPE, JSON_ATTR_NAME__ID, \
-    JSON_ATTR_NAME__DIC, JSON_ATTR_NAME__PARAMS, JSON_ATTR_NAME__TOKENS, JSON_ATTR_NAME__SLOTS, \
-    JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__SYNTHETIC, JSON_ATTR_NAME__ANALYTICAL, JSON_ATTR_NAME__CIRCUMSTANCES
-from exceptions import ScriptValidationException, NotJsonObjectException
-
-
-__script_schema = None
-
-
-def get_schema():
-    global __script_schema
-    if __script_schema is None:
-        dummy = None
-        #region script params
-        __script_params_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__NAME: {"type": "string", "minLength": 1},
-                JSON_ATTR_NAME__ID: {"type": "string"}
-            },
-            "required": [JSON_ATTR_NAME__NAME],
-            "additionalProperties": False
-        }
-        #endregion
-        #region section params
-        __section_params_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__THRESHOLD: {"type": "integer"}
-            },
-            "required": [JSON_ATTR_NAME__THRESHOLD],
-            "additionalProperties": True
-        }
-        #endregion
-        #region sentence params
-        __sentence_params_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__OBLIGATORY: {"type": "boolean"},
-                JSON_ATTR_NAME__THRESHOLD: {"type": "integer"},
-                JSON_ATTR_NAME__NAME: {"type": "string"},
-                JSON_ATTR_NAME__WEIGHT: {"type": "number"}
-            },
-            "required": [JSON_ATTR_NAME__OBLIGATORY, JSON_ATTR_NAME__THRESHOLD,
-                         JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__WEIGHT],
-            "additionalProperties": True
-        }
-
-        #endregion
-        #region slot params
-        __slot_params_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__OBLIGATORY: {"type": "boolean"},
-                JSON_ATTR_NAME__MIN: {"type": "integer"},
-                JSON_ATTR_NAME__NAME: {"type": "string"},
-                JSON_ATTR_NAME__WEIGHT: {"type": "number"}
-            },
-            "required": [JSON_ATTR_NAME__NAME, JSON_ATTR_NAME__MIN,
-                         JSON_ATTR_NAME__OBLIGATORY, JSON_ATTR_NAME__WEIGHT],
-            "additionalProperties": True
-        }
-        #endregion
-        #region token
-        __token_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__LABEL: {"type": "string"},
-                JSON_ATTR_NAME__TYPE: {"type": "string", "enum": ["token", "quotation"]},
-                JSON_ATTR_NAME__ID: {"type": "string"},
-                JSON_ATTR_NAME__DIC: {"type": "string"}
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__LABEL, JSON_ATTR_NAME__TYPE,
-                         JSON_ATTR_NAME__ID, JSON_ATTR_NAME__DIC]
-        }
-        #endregion
-        #region slot
-        __slot_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__PARAMS: __slot_params_schema,
-                JSON_ATTR_NAME__TOKENS: {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": __token_schema
-                }
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__TOKENS, JSON_ATTR_NAME__PARAMS]
-        }
-        #endregion
-        #region sentence
-        __sentence_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__PARAMS: __sentence_params_schema,
-                JSON_ATTR_NAME__SLOTS: {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": __slot_schema
-                }
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__SLOTS, JSON_ATTR_NAME__PARAMS]
-        }
-        #endregion
-        #region syntethic section
-        __syntethic_section_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__PARAMS: __section_params_schema,
-                JSON_ATTR_NAME__SENTENCES: {
-                    "type": "array",
-                    "items": __sentence_schema,
-                    "minItems": 1,
-                    "maxItems": 1
-                }
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
-        }
-        #endregion
-        #region analytical section
-        __analytical_section_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__PARAMS: __section_params_schema,
-                JSON_ATTR_NAME__SENTENCES: {
-                    "type": "array",
-                    "items": __sentence_schema,
-                    "minItems": 1,
-                }
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
-        }
-        #endregion
-        #region circumstances section
-        __circumstances_section_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__PARAMS: __section_params_schema,
-                JSON_ATTR_NAME__SENTENCES: {
-                    "type": "array",
-                    "items": __sentence_schema,
-                    "minItems": 1,
-                }
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__SENTENCES, JSON_ATTR_NAME__PARAMS]
-        }
-        #endregion
-        #region general script schema
-        __script_schema = {
-            "type": "object",
-            "properties": {
-                JSON_ATTR_NAME__PARAMS: __script_params_schema,
-                JSON_ATTR_NAME__SYNTHETIC: __syntethic_section_schema,
-                JSON_ATTR_NAME__ANALYTICAL: __analytical_section_schema,
-                JSON_ATTR_NAME__CIRCUMSTANCES: __circumstances_section_schema
-            },
-            "additionalProperties": False,
-            "required": [JSON_ATTR_NAME__PARAMS, JSON_ATTR_NAME__SYNTHETIC,
-                         JSON_ATTR_NAME__ANALYTICAL, JSON_ATTR_NAME__CIRCUMSTANCES]
-        }
-        #endregion
-
-    return __script_schema
+from . import SCR_FORMAT_CONF__ALL_PROPS, SCR_FORMAT_CONF__S_TYPE_INT, SCR_FORMAT_CONF__S_TYPE_STR, \
+    SCR_FORMAT_CONF__S_TYPE_NUM, SCR_FORMAT_CONF__C_TYPE_OBJ, SCR_FORMAT_CONF__ENUM, SCR_FORMAT_CONF__S_TYPE_BOOL, \
+    SCR_FORMAT_CONF__TYPE, SCR_FORMAT_CONF__C_TYPE_ARRAY, SCR_FORMAT_CONF__NAME, SCR_FORMAT_CONF__MIN, \
+    SCR_FORMAT_CONF__MAX, SCR_FORMAT_CONF__ITEMS, SCR_FORMAT_CONF__MAIN, SCR_FORMAT_CONF__REQUIRED, \
+    SCR_FORMAT_CONF__NOT_REQUIRED
+from exceptions import ScriptValidationException, NotJsonObjectException, ScriptFormatConfigurationException
+from wibses import DEFAULT_SCRIPT_FORMAT_CONFIG_FILE
 
 
 class ScriptValidationError:
@@ -193,9 +32,196 @@ class ScriptValidationError:
         return self._error_place
 
 
+def secure_option_value_get(config, section_name, option_name):
+    try:
+        return config.get(section_name, option_name)
+    except Exception:
+        return None
+
+
+_simple_type_translation_dict = {
+    SCR_FORMAT_CONF__S_TYPE_INT: 'integer',
+    SCR_FORMAT_CONF__S_TYPE_STR: 'string',
+    SCR_FORMAT_CONF__S_TYPE_NUM: 'number',
+    SCR_FORMAT_CONF__ENUM: 'enum',
+    SCR_FORMAT_CONF__S_TYPE_BOOL: 'boolean'
+}
+
+_complex_type_translation_dict = {
+    SCR_FORMAT_CONF__C_TYPE_ARRAY: "array",
+    SCR_FORMAT_CONF__C_TYPE_OBJ: 'object',
+    SCR_FORMAT_CONF__S_TYPE_STR: 'string',
+}
+
+
+def __encode_obj_prop(configuration, section_name):
+
+    global _simple_type_translation_dict
+
+    #returns (name, conv_type, is_required)
+    def check_simple_prop(prop_conf):
+        name = prop_conf[0]
+        if prop_conf[2] == SCR_FORMAT_CONF__REQUIRED:
+            required = True
+        elif prop_conf[2] == SCR_FORMAT_CONF__NOT_REQUIRED:
+            required = False
+        else:
+            raise ScriptFormatConfigurationException("""Error property value '%s'.
+            Syntax : <name[:simple_type_name]:(%s|%s)>""" % (prop_conf,
+                                                             SCR_FORMAT_CONF__REQUIRED,
+                                                             SCR_FORMAT_CONF__NOT_REQUIRED))
+
+        prop_type = _simple_type_translation_dict.get(prop_conf[1], None)
+        if prop_type is None:
+            raise ScriptFormatConfigurationException("Not supported type of property %s. Support one of %s"
+                                                     % (prop_type, str(list(_simple_type_translation_dict.keys()))))
+
+        return name, prop_type, required
+
+    #returns (name, object, is_required)
+    def check_complex_prop(prop_conf):
+        name = prop_conf[0]
+
+        if prop_conf[1] == SCR_FORMAT_CONF__REQUIRED:
+            required = True
+        elif prop_conf[1] == SCR_FORMAT_CONF__NOT_REQUIRED:
+            required = False
+        else:
+            raise ScriptFormatConfigurationException("""Error property value '%s'.
+                Syntax : <name:(%s|%s)>""" % (prop_conf, SCR_FORMAT_CONF__REQUIRED, SCR_FORMAT_CONF__NOT_REQUIRED))
+
+        obj_descr = get_object_from_config(configuration, name)
+
+        return obj_descr[0], obj_descr[1], required
+
+    current_name = configuration.get(section_name, SCR_FORMAT_CONF__NAME)
+    all_props = configuration.get(section_name, SCR_FORMAT_CONF__ALL_PROPS).split('|')
+
+    simple_props = []
+    complex_props = []
+
+    for prop in all_props:
+        prop_conf = prop.split(":")
+        if len(prop_conf) == 2:
+            complex_props.append(check_complex_prop(prop_conf))
+        elif len(prop_conf) == 3:
+            simple_props.append(check_simple_prop(prop_conf))
+        else:
+            raise ScriptFormatConfigurationException("""Error property value '%s'.
+                Syntax : <name[:simple_type_name]:require_flag>""" % prop)
+
+    required_arr_names = []
+    properties_dict = {}
+
+    for sp in simple_props:
+        if sp[2]:
+            required_arr_names.append(sp[0])
+        properties_dict[sp[0]] = {
+            "type": sp[1]
+        }
+    for cp in complex_props:
+        if cp[2]:
+            required_arr_names.append(cp[0])
+        properties_dict[cp[0]] = cp[1]
+
+    return current_name, {
+        "type": 'object',
+        "properties": properties_dict,
+        "additionalProperties": False,
+        "required": required_arr_names
+    }
+
+
+def __encode_arr_prop(configuration, section_name):
+    current_name = configuration.get(section_name, SCR_FORMAT_CONF__NAME)
+    min_items = secure_option_value_get(configuration, section_name, SCR_FORMAT_CONF__MIN)
+    max_items = secure_option_value_get(configuration, section_name, SCR_FORMAT_CONF__MAX)
+
+    items_obj_section = configuration.get(section_name, SCR_FORMAT_CONF__ITEMS)
+    items_obj_name, items_obj = get_object_from_config(configuration, items_obj_section)
+
+    result_obj = {
+        "type": "array",
+        "items": items_obj
+    }
+
+    if min_items is not None:
+        result_obj["minItems"] = int(min_items)
+    if max_items is not None:
+        result_obj["maxItems"] = int(max_items)
+
+    return current_name, result_obj
+
+
+def __encode_complex_str_prop(configuration, section_name):
+    current_name = configuration.get(section_name, SCR_FORMAT_CONF__NAME)
+
+    result_obj = {
+        "type": "string"
+    }
+
+    enum_vals_str = secure_option_value_get(configuration, section_name, SCR_FORMAT_CONF__ENUM)
+    if enum_vals_str is not None:
+        result_obj["enum"] = enum_vals_str.split('|')
+
+    min_length = secure_option_value_get(configuration, section_name, SCR_FORMAT_CONF__MIN)
+    max_length = secure_option_value_get(configuration, section_name, SCR_FORMAT_CONF__MAX)
+
+    if min_length is not None:
+        result_obj["minLength"] = int(min_length)
+    if max_length is not None:
+        result_obj["maxLength"] = int(max_length)
+
+    return current_name, result_obj
+
+
+_encoder = {
+    SCR_FORMAT_CONF__C_TYPE_ARRAY: __encode_arr_prop,
+    SCR_FORMAT_CONF__C_TYPE_OBJ: __encode_obj_prop,
+    SCR_FORMAT_CONF__S_TYPE_STR: __encode_complex_str_prop
+}
+
+
+def get_object_from_config(configuration, section_name):
+    #returns (name, object)
+    global _encoder
+
+    try:
+        current_type = configuration.get(section_name, SCR_FORMAT_CONF__TYPE)
+        current_encoder = _encoder.get(current_type, None)
+        if current_encoder is None:
+            raise ScriptFormatConfigurationException("Not supported type of complex property '%s'. Supported one of %s"
+                                                     % (current_type, list(_encoder.keys())))
+
+        return current_encoder(configuration, section_name)
+    except NoOptionError as e:
+        raise ScriptFormatConfigurationException("Section '%s' must contain property '%s'" % (e.section, e.option))
+    except NoSectionError as e:
+        raise ScriptFormatConfigurationException("There is not section '%s' which was specified in other section"
+                                                 % e.section)
+
+
 class SemanticScriptValidator:
     def __init__(self):
-        self._validator = js_schm_validate.Draft4Validator(get_schema())
+        self._schema = None
+        self._validator = None
+
+        self.__load_schema()
+
+    def __load_schema(self):
+        configuration = ConfigParser.ConfigParser()
+        try:
+            configuration.readfp(open(DEFAULT_SCRIPT_FORMAT_CONFIG_FILE, 'r'))
+            dummy, schema = get_object_from_config(configuration, SCR_FORMAT_CONF__MAIN)
+            self._schema = schema
+        except Exception as e:
+            print 'Error while loading script format configuration : %s' % str(e)
+            os.kill(os.getpid(), 1)
+
+        self._validator = js_schema_validate.Draft4Validator(self._schema)
+
+    def get_schema(self):
+        return self._schema
 
     def validate_script(self, json_obj, is_text=True, with_raise=True):
         if is_text:
