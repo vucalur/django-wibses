@@ -20,7 +20,7 @@ from wibses.data_store import REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION
 from wibses.data_store.exceptions import NoSuchScriptInStorageException, BadScriptRevisionException
 from wibses.data_store.validation import get_semantic_validator
 from wibses.utils import get_folder_containing_names, merge_into_path, get_script_id_for_repo_dir_name, \
-    get_repo_dir_name_for_script_id, ASCIIdGenerator, read_script_object, write_script_object, dump_json
+    get_repo_dir_name_for_script_id, CombinationsGenerator, read_script_object, write_script_object, dump_json
 from wibses.data_store import REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES
 
 
@@ -358,7 +358,7 @@ class ScriptManager:
         self._storage_daemon = StorageDaemon(storage_checker_period, self)
 
         self._template_script_object = json.loads(open(script_template_filename, "r").read().replace("\n", ""))
-        self.__script_id_generator = ASCIIdGenerator(STORAGE_ID_GENERATOR_POSITIONS_COUNT)
+        self.__script_id_generator = CombinationsGenerator(STORAGE_ID_GENERATOR_POSITIONS_COUNT)
 
         inner_dirs = get_folder_containing_names(script_storage_path, incl_dir_names=True)
 
@@ -482,10 +482,10 @@ class ScriptManager:
         return dump_json(new_script_obj, JSON_INDENT)
 
     def unsynch__get_free_script_id(self):
-        script_id = self.__script_id_generator.next_id()
+        script_id = self.__script_id_generator.next_combination()
 
         while script_id in self._scripts_dict:
-            script_id = self.__script_id_generator.next_id()
+            script_id = self.__script_id_generator.next_combination()
 
         return script_id
 

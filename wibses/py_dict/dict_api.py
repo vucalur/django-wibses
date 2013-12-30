@@ -1,8 +1,11 @@
 import os
 
 from pydic import PyDic
+from repoze.lru import lru_cache
 from ..utils import get_folder_containing_names, merge_into_path
-from wibses import JSON_INDENT
+from wibses import JSON_INDENT, PYDIC_WORDS_CACHE_SIZE
+from wibses.py_dict import PYDIC_TOKEN_DESC__DICTIONARY, PYDIC_TOKEN_DESC__ID, PYDIC_TOKEN_DESC__BASE, \
+    PYDIC_TOKEN_DESC__FORMS, PYDIC_TOKEN_DESC__TYPE, PYDIC_TOKEN_DESC__TYPE_TOKEN, PYDIC_TOKEN_DESC__TYPE_QUOTATION
 from wibses.utils import dump_json
 
 
@@ -18,6 +21,7 @@ class NotRegisteredDictionaryException(Exception):
 class DictionaryManager:
     def __init__(self, dictionaries_storages_list):
         self._dictionaries_map = dict()
+        self._current_unique_ids = set()
         for storage in dictionaries_storages_list:
             storage_list_dicts = get_folder_containing_names(storage, incl_dir_names=True)
             for dic_dir in storage_list_dicts:
@@ -30,39 +34,59 @@ class DictionaryManager:
                 except Exception as e:
                     print str(e)
 
+    @lru_cache(maxsize=PYDIC_WORDS_CACHE_SIZE)
+    def __token_for_word(self, token_pydic_id, dic_instance):
+
+        token_id = str(token_pydic_id)
+        base_form = dic_instance.id_base(token_id)
+        forms = dic_instance.id_forms(token_id)
+
+        return {
+            PYDIC_TOKEN_DESC__DICTIONARY: dic_instance.name,
+            PYDIC_TOKEN_DESC__ID: token_id,
+            PYDIC_TOKEN_DESC__BASE: base_form,
+            PYDIC_TOKEN_DESC__FORMS: forms,
+            PYDIC_TOKEN_DESC__TYPE: PYDIC_TOKEN_DESC__TYPE_TOKEN
+        }
+
+    @lru_cache(maxsize=100)
     def get_tokens_for_word_form(self, form):
-        result = [{'base': form, 'id': '-', 'type': 'quotation', 'dic': "-", 'forms': [form]}]
+        self._current_unique_ids = set()
+
+        result = [
+            {
+                PYDIC_TOKEN_DESC__BASE: form,
+                PYDIC_TOKEN_DESC__ID: '-',
+                PYDIC_TOKEN_DESC__TYPE: PYDIC_TOKEN_DESC__TYPE_QUOTATION,
+                PYDIC_TOKEN_DESC__DICTIONARY: "-",
+                PYDIC_TOKEN_DESC__FORMS: [form]
+            }
+        ]
 
         result_tail = []
         for registered_dic in self._dictionaries_map.values():
             result_tail.extend(self.__get_tokens_from_dic(form, registered_dic))
 
-        result_tail.sort(key=lambda x: x['base'])
+        result_tail.sort(key=lambda x: x[PYDIC_TOKEN_DESC__BASE])
         result.extend(result_tail)
 
         return dump_json(result, JSON_INDENT)
 
     def __get_tokens_from_dic(self, form, dic_instance):
 
-        def create_token_description(token_pydic_id):
-            token_id = str(token_pydic_id)
-            base_form = dic_instance.id_base(token_id)
-            forms = dic_instance.id_forms(token_id)
-            return {'dic': dic_instance.name, 'id': token_id, 'base': base_form, 'forms': forms, 'type': "token"}
+        def get_unique_ids(words):
+            ids = set()
+            for word in words:
+                pydic_ids = dic_instance.id(word)
+                if len(pydic_ids) > 0:
+                    ids.add(pydic_ids[0])
+            return ids
 
         possible_words = dic_instance.forms_for_prefix(form)
-        token_ids = set([])
-
-        for word in possible_words:
-            pydic_ids = dic_instance.id(word)
-            if len(pydic_ids) > 0:
-                #TODO taipsedog: maybe we need to include all ids?
-                token_ids.add(pydic_ids[0])
-
         res_array = []
 
-        for valid_token_id in token_ids:
-            res_array.append(create_token_description(valid_token_id))
+        for pydic_id in get_unique_ids(possible_words):
+            res_array.append(self.__token_for_word(pydic_id, dic_instance))
 
         return res_array
 
@@ -81,8 +105,8 @@ class DictionaryUtils:
     @staticmethod
     def add_dictionary_storages_paths(storage_paths_list):
         DictionaryUtils.__dictionary_storage_paths |= set((map(lambda x: str(x),
-            filter(lambda x: os.path.exists(x),
-                storage_paths_list))))
+                                                               filter(lambda x: os.path.exists(x),
+                                                                      storage_paths_list))))
 
     @staticmethod
     def initialize():

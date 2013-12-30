@@ -1,7 +1,7 @@
 import json
 import os
 
-from . import ASCI_GENERATOR_ALPHABET, JSON_INDENT
+from . import ASCI_ALPHABET, JSON_INDENT
 from data_store.exceptions import NotJsonObjectException
 
 
@@ -89,10 +89,10 @@ def jsonp(f):
     return jsonp_wrapper
 
 
-class ASCIIdGenerator:
-    def __init__(self, positions_count):
+class CombinationsGenerator:
+    def __init__(self, positions_count, alphabet=ASCI_ALPHABET):
         self._positions_count = positions_count
-        self._my_alphabet = list(set(ASCI_GENERATOR_ALPHABET))
+        self._my_alphabet = list(set(alphabet))
         self._current_indexes = [0] * positions_count
         self._alphabet_length = len(self._my_alphabet)
 
@@ -108,7 +108,7 @@ class ASCIIdGenerator:
             move = new_val / self._alphabet_length
             idx -= 1
 
-    def next_id(self):
+    def next_combination(self):
         result = ""
         for idx in self._current_indexes:
             result += self._my_alphabet[idx]
