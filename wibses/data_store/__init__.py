@@ -64,3 +64,7 @@ SCR_FORMAT_CONF__REQUIRED = 'r'
 SCR_FORMAT_CONF__NOT_REQUIRED = 'nr'
 SCR_FORMAT_CONF__MIN = 'min'
 SCR_FORMAT_CONF__MAX = 'max'
+SCR_FORMAT_CONF__DEFAULT = 'default'
+
+#json schema constants
+JSON_SCHEMA_DEFAULT_VAL = "scr_default"

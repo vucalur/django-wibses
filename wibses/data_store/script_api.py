@@ -348,7 +348,7 @@ class StorageDaemon(threading.Thread):
 
 
 class ScriptManager:
-    def __init__(self, script_storage_path, storage_checker_period, script_template_filename):
+    def __init__(self, script_storage_path, storage_checker_period):
         self._script_storage_path = script_storage_path
 
         self._scripts_dict = dict()
@@ -357,7 +357,6 @@ class ScriptManager:
         self._storage_operations_lock = Lock()
         self._storage_daemon = StorageDaemon(storage_checker_period, self)
 
-        self._template_script_object = json.loads(open(script_template_filename, "r").read().replace("\n", ""))
         self.__script_id_generator = CombinationsGenerator(STORAGE_ID_GENERATOR_POSITIONS_COUNT)
 
         inner_dirs = get_folder_containing_names(script_storage_path, incl_dir_names=True)
@@ -459,7 +458,7 @@ class ScriptManager:
             counter += 1
 
         if script_text is None:
-            new_script_obj = self._template_script_object
+            new_script_obj = get_semantic_validator().get_script_template()
         else:
             new_script_obj = json.loads(script_text)
 
@@ -497,7 +496,6 @@ class ScriptUtils:
     __script_storage_manager = None
     __script_storage_path = None
     __script_storage_checking_period = STORAGE_DEFAULT_SCAN_PERIOD_MS
-    __script_template_filename = None
 
     @staticmethod
     def set_scripts_storage_path(storage_path):
@@ -511,12 +509,7 @@ class ScriptUtils:
     def initialize():
         if ScriptUtils.__script_storage_manager is None and (ScriptUtils.__script_storage_path is not None):
             ScriptUtils.__script_storage_manager = ScriptManager(ScriptUtils.__script_storage_path,
-                                                                 ScriptUtils.__script_storage_checking_period,
-                                                                 ScriptUtils.__script_template_filename)
-
-    @staticmethod
-    def set_script_template_filename(filename):
-        ScriptUtils.__script_template_filename = filename
+                                                                 ScriptUtils.__script_storage_checking_period)
 
     @staticmethod
     def get_manager():

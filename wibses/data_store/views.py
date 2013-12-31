@@ -8,11 +8,9 @@ from . import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, \
 from exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, \
     RequestTypeDoesNotSupportedException, NotSupportedApiActionException
 from script_api import ScriptUtils
-from validation import get_semantic_validator
-from .. import JSON_TEMPLATE_SCRIPT_FILENAME, ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE
+from .. import ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE
 
 
-ScriptUtils.set_script_template_filename(JSON_TEMPLATE_SCRIPT_FILENAME)
 ScriptUtils.set_scripts_storage_path(os.environ.get(ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE))
 ScriptUtils.initialize()
 
