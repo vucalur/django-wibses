@@ -12,7 +12,7 @@ from . import SCR_FORMAT_CONF__ALL_PROPS, SCR_FORMAT_CONF__S_TYPE_INT, SCR_FORMA
     SCR_FORMAT_CONF__NOT_REQUIRED, SCR_FORMAT_CONF__DEFAULT, JSON_SCHEMA_DEFAULT_VAL
 import sys
 from exceptions import ScriptValidationException, NotJsonObjectException, ScriptFormatConfigurationException
-from .. import DEFAULT_SCRIPT_FORMAT_CONFIG_FILE
+from .. import SCRIPT_FORMAT_CONFIG_FILE
 
 
 _simple_type_translation_dict = {
@@ -260,18 +260,22 @@ def generate_template_for_schema(schema_obj):
         os.kill(os.getpid(), 1)
 
 
-class SemanticScriptValidator:
+class ScriptFormatManager:
     def __init__(self):
+        print 'Initializing script format manager...'
+
         self._schema = None
         self._validator = None
         self._script_template = None
 
         self.__load_schema()
 
+        print 'Script format manager has been initialized\n'
+
     def __load_schema(self):
         configuration = ConfigParser.ConfigParser()
         try:
-            configuration.readfp(open(DEFAULT_SCRIPT_FORMAT_CONFIG_FILE, 'r'))
+            configuration.readfp(open(SCRIPT_FORMAT_CONFIG_FILE, 'r'))
             dummy, schema = get_object_from_config(configuration, SCR_FORMAT_CONF__MAIN)
             self._schema = schema
         except Exception:
@@ -328,6 +332,6 @@ def get_semantic_validator():
     global __sem_validator
 
     if __sem_validator is None:
-        __sem_validator = SemanticScriptValidator()
+        __sem_validator = ScriptFormatManager()
 
     return __sem_validator

@@ -18,15 +18,10 @@ from . import REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION, \
     JSON_ATTR_NAME__NAME, JSON_ATTR_SCRIPT_ID, JSON_ATTR_NAME__ID, REPO_CONF_FILENAME, \
     REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP, REPO_CONF_SECTION__SCRIPT_INFO, TIMESTAMP_FORMAT, \
     REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES
-from .exceptions import NoSuchScriptInStorageException, BadScriptRevisionException
-from .validation import get_semantic_validator
+from validation import ScriptFormatManager
+from exceptions import NoSuchScriptInStorageException, BadScriptRevisionException, ScriptManagerNotInitializedException
 from ..utils import get_folder_containing_names, merge_into_path, get_script_id_for_repo_dir_name, \
     get_repo_dir_name_for_script_id, CombinationsGenerator, read_script_object, write_script_object, dump_json
-
-
-class ScriptManagerNotInitializedException(Exception):
-    def __init__(self, *args, **kwargs):
-        Exception.__init__(self, args, kwargs)
 
 
 def synchronized(function, *args, **kwargs):
@@ -161,7 +156,7 @@ class Script:
 
     def update(self, body_text, changer_username):
 
-        get_semantic_validator().validate_script(body_text)
+        ScriptUtils.get_format_manager().validate_script(body_text)
 
         self._script_obj = json.loads(body_text)
         self._script_text = body_text
@@ -291,20 +286,12 @@ class StorageDaemon(threading.Thread):
     def get_lock(self):
         return self._script_manager.get_lock()
 
-    def run(self):
+    def init_daemon(self):
+        self.__check_folder_for_new_scripts()
 
-        while not self._stop:
-            self.do_work()
-            time.sleep(self._sleep_per_in_seconds)
-
-    @synchronized
-    def do_work(self):
-        file_names = get_folder_containing_names(self._script_manager._script_storage_path, incl_file_names=True)
-        patt = r'(.+)\.json'
-        script_names_without_ext = set(map(lambda x: re.search(patt, x).group(1),
-                                           filter(lambda x: re.search(patt, x) is not None,
-                                                  file_names)))
-        scripts_names_with_ext = map(lambda x: x + '.json', script_names_without_ext)
+    def __check_folder_for_new_scripts(self, scripts_names_with_ext=None):
+        if scripts_names_with_ext is None:
+            scripts_names_with_ext = self.__get_script_names_with_ext()
 
         manager_scripts = self._script_manager._scripts_dict
 
@@ -317,7 +304,7 @@ class StorageDaemon(threading.Thread):
             if script_candidate_path not in self._checked_file_paths:
                 try:
                     script_obj = read_script_object(script_candidate_path)
-                    if get_semantic_validator().validate_script(script_obj, is_text=False, with_raise=False):
+                    if ScriptUtils.get_format_manager().validate_script(script_obj, is_text=False, with_raise=False):
                         if not script_filename in self._script_manager._script_id_by_storage_filename:
                             script_id = self._script_manager.unsynch__get_free_script_id()
                             new_script = Script(self._script_manager._script_storage_path,
@@ -330,6 +317,31 @@ class StorageDaemon(threading.Thread):
                     pass
                 self._checked_file_paths.add(script_candidate_path)
 
+    def run(self):
+        while not self._stop:
+            self.do_work()
+            time.sleep(self._sleep_per_in_seconds)
+
+    @synchronized
+    def do_work(self):
+        scripts_files_with_ext = self.__get_script_names_with_ext()
+
+        self.__check_folder_for_new_scripts(scripts_files_with_ext)
+        self.__check_folder_for_removed_scripts(scripts_files_with_ext)
+
+    def __get_script_names_with_ext(self):
+        file_names = get_folder_containing_names(self._script_manager._script_storage_path, incl_file_names=True)
+        patt = r'(.+)\.json'
+        script_names_without_ext = set(map(lambda x: re.search(patt, x).group(1),
+                                           filter(lambda x: re.search(patt, x) is not None,
+                                                  file_names)))
+        return map(lambda x: x + '.json', script_names_without_ext)
+
+    def __check_folder_for_removed_scripts(self, scripts_names_with_ext=None):
+        if scripts_names_with_ext is None:
+            scripts_names_with_ext = self.__get_script_names_with_ext()
+
+        manager_scripts = self._script_manager._scripts_dict
         to_clean = []
 
         for registered_script_filename in self._script_manager._script_id_by_storage_filename:
@@ -349,6 +361,10 @@ class StorageDaemon(threading.Thread):
 
 class ScriptManager:
     def __init__(self, script_storage_path, storage_checker_period):
+        print 'Initializing storage manager...'
+
+        self._storage_daemon_started = False
+
         self._script_storage_path = script_storage_path
 
         self._scripts_dict = dict()
@@ -372,7 +388,14 @@ class ScriptManager:
                 self._scripts_dict[script_id] = new_script
                 self._script_id_by_storage_filename[new_script._storage_file_name] = script_id
 
-        self._storage_daemon.start()
+        self._storage_daemon.init_daemon()
+
+        print 'Storage manager has been initialized\n'
+
+    def start_daemon(self):
+        if not self._storage_daemon_started:
+            self._storage_daemon_started = True
+            self._storage_daemon.start()
 
     #OK
     @synchronized
@@ -458,7 +481,7 @@ class ScriptManager:
             counter += 1
 
         if script_text is None:
-            new_script_obj = get_semantic_validator().get_script_template()
+            new_script_obj = ScriptUtils.get_format_manager().get_script_template()
         else:
             new_script_obj = json.loads(script_text)
 
@@ -494,6 +517,7 @@ class ScriptManager:
 
 class ScriptUtils:
     __script_storage_manager = None
+    __script_format_manager = None
     __script_storage_path = None
     __script_storage_checking_period = STORAGE_DEFAULT_SCAN_PERIOD_MS
 
@@ -510,11 +534,28 @@ class ScriptUtils:
         if ScriptUtils.__script_storage_manager is None and (ScriptUtils.__script_storage_path is not None):
             ScriptUtils.__script_storage_manager = ScriptManager(ScriptUtils.__script_storage_path,
                                                                  ScriptUtils.__script_storage_checking_period)
+        if ScriptUtils.__script_format_manager is None:
+            ScriptUtils.__script_format_manager = ScriptFormatManager()
 
     @staticmethod
-    def get_manager():
+    def get_storage_manager():
         man = ScriptUtils.__script_storage_manager
+
         if man is None:
             raise ScriptManagerNotInitializedException()
+
         assert isinstance(man, ScriptManager)
+        man.start_daemon()
+
+        return man
+
+    @staticmethod
+    def get_format_manager():
+        man = ScriptUtils.__script_format_manager
+
+        if man is None:
+            raise Exception('ScriptFormatManager is not initialized')
+
+        assert isinstance(man, ScriptFormatManager)
+
         return man

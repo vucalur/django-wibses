@@ -8,11 +8,7 @@ from . import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, \
 from exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, \
     RequestTypeDoesNotSupportedException, NotSupportedApiActionException
 from script_api import ScriptUtils
-from .. import ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE
 
-
-ScriptUtils.set_scripts_storage_path(os.environ.get(ENV_SCRIPT_STORAGE_PATH_NAME, DEFAULT_SCRIPT_STORAGE))
-ScriptUtils.initialize()
 
 #region REST url functions mapping
 
@@ -83,7 +79,7 @@ def rest__get_script(request, script_id=None, get_from_params=False):
     if get_from_params:
         params = process_request_params(request.GET, [REQUEST_PARAM_NAME__SCRIPT_ID])
         script_id = params[REQUEST_PARAM_NAME__SCRIPT_ID]
-    script_json = ScriptUtils.get_manager().get_script(script_id)
+    script_json = ScriptUtils.get_storage_manager().get_script(script_id)
     return create_http_json_response(script_json)
 
 
@@ -91,7 +87,7 @@ def rest__get_script(request, script_id=None, get_from_params=False):
 @handle_exceptions
 @get_only
 def rest__list_storage_scripts(request, get_from_params=False):
-    scripts_json_array = ScriptUtils.get_manager().get_scripts_in_storage_json()
+    scripts_json_array = ScriptUtils.get_storage_manager().get_scripts_in_storage_json()
     return create_http_json_response(scripts_json_array)
 
 
@@ -109,7 +105,7 @@ def rest__save_script_in_storage(request, script_id=None, get_from_params=False)
 
     curr_user = request_params[REQUEST_PARAM_NAME__USER]
     script_body = request.body
-    ScriptUtils.get_manager().update_script_in_storage(script_id, script_body, curr_user)
+    ScriptUtils.get_storage_manager().update_script_in_storage(script_id, script_body, curr_user)
     return http_ok_response()
 
 
@@ -121,7 +117,7 @@ def rest__list_script_history(request, script_id=None, get_from_params=False):
         request_params = process_request_params(request.GET, [REQUEST_PARAM_NAME__SCRIPT_ID])
         script_id = request_params[REQUEST_PARAM_NAME__SCRIPT_ID]
 
-    scripts_history_json_array = ScriptUtils.get_manager().get_script_history_json(script_id)
+    scripts_history_json_array = ScriptUtils.get_storage_manager().get_script_history_json(script_id)
     return create_http_json_response(scripts_history_json_array)
 
 
@@ -135,7 +131,7 @@ def rest__get_script_of_revision(request, script_id=None, revision=None, get_fro
         script_id = request_params[REQUEST_PARAM_NAME__SCRIPT_ID]
         revision = request_params[REQUEST_PARAM_NAME__SCRIPT_REVISION]
 
-    scripts_json = ScriptUtils.get_manager().get_script_revision(script_id, revision)
+    scripts_json = ScriptUtils.get_storage_manager().get_script_revision(script_id, revision)
     return create_http_json_response(scripts_json)
 
 
@@ -156,7 +152,7 @@ def rest__fork_script_of_revision(request, script_id=None, revision=None, get_fr
     user_name = request_params[REQUEST_PARAM_NAME__USER]
     storage_filename = request_params[REQUEST_PARAM_NAME__STORAGE_FILENAME]
 
-    scripts_json = ScriptUtils.get_manager().fork_script_of_revision(script_id, revision, user_name, storage_filename)
+    scripts_json = ScriptUtils.get_storage_manager().fork_script_of_revision(script_id, revision, user_name, storage_filename)
     return create_http_json_response(scripts_json)
 
 
@@ -169,7 +165,7 @@ def rest__create_new_script(request, get_from_params=False):
 
     curr_user = request_params[REQUEST_PARAM_NAME__USER]
     storage_filename = request_params[REQUEST_PARAM_NAME__STORAGE_FILENAME]
-    new_script_json = ScriptUtils.get_manager().create_script_in_repo(curr_user, storage_filename)
+    new_script_json = ScriptUtils.get_storage_manager().create_script_in_repo(curr_user, storage_filename)
     return create_http_json_response(new_script_json)
 
 

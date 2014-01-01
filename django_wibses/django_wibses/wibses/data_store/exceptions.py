@@ -2,7 +2,7 @@ from . import HTTP__EXCEPTION_TAG__MISSING_PARAMS, HTTP__EXCEPTION_TAG__NOT_PROP
     HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE, HTTP__EXCEPTION_TAG__BAD_SCRIPT_REVISION, \
     HTTP__EXCEPTION_TAG__SCRIPT_ALREADY_IN_STORAGE, HTTP__EXCEPTION_TAG__NOT_SUPPORTED_REQUEST_TYPE, \
     HTTP__EXCEPTION_TAG__NOT_SUPPORTED_ACTION, HTTP__EXCEPTION_TAG__NOT_VALID_JSON_SCRIPT, \
-    HTTP__EXCEPTION_TAG__NOT_JSON_OBJECT
+    HTTP__EXCEPTION_TAG__NOT_JSON_OBJECT, HTTP__EXCEPTION_TAG__SCRIPT_MANAGER_NOT_INITIALIZED
 
 
 class MissingRequestParamException(Exception):
@@ -20,7 +20,7 @@ class MissingRequestParamException(Exception):
 class NotProperRequestTypeForUrl(Exception):
     def __init__(self, perm_type, actual_type):
         description = HTTP__EXCEPTION_TAG__NOT_PROPER_REQUEST_TYPE + \
-                      " : Permitted request type -> %s ; Actual -> %s" % (str(perm_type), str(actual_type))
+            " : Permitted request type -> %s ; Actual -> %s" % (str(perm_type), str(actual_type))
         self._permitted = perm_type
         self._actual = actual_type
         Exception.__init__(self, description)
@@ -34,8 +34,7 @@ class NotProperRequestTypeForUrl(Exception):
 
 class NoSuchScriptInStorageException(Exception):
     def __init__(self, script_id):
-        description = HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE + \
-                      ": %s" % script_id
+        description = HTTP__EXCEPTION_TAG__NO_SUCH_SCRIPT_IN_STORAGE + ": %s" % script_id
         self._script_id = script_id
         Exception.__init__(self, description)
 
@@ -45,8 +44,7 @@ class NoSuchScriptInStorageException(Exception):
 
 class BadScriptRevisionException(Exception):
     def __init__(self, revision):
-        description = HTTP__EXCEPTION_TAG__BAD_SCRIPT_REVISION + \
-                      ": %s" % revision
+        description = HTTP__EXCEPTION_TAG__BAD_SCRIPT_REVISION + ": %s" % revision
         self._revision = revision
         Exception.__init__(self, description)
 
@@ -56,8 +54,7 @@ class BadScriptRevisionException(Exception):
 
 class ScriptAlreadyExistsInStorageException(Exception):
     def __init__(self, script_name):
-        description = HTTP__EXCEPTION_TAG__SCRIPT_ALREADY_IN_STORAGE + \
-                      ": %s" % script_name
+        description = HTTP__EXCEPTION_TAG__SCRIPT_ALREADY_IN_STORAGE + ": %s" % script_name
         self._script_name = script_name
         Exception.__init__(self, description)
 
@@ -67,8 +64,7 @@ class ScriptAlreadyExistsInStorageException(Exception):
 
 class RequestTypeDoesNotSupportedException(Exception):
     def __init__(self, request_type, supported_request_types):
-        description = HTTP__EXCEPTION_TAG__NOT_SUPPORTED_REQUEST_TYPE + \
-                      ": '%s' . Supported are: " % request_type
+        description = HTTP__EXCEPTION_TAG__NOT_SUPPORTED_REQUEST_TYPE + ": '%s' . Supported are: " % request_type
         for rt in supported_request_types:
             description += rt + "; "
         self._request_type = request_type
@@ -86,8 +82,7 @@ class NotSupportedApiActionException(Exception):
     def __init__(self, action, supported_actions):
         self._supported_actions = supported_actions
         self._action = action
-        description = HTTP__EXCEPTION_TAG__NOT_SUPPORTED_ACTION + \
-                      ": '%s' . Supported are: " % action
+        description = HTTP__EXCEPTION_TAG__NOT_SUPPORTED_ACTION + ": '%s' . Supported are: " % action
         for sa in supported_actions:
             description += sa + "; "
         Exception.__init__(self, description)
@@ -124,3 +119,8 @@ class NotJsonObjectException(Exception):
 class ScriptFormatConfigurationException(Exception):
     def __init__(self, msg):
         Exception.__init__(self, msg)
+
+
+class ScriptManagerNotInitializedException(Exception):
+    def __init__(self):
+        Exception.__init__(self, HTTP__EXCEPTION_TAG__SCRIPT_MANAGER_NOT_INITIALIZED)
