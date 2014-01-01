@@ -11,17 +11,17 @@ import git
 from gitdb.exc import BadObject
 from repoze.lru import lru_cache
 
-from wibses import JSON_INDENT
-from wibses.data_store import REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION, \
+from .. import JSON_INDENT
+from . import REQUEST_PARAM_NAME__USER, JSON_ATTR_NAME__REVISION, \
     JSON_ATTR_NAME__MODIFIED_DATE, JSON_ATTR_NAME__CHANGER, STORAGE_DEFAULT_SCAN_PERIOD_MS, \
     DEFAULT_STORAGE_SCRIPT_CREATOR_NAME, STORAGE_ID_GENERATOR_POSITIONS_COUNT, JSON_ATTR_NAME__PARAMS, \
     JSON_ATTR_NAME__NAME, JSON_ATTR_SCRIPT_ID, JSON_ATTR_NAME__ID, REPO_CONF_FILENAME, \
-    REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP, REPO_CONF_SECTION__SCRIPT_INFO, TIMESTAMP_FORMAT
-from wibses.data_store.exceptions import NoSuchScriptInStorageException, BadScriptRevisionException
-from wibses.data_store.validation import get_semantic_validator
-from wibses.utils import get_folder_containing_names, merge_into_path, get_script_id_for_repo_dir_name, \
+    REPO_CONF_ORIGINAL_SCRIPT_FILENAME_PROP, REPO_CONF_SECTION__SCRIPT_INFO, TIMESTAMP_FORMAT, \
+    REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES
+from .exceptions import NoSuchScriptInStorageException, BadScriptRevisionException
+from .validation import get_semantic_validator
+from ..utils import get_folder_containing_names, merge_into_path, get_script_id_for_repo_dir_name, \
     get_repo_dir_name_for_script_id, CombinationsGenerator, read_script_object, write_script_object, dump_json
-from wibses.data_store import REPO_GITIGNORE_FILENAME, REPO_IGNORED_FILENAMES
 
 
 class ScriptManagerNotInitializedException(Exception):

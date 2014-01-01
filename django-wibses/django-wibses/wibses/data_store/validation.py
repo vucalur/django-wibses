@@ -1,9 +1,7 @@
-# -*- coding: UTF-8 -*-
 from ConfigParser import NoOptionError, NoSectionError
 import ConfigParser
 import json
 import os
-from platform import _sys_version
 import traceback
 import jsonschema as js_schema_validate
 
@@ -11,11 +9,10 @@ from . import SCR_FORMAT_CONF__ALL_PROPS, SCR_FORMAT_CONF__S_TYPE_INT, SCR_FORMA
     SCR_FORMAT_CONF__S_TYPE_NUM, SCR_FORMAT_CONF__C_TYPE_OBJ, SCR_FORMAT_CONF__ENUM, SCR_FORMAT_CONF__S_TYPE_BOOL, \
     SCR_FORMAT_CONF__TYPE, SCR_FORMAT_CONF__C_TYPE_ARRAY, SCR_FORMAT_CONF__NAME, SCR_FORMAT_CONF__MIN, \
     SCR_FORMAT_CONF__MAX, SCR_FORMAT_CONF__ITEMS, SCR_FORMAT_CONF__MAIN, SCR_FORMAT_CONF__REQUIRED, \
-    SCR_FORMAT_CONF__NOT_REQUIRED
+    SCR_FORMAT_CONF__NOT_REQUIRED, SCR_FORMAT_CONF__DEFAULT, JSON_SCHEMA_DEFAULT_VAL
 import sys
 from exceptions import ScriptValidationException, NotJsonObjectException, ScriptFormatConfigurationException
-from wibses import DEFAULT_SCRIPT_FORMAT_CONFIG_FILE
-from wibses.data_store import SCR_FORMAT_CONF__DEFAULT, JSON_SCHEMA_DEFAULT_VAL
+from .. import DEFAULT_SCRIPT_FORMAT_CONFIG_FILE
 
 
 _simple_type_translation_dict = {

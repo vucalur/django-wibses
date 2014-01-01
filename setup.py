@@ -9,7 +9,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-wibses',
     version='0.1',
-    packages=['wibses'],
+    packages=['django-wibses'],
+    package_dir={'': 'django-wibses'},
     include_package_data=True,
     license='BSD License', # example license   TODO vucalur: LICENSE
     description='Web interface for building semantic scripts with lightweight Django backend.',

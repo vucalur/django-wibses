@@ -3,10 +3,10 @@ import os
 from pydic import PyDic
 from repoze.lru import lru_cache
 from ..utils import get_folder_containing_names, merge_into_path
-from wibses import JSON_INDENT, PYDIC_WORDS_CACHE_SIZE
-from wibses.py_dict import PYDIC_TOKEN_DESC__DICTIONARY, PYDIC_TOKEN_DESC__ID, PYDIC_TOKEN_DESC__BASE, \
+from .. import JSON_INDENT, PYDIC_WORDS_CACHE_SIZE
+from . import PYDIC_TOKEN_DESC__DICTIONARY, PYDIC_TOKEN_DESC__ID, PYDIC_TOKEN_DESC__BASE, \
     PYDIC_TOKEN_DESC__FORMS, PYDIC_TOKEN_DESC__TYPE, PYDIC_TOKEN_DESC__TYPE_TOKEN, PYDIC_TOKEN_DESC__TYPE_QUOTATION
-from wibses.utils import dump_json
+from ..utils import dump_json
 
 
 class NotRegisteredDictionaryException(Exception):
