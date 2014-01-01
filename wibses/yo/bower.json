@@ -12,7 +12,7 @@
       "angular-route": "1.2.4",
       "angular-resource": "1.2.4",
       "angular-cookies": "1.2.4",
-      "angular-ui-bootstrap": "git://github.com/angular-ui/bootstrap#bootstrap3",
+      "angular-ui-bootstrap": "~0.9.0",
       "ng-grid": "git://github.com/angular-ui/ng-grid#3.0"
    },
    "devDependencies": {
