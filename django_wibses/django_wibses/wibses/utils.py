@@ -19,6 +19,11 @@ def get_folder_containing_names(path, incl_file_names=False, incl_dir_names=Fals
         elif incl_file_names:
             return file_names
 
+    if incl_dir_names and incl_file_names:
+        return [], []
+    else:
+        return []
+
 
 def merge_into_path(files_paths_list):
     result_path = files_paths_list[0]
