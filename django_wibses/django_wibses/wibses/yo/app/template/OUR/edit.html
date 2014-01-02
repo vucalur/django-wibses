@@ -3,13 +3,13 @@
   <ul class="list-unstyled">
     <li ng-repeat="sectionName in ctrl.getSectionsNames()">
       <div class="section" ng-class="sectionName">
-        <h1>{{sectionName | capitalise}}</h1>
+        <h1>{{ sectionName | capitalise }}</h1>
         <h4>Parameters:</h4>
         <parameters params="script[sectionName].params"></parameters>
         <br>
         <h4>Sentences:</h4>
         <ul class="list-inline">
-          <li ng-repeat="sentence in script[sectionName].sentences">
+          <li ng-repeat="sentence in script[sectionName].sentences track by $index">
             <div class="sentence">
               <h3>{{ sentence.params.name }}</h3>
               <h4>Parameters:</h4>
@@ -48,10 +48,25 @@
                     </form>
                     <br/>
                   </div>
+                  <div>
+                    <button class="btn btn-danger" ng-click="ctrl.removeSlot(sectionName, $parent.$index, $index)">
+                      Remove slot <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                  </div>
                 </li>
+                <button class="btn btn-success" ng-click="ctrl.addSlot(sectionName, $index)">
+                  <span class="glyphicon glyphicon-th-list"></span> Add slot
+                </button>
               </ul>
             </div>
+            <button class="btn btn-danger" ng-click="ctrl.removeSentence(sectionName, $index)">
+              Remove sentence <span class="glyphicon glyphicon-remove"></span>
+            </button>
           </li>
+
+          <button class="btn btn-success" ng-click="ctrl.addSentence(sectionName)">
+            <span class="glyphicon glyphicon-log-in"></span> Add sentence
+          </button>
         </ul>
       </div>
     </li>

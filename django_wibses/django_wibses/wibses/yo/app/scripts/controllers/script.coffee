@@ -2,8 +2,8 @@
 
 angular.module('wibsesApp.controller').controller 'ScriptCtrl',
    class ScriptCtrl
-      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'jsonStorageService', 'forkService', 'script']
-      constructor: (@$scope, @$log, @$timeout, @modalService, @jsonStorageService, @forkService, script) ->
+      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'jsonStorageService', 'scriptService', 'forkService', 'script']
+      constructor: (@$scope, @$log, @$timeout, @modalService, @jsonStorageService, @scriptService, @forkService, script) ->
          @$scope.script = script
          @$scope.currentUser = 'dummy-user'
 
@@ -20,6 +20,8 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
                @$log.debug 'Script change detected.'
             , 800)
          , true)
+
+         @defaultScriptTemplate = @scriptService.getDefaultScript()
 
       getSectionsNames: ->
          return ['synthetic', 'analytical', 'circumstances']
@@ -66,6 +68,20 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
          @jsonStorageService.store({user: @$scope.currentUser, scriptId: @$scope.script.params.id},
             @$scope.script
          )
+
+      removeSentence: (sectionName, sentenceIndex) ->
+         @$scope.script[sectionName].sentences.splice(sentenceIndex, 1)
+
+      addSentence: (sectionName) ->
+         newSentence = angular.copy(@defaultScriptTemplate[sectionName].sentences[0])
+         @$scope.script[sectionName].sentences.push(newSentence)
+
+      removeSlot: (sectionName, sentenceIndex, slotIndex) ->
+         @$scope.script[sectionName].sentences[sentenceIndex].slots.splice(slotIndex, 1)
+
+      addSlot: (sectionName, sentenceIndex) ->
+         newSlot = angular.copy(@defaultScriptTemplate[sectionName].sentences[sentenceIndex].slots[0])
+         @$scope.script[sectionName].sentences[sentenceIndex].slots.push(newSlot)
 
 
 

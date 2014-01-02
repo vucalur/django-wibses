@@ -7,6 +7,7 @@ service.config(['$httpProvider', ($httpProvider) ->
    $httpProvider.defaults.xsrfCookieName = 'csrftoken'
 ])
 
+#TODO vucalur: refactor jsonStorageService and scriptService
 service.factory 'jsonStorageService',
    ['$resource',
       ($resource) ->
