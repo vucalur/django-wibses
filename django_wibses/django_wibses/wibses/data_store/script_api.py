@@ -451,6 +451,11 @@ class ScriptManager:
         result_json = self.__unsynch__create_script_in_repo(creator_name, st_filename=storage_filename)
         return result_json
 
+    @staticmethod
+    def get_default_script():
+        default_script_obj = ScriptUtils.get_format_manager().get_script_template()
+        return dump_json(default_script_obj, JSON_INDENT)
+
     @synchronized
     def fork_script_of_revision(self, script_id, revision_hash, creator_name, storage_filename):
         if script_id not in self._scripts_dict:

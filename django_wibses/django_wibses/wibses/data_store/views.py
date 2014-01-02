@@ -7,7 +7,7 @@ from . import REQUEST_PARAM_NAME__USER, HTTP__OK_RESPONSE, \
     REQUEST_PARAM_NAME__STORAGE_FILENAME
 from exceptions import MissingRequestParamException, NotProperRequestTypeForUrl, \
     RequestTypeDoesNotSupportedException, NotSupportedApiActionException
-from script_api import ScriptUtils
+from script_api import ScriptUtils, ScriptManager
 
 
 #region REST url functions mapping
@@ -92,6 +92,7 @@ def rest__list_storage_scripts(request, get_from_params=False):
 
 
 #OK
+# TODO vucalur: enable CSRF protection
 @csrf_exempt
 @handle_exceptions
 @post_only
@@ -168,6 +169,12 @@ def rest__create_new_script(request, get_from_params=False):
     new_script_json = ScriptUtils.get_storage_manager().create_script_in_repo(curr_user, storage_filename)
     return create_http_json_response(new_script_json)
 
+#OK
+@handle_exceptions
+@get_only
+def rest__get_default_script(request):
+    default_script_json = ScriptManager.get_default_script()
+    return create_http_json_response(default_script_json)
 
 __api_dictionary = {
     'script': rest__get_script,
@@ -180,6 +187,7 @@ __api_dictionary = {
 }
 
 
+# TODO vucalur: enable CSRF protection
 @csrf_exempt
 @handle_exceptions
 def rest__params_api(request):
