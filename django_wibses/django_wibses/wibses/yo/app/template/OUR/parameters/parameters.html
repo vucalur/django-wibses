@@ -7,15 +7,3 @@
     </li>
   </div>
 </ul>
-
-<form class="form-inline" role="form" name="addParamForm" ng-submit="addParam()" ng-class="getCssClasses(addParamForm)">
-  <div class="form-group">
-    <label class="sr-only">Param key</label>
-    <input type="text" class="form-control" name="key" placeholder="Param key" ng-model="key" required>
-  </div>
-  <div class="form-group">
-    <label class="sr-only">Param value</label>
-    <input type="text" class="form-control" name="value" placeholder="Param value" ng-model="value" required>
-  </div>
-  <button type="submit" class="btn btn-primary" ng-disabled="!canAdd()">Add</button>
-</form>

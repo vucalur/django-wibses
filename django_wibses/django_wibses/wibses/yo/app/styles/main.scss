@@ -1,10 +1,8 @@
 @import "variables";
-
 // Default bootstrap with theme usage pattern:
 //@import 'sass-bootstrap/lib/bootstrap';
 //@import 'sass-bootstrap/lib/theme';
 // Default bootstrap with theme usage pattern - END
-
 // Theme from bootswatch usage pattern:
 @import "sass-bootstrap/lib/variables";
 @import "bootswatch-scss/united/variables";
@@ -12,8 +10,8 @@
 @import "variables";
 @import "sass-bootstrap/lib/bootstrap";
 @import "bootswatch-scss/united/bootswatch";
-
 @import 'sass-bootstrap/lib/theme';
+
 // Theme from bootswatch usage pattern - END
 
 .starter-template {
@@ -79,15 +77,6 @@ div.tokens {
 div.tokens li {
   margin-top: 4px;
   margin-bottom: 4px;
-}
-
-/*Param on hover remove button*/
-.param .remove-param {
-  display: none;
-}
-
-.param:hover .remove-param {
-  display: block;
 }
 
 /*Params list*/
