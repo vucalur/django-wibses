@@ -9,7 +9,7 @@
         <br>
         <h4>Sentences:</h4>
         <ul class="list-inline">
-          <li ng-repeat="sentence in script[sectionName].sentences track by $index">
+          <li ng-repeat="sentence in script[sectionName].sentences track by $index" ng-init="sentenceIndex = $index">
             <div class="sentence">
               <h3>{{ sentence.params.name }}</h3>
               <h4>Parameters:</h4>
@@ -18,7 +18,7 @@
               <br>
               <h4>Slots:</h4>
               <ul class="list-inline">
-                <li ng-repeat="slot in sentence.slots">
+                <li ng-repeat="slot in sentence.slots" ng-init="slotIndex = $index">
                   <div class="slot" ng-controller="SlotCtrl as slotCtrl">
                     <h4>Parameters:</h4>
                     <parameters params="slot.params"></parameters>
@@ -27,9 +27,9 @@
 
                     <div class="tokens">
                       <ul class="list-inline">
-                        <li ng-repeat="token in slot.tokens track by $index">
+                        <li ng-repeat="token in slot.tokens track by $index" ng-init="tokenIndex = $index">
                           <!--TODO vucalur: fix pointy corners of the label-->
-                          <span class="token label label-info">{{ token.label }} <span class="remove-button glyphicon glyphicon-remove-circle" ng-click="slotCtrl.removeToken($index)"></span></span>
+                          <span class="token label label-info">{{ token.label }} <span class="remove-button glyphicon glyphicon-remove-circle" ng-click="slotCtrl.removeToken(tokenIndex)"></span></span>
                         </li>
                       </ul>
                     </div>
@@ -49,17 +49,17 @@
                     <br/>
                   </div>
                   <div>
-                    <button class="btn btn-danger" ng-click="ctrl.removeSlot(sectionName, $parent.$index, $index)">
+                    <button class="btn btn-danger" ng-click="ctrl.removeSlot(sectionName, sentenceIndex, slotIndex)">
                       Remove slot <span class="glyphicon glyphicon-remove"></span>
                     </button>
                   </div>
                 </li>
-                <button class="btn btn-success" ng-click="ctrl.addSlot(sectionName, $index)">
+                <button class="btn btn-success" ng-click="ctrl.addSlot(sectionName, sentenceIndex)">
                   <span class="glyphicon glyphicon-th-list"></span> Add slot
                 </button>
               </ul>
             </div>
-            <button class="btn btn-danger" ng-click="ctrl.removeSentence(sectionName, $index)">
+            <button class="btn btn-danger" ng-click="ctrl.removeSentence(sectionName, sentenceIndex)">
               Remove sentence <span class="glyphicon glyphicon-remove"></span>
             </button>
           </li>
