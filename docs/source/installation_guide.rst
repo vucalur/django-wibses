@@ -18,21 +18,14 @@ starts a lightweight web server
 
 TODO vucalur: write about setting up a sample dajngo site
 
-1. Prepare a ``dist`` version of frontend code
-
-   .. code-block:: bash
-
-      $ cd django-wibses/wibses/yo
-      $ grunt
-
-2. Copy frontend static resources to appropriate locations in django project - done by a script:
+1. Run the script, which assembles the frontend and copies static resources to appropriate locations in django project:
 
   .. code-block:: bash
 
-      $ cd ../..
+      $ cd django-wibses
       $ ./prepare_dist.sh
 
-3. Start the django server.
+2. Start the django server.
 
    The application, fully hosted by sole django server,
    will be available under `<http://localhost:8000/wibses>`_

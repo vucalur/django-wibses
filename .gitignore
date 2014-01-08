@@ -1,5 +1,5 @@
 /dist
-/wibses/docs/build
+/docs/build
 *.egg-info
 *.pyc
 
@@ -10,7 +10,4 @@
 *~
 
 # below is assembled by grunt
-/wibses/static
-
-/wibses/dictonaries
-/wibses/scripts
+/django_wibses/django_wibses/wibses/static
