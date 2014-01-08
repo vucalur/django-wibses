@@ -41,9 +41,9 @@ angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
          controller: 'ScriptCtrl'
          controllerAs: 'ctrl'
          resolve:
-            script: ['jsonStorageService', (jsonStorageService) ->
+            script: ['scriptService', (scriptService) ->
                scriptId = 'aaaaaaaaaa'
-               return jsonStorageService.getScript({scriptId: scriptId}).$promise
+               return scriptService.getScript({scriptId: scriptId}).$promise
             ]
    .otherwise
          redirectTo: '/editor'

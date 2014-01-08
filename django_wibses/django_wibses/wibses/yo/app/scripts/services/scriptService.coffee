@@ -2,13 +2,25 @@
 
 service = angular.module('wibsesApp.service')
 
-#TODO vucalur: refactor jsonStorageService and scriptService
+service.config(['$httpProvider', ($httpProvider) ->
+   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+   $httpProvider.defaults.xsrfCookieName = 'csrftoken'
+])
+
 service.factory 'scriptService',
    ['$resource',
       ($resource) ->
-         return $resource('/wibses/data/get_default'
+         return $resource('/wibses/data/scripts/:action/:scriptId/:revision'
          {},
-            getDefaultScript:
+            getScript:
                method: 'GET', params: {}, isArray: false,
+            getScripts:
+               method: 'GET', params: {}, isArray: true
+            store:
+               method: 'POST', params: { action: 'save' }
+            revisions:
+               method: 'GET', params: { action: 'hist' }, isArray: true
+            revision:
+               method: 'GET', params: { action: 'hist' }, isArray: false
          )
    ]

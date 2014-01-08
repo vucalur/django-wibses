@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('wibsesApp.modal.service')
-.factory('modalService', ['jsonStorageService', '$modal',
-      (@jsonStorageService, @$modal) ->
+.factory('modalService', ['scriptService', '$modal',
+      (@scriptService, @$modal) ->
          @onNewScriptSelected
          @onForkRevisionClicked
          service =
@@ -15,7 +15,7 @@ angular.module('wibsesApp.modal.service')
                      controller: 'ScriptsListCtrl'
                      resolve:
                         scripts: =>
-                           return @jsonStorageService.getScripts().$promise
+                           return @scriptService.getScripts().$promise
                   )
 
             openRevisionsInRepoModal: (scriptId, onNewScriptSelected, @onForkRevisionClicked) =>
@@ -28,7 +28,7 @@ angular.module('wibsesApp.modal.service')
                      controller: 'ScriptRevisionsCtrl'
                      resolve:
                         revisions: =>
-                           return @jsonStorageService.revisions({scriptId: scriptId}).$promise
+                           return @scriptService.revisions({scriptId: scriptId}).$promise
                   )
 
             closeScriptsModal: (success, scriptInfo, forkInvoked) =>

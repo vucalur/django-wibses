@@ -2,8 +2,8 @@
 
 angular.module('wibsesApp.controller').controller 'ScriptCtrl',
    class ScriptCtrl
-      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'jsonStorageService', 'scriptService', 'forkService', 'script']
-      constructor: (@$scope, @$log, @$timeout, @modalService, @jsonStorageService, @scriptService, @forkService, script) ->
+      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'scriptService', 'defaultScriptService', 'forkService', 'script']
+      constructor: (@$scope, @$log, @$timeout, @modalService, @scriptService, @defaultScriptService, @forkService, script) ->
          @$scope.script = script
          @$scope.currentUser = 'dummy-user'
 
@@ -21,7 +21,7 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
             , 800)
          , true)
 
-         @defaultScriptTemplate = @scriptService.getDefaultScript()
+         @defaultScriptTemplate = @defaultScriptService.getDefaultScript()
 
       getSectionsNames: ->
          return ['synthetic', 'analytical', 'circumstances']
@@ -30,7 +30,7 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
          # TODO vucalur: refactor this callback passing throught multiple levels - perhabs with $q api ?
          onNewScriptSelected = (scriptInfo) =>
             @$log.info 'Loading new script'
-            @$scope.script = @jsonStorageService.getScript({scriptId: scriptInfo.script_id})
+            @$scope.script = @scriptService.getScript({scriptId: scriptInfo.script_id})
 
          @modalService.openScriptsInRepoModal(onNewScriptSelected)
 
@@ -38,7 +38,7 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
       selectRevisionModalAction: =>
          onNewScriptSelected = (scriptInfo) =>
             @$log.info 'Loading another version of the script'
-            @$scope.script = @jsonStorageService.revision({scriptId: @$scope.script.params.id, revision: scriptInfo.revision})
+            @$scope.script = @scriptService.revision({scriptId: @$scope.script.params.id, revision: scriptInfo.revision})
 
          onForkRevisionClicked = (scriptInfo) =>
             @$log.info 'Loading a new fork of the script'
@@ -65,7 +65,7 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
          @$log.debug 'Saving script...'
          #      TODO vucalur: not working ...
          #         @$scope.lastSavedScript = angular.copy(@$scope.script)
-         @jsonStorageService.store({user: @$scope.currentUser, scriptId: @$scope.script.params.id},
+         @scriptService.store({user: @$scope.currentUser, scriptId: @$scope.script.params.id},
             @$scope.script
          )
 
