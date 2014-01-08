@@ -7,7 +7,7 @@
       <label class="sr-only">Filename for new fork</label>
       <input type="text" class="form-control" placeholder="Filename for new fork" ng-model="forkFileName">
     </div>
-    <button class="btn btn-info" ng-click="choose(forkFileName)">
+    <button class="btn btn-info" ng-disabled="forkFileName == undefined || forkFileName === ''" ng-click="choose(forkFileName)">
       <span class="glyphicon glyphicon-share"></span> Create
     </button>
   </form>

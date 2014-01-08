@@ -37,11 +37,10 @@ angular.module('wibsesApp.modal.controller')
                modalService.closeScriptsModal true, scriptInfo
 
             @$scope.forkSelected = (scriptInfo) =>
-               modalService.openForkNameModal( (forkFileName) ->
+               modalService.openForkNameModal((forkFileName) ->
                   scriptInfo.forkFileName = forkFileName
                   modalService.closeScriptsModal true, scriptInfo, true
                )
-
 
 .controller 'ForkNameCtrl',
       class Ctrl

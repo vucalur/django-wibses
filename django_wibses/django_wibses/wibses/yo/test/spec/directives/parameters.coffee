@@ -15,15 +15,13 @@ describe 'Directive: parameters', () ->
    scope = {}
    $exceptionHandler = {}
 
-   beforeEach module(($exceptionHandlerProvider) ->
+   beforeEach module ($exceptionHandlerProvider) ->
       $exceptionHandlerProvider.mode 'log'
-   )
 
-   beforeEach inject((_$compile_, $rootScope, _$exceptionHandler_) ->
+   beforeEach inject (_$compile_, $rootScope, _$exceptionHandler_) ->
       $compile = _$compile_
       $exceptionHandler = _$exceptionHandler_
       scope = $rootScope.$new()
-   )
 
    afterEach () ->
       if $exceptionHandler.errors.length
