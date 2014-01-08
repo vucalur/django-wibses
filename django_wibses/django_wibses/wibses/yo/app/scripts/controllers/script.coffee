@@ -21,35 +21,35 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
             , 800)
          , true)
 
-         @defaultScriptTemplate = @defaultScriptService.getDefaultScript()
+         @defaultScriptTemplate = @defaultScriptService.loadScriptStub()
 
       getSectionsNames: ->
          return ['synthetic', 'analytical', 'circumstances']
 
-      selectScriptModalAction: =>
+      openScriptsListModal: =>
          # TODO vucalur: refactor this callback passing throught multiple levels - perhabs with $q api ?
-         onNewScriptSelected = (scriptInfo) =>
-            @$log.info 'Loading new script'
-            @$scope.script = @scriptService.getScript({scriptId: scriptInfo.script_id})
+         onLoadAnotherScriptAction = (scriptInfo) =>
+            @$log.info 'Loading another script'
+            @$scope.script = @scriptService.loadScript({scriptId: scriptInfo.script_id})
 
-         @modalService.openScriptsInRepoModal(onNewScriptSelected)
+         @modalService.openScriptsListModal(onLoadAnotherScriptAction)
 
       # TODO vucalur: refactor this copy-pastish odd thing
-      selectRevisionModalAction: =>
-         onNewScriptSelected = (scriptInfo) =>
-            @$log.info 'Loading another version of the script'
-            @$scope.script = @scriptService.revision({scriptId: @$scope.script.params.id, revision: scriptInfo.revision})
+      openScriptRevisionsModal: =>
+         onLoadAnotherRevisionAction = (scriptInfo) =>
+            @$log.info 'Loading another revision of the script'
+            @$scope.script = @scriptService.loadRevision({scriptId: @$scope.script.params.id, revision: scriptInfo.revision})
 
-         onForkRevisionClicked = (scriptInfo) =>
+         onForkRevisionAction = (scriptInfo) =>
             @$log.info 'Loading a new fork of the script'
-            @$scope.script = @forkService.fork(
+            @$scope.script = @forkService.forkAndLoadForked(
                scriptId: @$scope.script.params.id
                revision: scriptInfo.revision
                user: @$scope.currentUser
                storage_filename: scriptInfo.forkFileName
             )
 
-         @modalService.openRevisionsInRepoModal(@$scope.script.params.id, onNewScriptSelected, onForkRevisionClicked)
+         @modalService.openScriptRevisionsModal(@$scope.script.params.id, onLoadAnotherRevisionAction, onForkRevisionAction)
 
 
       #      TODO vucalur: not working ...
@@ -65,7 +65,7 @@ angular.module('wibsesApp.controller').controller 'ScriptCtrl',
          @$log.debug 'Saving script...'
          #      TODO vucalur: not working ...
          #         @$scope.lastSavedScript = angular.copy(@$scope.script)
-         @scriptService.store({user: @$scope.currentUser, scriptId: @$scope.script.params.id},
+         @scriptService.saveScript({user: @$scope.currentUser, scriptId: @$scope.script.params.id},
             @$scope.script
          )
 

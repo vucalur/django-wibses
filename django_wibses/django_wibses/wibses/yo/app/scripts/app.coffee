@@ -43,7 +43,7 @@ angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
          resolve:
             script: ['scriptService', (scriptService) ->
                scriptId = 'aaaaaaaaaa'
-               return scriptService.getScript({scriptId: scriptId}).$promise
+               return scriptService.loadScript(scriptId: scriptId).$promise
             ]
    .otherwise
          redirectTo: '/editor'

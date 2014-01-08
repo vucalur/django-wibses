@@ -3,47 +3,48 @@
 angular.module('wibsesApp.modal.service')
 .factory('modalService', ['scriptService', '$modal',
       (@scriptService, @$modal) ->
-         @onNewScriptSelected
-         @onForkRevisionClicked
+         @onLoadAction
+         @onForkRevisionAction
+
          service =
-            openScriptsInRepoModal: (onNewScriptSelected) =>
-               @onNewScriptSelected = onNewScriptSelected
-               @scriptsModal = null
-               if not @scriptsModal?
-                  @scriptsModal = @$modal.open(
+            openScriptsListModal: (onLoadAnotherScriptSelected) =>
+               @onLoadAction = onLoadAnotherScriptSelected
+               @listModal = undefined
+               if not @listModal?
+                  @listModal = @$modal.open(
                      templateUrl: 'template/OUR/uiModals/scripts-list.html'
                      controller: 'ScriptsListCtrl'
                      resolve:
-                        scripts: =>
-                           return @scriptService.getScripts().$promise
+                        scriptsList: =>
+                           return @scriptService.getScriptsList().$promise
                   )
 
-            openRevisionsInRepoModal: (scriptId, onNewScriptSelected, @onForkRevisionClicked) =>
-               @onNewScriptSelected = onNewScriptSelected
-               @onForkRevisionClicked = onForkRevisionClicked
-               @scriptsModal = null
-               if not @scriptsModal?
-                  @scriptsModal = @$modal.open(
+            openScriptRevisionsModal: (scriptId, onLoadAnotherRevisionAction, onForkRevisionAction) =>
+               @onLoadAction = onLoadAnotherRevisionAction
+               @onForkRevisionAction = onForkRevisionAction
+               @listModal = undefined
+               if not @listModal?
+                  @listModal = @$modal.open(
                      templateUrl: 'template/OUR/uiModals/script-revisions.html'
                      controller: 'ScriptRevisionsCtrl'
                      resolve:
-                        revisions: =>
-                           return @scriptService.revisions({scriptId: scriptId}).$promise
+                        revisionsList: =>
+                           return @scriptService.getRevisionsList({scriptId: scriptId}).$promise
                   )
 
-            closeScriptsModal: (success, scriptInfo, forkInvoked) =>
-               if @scriptsModal?
-                  @scriptsModal.close(success)
+            closeModal: (success, scriptInfo, forkChosen) =>
+               if @listModal?
+                  @listModal.close success
                   if success
-                     if forkInvoked
-                        @onForkRevisionClicked(scriptInfo)
+                     if forkChosen
+                        @onForkRevisionAction scriptInfo
                      else
-                        @onNewScriptSelected(scriptInfo)
-                  @scriptsModal = null
+                        @onLoadAction scriptInfo
+                  @listModal = undefined
 
-            openForkNameModal: (onNameSelected) =>
-               @onNameSelected = onNameSelected
-               @forkNameModal = null
+            openForkNameModal: (onNameSelectedAction) =>
+               @onNameSelectedAction = onNameSelectedAction
+               @forkNameModal = undefined
                if not @forkNameModal?
                   @forkNameModal = @$modal.open(
                      templateUrl: 'template/OUR/uiModals/fork-name.html'
@@ -52,10 +53,10 @@ angular.module('wibsesApp.modal.service')
 
             closeForkNameModal: (success, chosenName) =>
                if @forkNameModal?
-                  @forkNameModal.close(success)
+                  @forkNameModal.close success
                   if success
-                     @onNameSelected(chosenName)
-                  @forkNameModal = null
+                     @onNameSelectedAction chosenName
+                  @forkNameModal = undefined
 
          return service
    ])

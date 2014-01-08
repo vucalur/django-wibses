@@ -12,15 +12,15 @@ service.factory 'scriptService',
       ($resource) ->
          return $resource('/wibses/data/scripts/:action/:scriptId/:revision'
          {},
-            getScript:
+            loadScript:
                method: 'GET', params: {}, isArray: false,
-            getScripts:
+            getScriptsList:
                method: 'GET', params: {}, isArray: true
-            store:
+            saveScript:
                method: 'POST', params: { action: 'save' }
-            revisions:
+            getRevisionsList:
                method: 'GET', params: { action: 'hist' }, isArray: true
-            revision:
+            loadRevision:
                method: 'GET', params: { action: 'hist' }, isArray: false
          )
    ]

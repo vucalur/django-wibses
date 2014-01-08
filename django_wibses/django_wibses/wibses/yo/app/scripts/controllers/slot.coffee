@@ -13,11 +13,11 @@ angular.module('wibsesApp.controller').controller 'SlotCtrl',
             id: @$scope.token.id
             type: @$scope.token.type
             dic: @$scope.token.dic
-         @$scope.slot.tokens.push(newToken)
+         @$scope.slot.tokens.push newToken
          @$scope.token = undefined
 
       removeToken: (index) ->
-         delete @$scope.slot.tokens.splice(index, 1)
+         delete @$scope.slot.tokens.splice index, 1
 
       getTokens: (tokenPrefix) ->
-         @tokenProviderService.getSuggestions(tokenPrefix)
+         @tokenProviderService.getSuggestions tokenPrefix

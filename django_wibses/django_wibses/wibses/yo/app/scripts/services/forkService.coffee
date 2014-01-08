@@ -5,7 +5,7 @@ angular.module('wibsesApp.service').factory 'forkService',
       ($resource) ->
          return $resource('/wibses/data/scripts/hist/fork/:scriptId/:revision'
          {},
-            fork:
+            forkAndLoadForked:
                method: 'GET', params: {}, isArray: false
          )
    ]

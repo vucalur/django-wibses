@@ -7,7 +7,7 @@ service.factory 'defaultScriptService',
       ($resource) ->
          return $resource('/wibses/data/get_default'
          {},
-            getDefaultScript:
+            loadScriptStub:
                method: 'GET', params: {}, isArray: false,
          )
    ]
