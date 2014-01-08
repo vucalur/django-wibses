@@ -4,6 +4,7 @@ angular.module('wibsesApp', [
    'ngRoute'
    'wibsesApp.edit'
    'wibsesApp.manage'
+   'wibsesApp.navbar'
 ])
 
 angular.module('wibsesApp.services', [
@@ -25,9 +26,12 @@ angular.module('wibsesApp').config ['$routeProvider', ($routeProvider) ->
          controller: 'ScriptCtrl'
          controllerAs: 'ctrl'
          resolve:
-            script: ['$route', 'scriptService', ($route, scriptService) ->
+            script: ['$route', 'scriptService', 'currentScriptInfoService', ($route, scriptService, currentScriptInfoService) ->
                scriptId = $route.current.params.scriptId
-               return scriptService.loadScript(scriptId: scriptId).$promise
+               promise = scriptService.loadScript(scriptId: scriptId).$promise
+               promise.then (script) ->
+                  currentScriptInfoService.updateInfo(script.params.id, script.params.name)
+               return promise
             ]
    .otherwise
          redirectTo: '/manage'

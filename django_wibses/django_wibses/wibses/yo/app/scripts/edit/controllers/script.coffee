@@ -2,8 +2,8 @@
 
 angular.module('wibsesApp.edit.controllers').controller 'ScriptCtrl',
    class ScriptCtrl
-      @$inject: ['$scope', '$log', '$timeout', 'modalService', 'scriptService', 'defaultScriptService', 'forkService', 'script']
-      constructor: (@$scope, @$log, @$timeout, @modalService, @scriptService, @defaultScriptService, @forkService, script) ->
+      @$inject: ['$scope', '$log', '$timeout', 'currentScriptInfoService', 'modalService', 'scriptService', 'defaultScriptService', 'forkService', 'script']
+      constructor: (@$scope, @$log, @$timeout, @currentScriptInfoService, @modalService, @scriptService, @defaultScriptService, @forkService, script) ->
          @$scope.script = script
          @$scope.currentUser = 'dummy-user'
 
@@ -20,6 +20,14 @@ angular.module('wibsesApp.edit.controllers').controller 'ScriptCtrl',
                @$log.debug 'Script change detected.'
             , 800)
          , true)
+
+         @$scope.$watch(
+            () =>
+               return @currentScriptInfoService.info.scriptName
+         , (scriptName) =>
+            if scriptName?
+               @$scope.script.params.name = scriptName
+         )
 
          @defaultScriptTemplate = @defaultScriptService.loadScriptStub()
 
