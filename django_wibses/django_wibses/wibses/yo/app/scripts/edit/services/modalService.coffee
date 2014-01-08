@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.edit.modal.service')
+angular.module('wibsesApp.edit.modal.services')
 .factory('modalService', ['scriptService', '$modal',
       (@scriptService, @$modal) ->
          @onLoadAction

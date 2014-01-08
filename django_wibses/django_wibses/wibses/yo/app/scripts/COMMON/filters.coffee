@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.filter')
+angular.module('wibsesApp.filters')
 .filter 'capitalise', ->
       (text) ->
          if text? and text.length > 0

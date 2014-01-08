@@ -3,7 +3,7 @@
 describe 'Filter: filters', () ->
 
    # load the filter's module
-   beforeEach module 'wibsesApp.filter'
+   beforeEach module 'wibsesApp.filters'
 
    # initialize a new instance of the filter before each test
    capitaliseFilter = undefined

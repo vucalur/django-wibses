@@ -5,11 +5,11 @@ angular.module('wibsesApp', [
    'wibsesApp.edit'
 ])
 
-angular.module('wibsesApp.service', [
+angular.module('wibsesApp.services', [
    'ngResource'
 ])
 
-angular.module('wibsesApp.filter', [])
+angular.module('wibsesApp.filters', [])
 
 ###################################################################################
 

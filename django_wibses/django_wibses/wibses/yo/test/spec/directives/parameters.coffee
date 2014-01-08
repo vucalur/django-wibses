@@ -4,7 +4,7 @@
 
 describe 'Directive: parameters', () ->
 
-   beforeEach module 'wibsesApp.edit.directive'
+   beforeEach module 'wibsesApp.edit.directives'
    beforeEach module 'template/OUR/edit/parameters/parameters.html', 'template/OUR/edit/parameters/parameters.html'
    beforeEach module 'template/OUR/edit/parameters/inputs/checkbox.html', 'template/OUR/edit/parameters/inputs/checkbox.html'
    beforeEach module 'template/OUR/edit/parameters/inputs/number.html', 'template/OUR/edit/parameters/inputs/number.html'

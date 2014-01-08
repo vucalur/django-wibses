@@ -1,29 +1,29 @@
 'use strict'
 
 angular.module('wibsesApp.edit', [
-   'wibsesApp.edit.controller'
-   'wibsesApp.edit.directive'
+   'wibsesApp.edit.controllers'
+   'wibsesApp.edit.directives'
 ])
 
-angular.module('wibsesApp.edit.controller', [
-   'wibsesApp.service'
-   'wibsesApp.edit.service'
-   'wibsesApp.edit.modal.service'
-   'wibsesApp.filter'
+angular.module('wibsesApp.edit.controllers', [
+   'wibsesApp.services'
+   'wibsesApp.edit.services'
+   'wibsesApp.edit.modal.services'
+   'wibsesApp.filters'
    'ui.bootstrap.typeahead'
 ])
 
-angular.module('wibsesApp.edit.service', [])
+angular.module('wibsesApp.edit.services', [])
 
-angular.module('wibsesApp.edit.modal.service', [
+angular.module('wibsesApp.edit.modal.services', [
    'ngResource'
    'ngGrid'
-   'wibsesApp.edit.modal.controller'
+   'wibsesApp.edit.modal.controllers'
 ])
 
-angular.module('wibsesApp.edit.modal.controller', [
-   'wibsesApp.edit.service'
+angular.module('wibsesApp.edit.modal.controllers', [
+   'wibsesApp.edit.services'
    'ui.bootstrap.modal'
 ])
 
-angular.module('wibsesApp.edit.directive', [])
+angular.module('wibsesApp.edit.directives', [])

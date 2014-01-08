@@ -1,6 +1,6 @@
 'use strict'
 
-service = angular.module('wibsesApp.service')
+service = angular.module('wibsesApp.services')
 
 service.factory 'defaultScriptService',
    ['$resource',

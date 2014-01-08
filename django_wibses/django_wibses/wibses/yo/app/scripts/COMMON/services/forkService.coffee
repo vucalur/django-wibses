@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.service').factory 'forkService',
+angular.module('wibsesApp.services').factory 'forkService',
    ['$resource',
       ($resource) ->
          return $resource('/wibses/data/scripts/hist/fork/:scriptId/:revision'

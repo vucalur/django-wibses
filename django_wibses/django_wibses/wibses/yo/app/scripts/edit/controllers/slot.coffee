@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.edit.controller').controller 'SlotCtrl',
+angular.module('wibsesApp.edit.controllers').controller 'SlotCtrl',
    class SlotCtrl
       @$inject: ['$scope', 'tokenProviderService']
       constructor: (@$scope, @tokenProviderService) ->

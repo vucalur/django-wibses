@@ -1,6 +1,6 @@
 'use strict'
 
-service = angular.module('wibsesApp.service')
+service = angular.module('wibsesApp.services')
 
 service.config(['$httpProvider', ($httpProvider) ->
    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
