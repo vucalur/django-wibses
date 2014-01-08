@@ -1,0 +1,21 @@
+<div>
+  <h3>Scripts in repository:</h3>
+
+  <div class="gridStyle">
+    <div class="gridStyle" ng-grid="gridOptions">
+    </div>
+
+    <form class="form-inline">
+      <div class="form-group">
+        <label class="sr-only">Filename for a new script</label>
+        <input type="text" class="form-control" placeholder="Filename for a new script" ng-model="fileName">
+      </div>
+      <button class="btn btn-success" ng-disabled="fileName == undefined || fileName === ''" ng-click="ctrl.loadNew()">
+        <span class="glyphicon glyphicon-leaf"></span> Create new
+      </button>
+      <div class="pull-right">
+        <button class="btn btn-primary" ng-disabled="selectedScripts.length === 0" ng-click="ctrl.loadSelected(selectedScripts[0])">Load selected</button>
+      </div>
+    </form>
+  </div>
+</div>
