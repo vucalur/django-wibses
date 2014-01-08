@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.service').service 'tokenProviderService',
+angular.module('wibsesApp.edit.service').service 'tokenProviderService',
    class TokenProviderService
       @$inject: ['$http']
       constructor: (@$http) ->

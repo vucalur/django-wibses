@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.controller').controller 'ScriptCtrl',
+angular.module('wibsesApp.edit.controller').controller 'ScriptCtrl',
    class ScriptCtrl
       @$inject: ['$scope', '$log', '$timeout', 'modalService', 'scriptService', 'defaultScriptService', 'forkService', 'script']
       constructor: (@$scope, @$log, @$timeout, @modalService, @scriptService, @defaultScriptService, @forkService, script) ->

@@ -39,11 +39,11 @@ module.exports = function (grunt) {
       // Watches files for changes and runs tasks based on the changed files
       watch: {
          coffee: {
-            files: ['<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
+            files: ['<%= yeoman.app %>/scripts/**/*.{coffee,litcoffee,coffee.md}'],
             tasks: ['newer:coffee:dist']
          },
          coffeeTest: {
-            files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
+            files: ['test/spec/**/*.{coffee,litcoffee,coffee.md}'],
             tasks: ['newer:coffee:test', 'karma']
          },
          compass: {
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
                livereload: '<%= connect.options.livereload %>'
             },
             files: [
-               '<%= yeoman.app %>/{,*/}*.html',
+               '<%= yeoman.app %>/**/*.html',
                '.tmp/styles/{,*/}*.css',
                '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
             ]
@@ -178,7 +178,7 @@ module.exports = function (grunt) {
                {
                   expand: true,
                   cwd: '<%= yeoman.app %>/scripts',
-                  src: '{,*/}*.coffee',
+                  src: '**/*.coffee',
                   dest: '.tmp/scripts',
                   ext: '.js'
                }
@@ -189,7 +189,7 @@ module.exports = function (grunt) {
                {
                   expand: true,
                   cwd: 'test/spec',
-                  src: '{,*/}*.coffee',
+                  src: '**/*.coffee',
                   dest: '.tmp/spec',
                   ext: '.js'
                }
@@ -206,11 +206,11 @@ module.exports = function (grunt) {
             generatedImagesDir: '.tmp/images/generated',
             imagesDir: '<%= yeoman.app %>/images',
             javascriptsDir: '<%= yeoman.app %>/scripts',
-            fontsDir: '<%= yeoman.app %>/styles/fonts',  /*Do not set to '<%= yeoman.app %>/fonts' since it'll rename files, but leave out references in generated css*/
+            fontsDir: '<%= yeoman.app %>/styles/fonts', /*Do not set to '<%= yeoman.app %>/fonts' since it'll rename files, but leave out references in generated css*/
             importPath: '<%= yeoman.app %>/bower_components',
             httpImagesPath: '/images',
             httpGeneratedImagesPath: '/images/generated',
-            httpFontsPath: '/styles/fonts',  /*Do not set to '/fonts' since it'll rename files, but leave out references in generated css*/
+            httpFontsPath: '/styles/fonts', /*Do not set to '/fonts' since it'll rename files, but leave out references in generated css*/
             relativeAssets: false,
             assetCacheBuster: false
          },
@@ -239,7 +239,7 @@ module.exports = function (grunt) {
          dist: {
             files: {
                src: [
-                  '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                  '<%= yeoman.dist %>/scripts/**/*.js',
                   '<%= yeoman.dist %>/styles/{,*/}*.css',
                   '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                   '<%= yeoman.dist %>/styles/fonts/*'
@@ -260,7 +260,7 @@ module.exports = function (grunt) {
 
       // Performs rewrites based on rev and the useminPrepare configuration
       usemin: {
-         html: ['<%= yeoman.dist %>/{,*/}*.html'],
+         html: ['<%= yeoman.dist %>/**/*.html'],
          css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
          options: {
             assetsDirs: ['<%= yeoman.dist %>']

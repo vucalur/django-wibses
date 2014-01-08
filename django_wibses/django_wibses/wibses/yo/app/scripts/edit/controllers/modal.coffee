@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.modal.controller')
+angular.module('wibsesApp.edit.modal.controller')
 .controller 'ScriptsListCtrl',
       class Ctrl
          @$inject: ['$scope', 'modalService', 'scriptsList']

@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module('wibsesApp.directive')
+angular.module('wibsesApp.edit.directive')
 .directive 'parameters', () ->
-      templateUrl: 'template/OUR/parameters/parameters.html'
+      templateUrl: 'template/OUR/edit/parameters/parameters.html'
       restrict: 'E'
       scope:
          params: '='

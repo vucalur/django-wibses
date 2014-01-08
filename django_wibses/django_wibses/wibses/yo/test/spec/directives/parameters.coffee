@@ -4,11 +4,11 @@
 
 describe 'Directive: parameters', () ->
 
-   beforeEach module 'wibsesApp.directive'
-   beforeEach module 'template/OUR/parameters/parameters.html', 'template/OUR/parameters/parameters.html'
-   beforeEach module 'template/OUR/parameters/inputs/checkbox.html', 'template/OUR/parameters/inputs/checkbox.html'
-   beforeEach module 'template/OUR/parameters/inputs/number.html', 'template/OUR/parameters/inputs/number.html'
-   beforeEach module 'template/OUR/parameters/inputs/text.html', 'template/OUR/parameters/inputs/text.html'
+   beforeEach module 'wibsesApp.edit.directive'
+   beforeEach module 'template/OUR/edit/parameters/parameters.html', 'template/OUR/edit/parameters/parameters.html'
+   beforeEach module 'template/OUR/edit/parameters/inputs/checkbox.html', 'template/OUR/edit/parameters/inputs/checkbox.html'
+   beforeEach module 'template/OUR/edit/parameters/inputs/number.html', 'template/OUR/edit/parameters/inputs/number.html'
+   beforeEach module 'template/OUR/edit/parameters/inputs/text.html', 'template/OUR/edit/parameters/inputs/text.html'
 
    element = {}
    $compile = {}

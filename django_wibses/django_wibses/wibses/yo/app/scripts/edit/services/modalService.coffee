@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('wibsesApp.modal.service')
+angular.module('wibsesApp.edit.modal.service')
 .factory('modalService', ['scriptService', '$modal',
       (@scriptService, @$modal) ->
          @onLoadAction
@@ -12,7 +12,7 @@ angular.module('wibsesApp.modal.service')
                @listModal = undefined
                if not @listModal?
                   @listModal = @$modal.open(
-                     templateUrl: 'template/OUR/uiModals/scripts-list.html'
+                     templateUrl: 'template/OUR/edit/uiModals/scripts-list.html'
                      controller: 'ScriptsListCtrl'
                      resolve:
                         scriptsList: =>
@@ -25,7 +25,7 @@ angular.module('wibsesApp.modal.service')
                @listModal = undefined
                if not @listModal?
                   @listModal = @$modal.open(
-                     templateUrl: 'template/OUR/uiModals/script-revisions.html'
+                     templateUrl: 'template/OUR/edit/uiModals/script-revisions.html'
                      controller: 'ScriptRevisionsCtrl'
                      resolve:
                         revisionsList: =>
@@ -47,7 +47,7 @@ angular.module('wibsesApp.modal.service')
                @forkNameModal = undefined
                if not @forkNameModal?
                   @forkNameModal = @$modal.open(
-                     templateUrl: 'template/OUR/uiModals/fork-name.html'
+                     templateUrl: 'template/OUR/edit/uiModals/fork-name.html'
                      controller: 'ForkNameCtrl'
                   )
 
