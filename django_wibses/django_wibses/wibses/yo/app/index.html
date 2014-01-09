@@ -14,11 +14,10 @@
         <!--TODO vucalur: mashing EVERY single css into a single min is a tragic idea: http://stackoverflow.com/a/19034513/1432478-->
         <!-- build:css({.tmp,app}) styles/main.css -->
         <!-- bower:css -->
+        <link rel="stylesheet" type="text/css" href="bower_components/ng-grid-bower/ng-grid.css" />
         <!-- endbower -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
-        <!--TODO vucalur: use Bower resources for ui.grid-->
-        <link rel="stylesheet" type="text/css" href="http://angular-ui.github.com/ng-grid/css/ng-grid.css" />
 </head>
   <body ng-app="wibsesApp">
     <!--[if lt IE 7]>
@@ -66,12 +65,7 @@
     		<script src="bower_components/angular-ui-bootstrap/src/position/position.js"></script>
     		<script src="bower_components/angular-ui-bootstrap/src/bindHtml/bindHtml.js"></script>
     		<script src="bower_components/angular-ui-bootstrap/src/modal/modal.js"></script>
-    		<!--<script src="bower_components/ng-grid/src/js/directives/ui-grid.js"></script>-->
-    		<!--<script src="bower_components/ng-grid/src/js/directives/ui-grid-body.js"></script>-->
-    		<!--<script src="bower_components/ng-grid/src/js/directives/ui-grid-header.js"></script>-->
-    		<!--<script src="bower_components/ng-grid/src/js/directives/ui-grid-style.js"></script>-->
-    		<!--<script src="bower_components/ng-grid/src/js/directives/ui-virtual-repeat.js"></script>-->
-    		<!--<script src="bower_components/ng-grid/src/js/services/ui-grid-util.js"></script>-->
+    		<script src="bower_components/ng-grid-bower/ng-grid.js"></script>
 
     		<!-- endbower -->
         <script src="scripts/app.js"></script>
@@ -93,7 +87,5 @@
         <script src="scripts/navbar/MODULES.js"></script>
         <script src="scripts/navbar/controllers/navbar.js"></script>
         <!-- endbuild -->
-        <!--TODO vucalur: use Bower resources for ui.grid-->
-        <script type="text/javascript" src="http://angular-ui.github.com/ng-grid/lib/ng-grid.debug.js"></script>
 </body>
 </html>

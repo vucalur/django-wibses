@@ -13,7 +13,7 @@
       "angular-resource": "~1.2.0",
       "angular-cookies": "~1.2.0",
       "angular-ui-bootstrap": "~0.9.0",
-      "ng-grid": "git://github.com/angular-ui/ng-grid#3.0"
+      "ng-grid-bower": "~2.0.7"
    },
    "devDependencies": {
       "angular": "~1.2.0",
