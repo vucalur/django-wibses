@@ -88,7 +88,7 @@ angular.module('wibsesApp.edit.controllers').controller 'ScriptCtrl',
          @$scope.script[sectionName].sentences[sentenceIndex].slots.splice(slotIndex, 1)
 
       addSlot: (sectionName, sentenceIndex) ->
-         newSlot = angular.copy(@defaultScriptTemplate[sectionName].sentences[sentenceIndex].slots[0])
+         newSlot = angular.copy(@defaultScriptTemplate[sectionName].sentences[0].slots[0])
          @$scope.script[sectionName].sentences[sentenceIndex].slots.push(newSlot)
 
 
