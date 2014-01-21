@@ -6,21 +6,23 @@
       "es5-shim": "~2.1.0",
       "sass-bootstrap": "~3.0.0",
       "bootswatch-scss": "~3.0.0",
-      "angular": "~1.2.0",
-      "angular-mocks": "~1.2.0",
-      "angular-scenario": "~1.2.0",
-      "angular-route": "~1.2.0",
-      "angular-resource": "~1.2.0",
-      "angular-cookies": "~1.2.0",
+      "angular": "~1.2.x",
+      "angular-mocks": "~1.2.x",
+      "angular-scenario": "~1.2.x",
+      "angular-route": "~1.2.x",
+      "angular-resource": "~1.2.x",
+      "angular-cookies": "~1.2.x",
       "angular-ui-bootstrap": "~0.9.0",
-      "ng-grid-bower": "~2.0.7"
+      "angular-ui-sortable": "git://github.com/angular-ui/ui-sortable#angular1.2",
+      "ng-grid-bower": "~2.0.7",
+      "jquery-ui": "~1.10.3"
    },
    "devDependencies": {
-      "angular": "~1.2.0",
-      "angular-mocks": "~1.2.0",
-      "angular-scenario": "~1.2.0",
-      "angular-route": "~1.2.0",
-      "angular-resource": "~1.2.0",
-      "angular-cookies": "~1.2.0"
+      "angular": "~1.2.x",
+      "angular-mocks": "~1.2.x",
+      "angular-scenario": "~1.2.x",
+      "angular-route": "~1.2.x",
+      "angular-resource": "~1.2.x",
+      "angular-cookies": "~1.2.x"
    }
 }

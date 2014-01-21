@@ -27,6 +27,7 @@ angular.module('wibsesApp.edit.modal.services', [
 angular.module('wibsesApp.edit.modal.controllers', [
    'wibsesApp.edit.services'
    'ui.bootstrap.modal'
+   'ui.sortable'
 ])
 
 angular.module('wibsesApp.edit.directives', [])

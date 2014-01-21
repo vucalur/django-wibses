@@ -25,7 +25,7 @@
                     <h4>Tokens:</h4>
 
                     <div class="tokens">
-                      <ul class="list-inline">
+                      <ul class="list-inline" ui-sortable ng-model="slot.tokens">
                         <li ng-repeat="token in slot.tokens track by $index" ng-init="tokenIndex = $index">
                           <!--TODO vucalur: fix pointy corners of the label-->
                           <span class="token label label-info">{{ token.label }} <span class="remove-button glyphicon glyphicon-remove-circle" ng-click="slotCtrl.removeToken(tokenIndex)"></span></span>
