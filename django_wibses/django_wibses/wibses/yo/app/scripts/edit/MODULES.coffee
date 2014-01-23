@@ -11,6 +11,7 @@ angular.module('wibsesApp.edit.controllers', [
    'wibsesApp.filters'
    'wibsesApp.services'
    'ui.bootstrap.typeahead'
+   'ui.bootstrap.accordion'
 ])
 
 angular.module('wibsesApp.edit.services', [

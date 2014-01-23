@@ -18,10 +18,6 @@
   padding: 60px 15px;
 }
 
-.section h1 {
-  text-align: center;
-}
-
 /*Generic validation*/
 /*Subject selector (CCS 4 draft) not yet supported*/
 //div! > .ng-valid.ng-dirty {
@@ -41,42 +37,30 @@
   @extend .has-error;
 }
 
+//Bagdes colors
+.badge.badge-warning {
+  background-color: $brand-warning;
+}
+
+.badge.badge-success.inverse {
+  color: $brand-success;
+  background-color: #FFFFFF;
+}
+
 /*Sections*/
-.section.circumstances {
-  background-color: #c8e5bc;
-}
-
-.section.analytical {
-  background-color: #76A9DB;
-}
-
-.section.synthetic {
-  background-color: #5CCECD;
-}
-
 .section {
-  padding: 20px;
-  border: 10px;
-  margin-top: 21px;
-}
-
-/*Tokens list*/
-span.token {
-  font-size: 13px;
-}
-
-span.token .remove-button {
-  margin-right: 4px;
-  margin-left: 7px;
-}
-
-div.tokens {
-  margin-bottom: 9px;
-}
-
-div.tokens li {
-  margin-top: 4px;
-  margin-bottom: 4px;
+  .section-header {
+    text-align: center;
+  }
+  &.circumstances {
+    background-color: #C8E5BC;
+  }
+  &.analytical {
+    background-color: #76A9DB;
+  }
+  &.synthetic {
+    background-color: #5CCECD;
+  }
 }
 
 /*Params list*/
@@ -84,8 +68,28 @@ ul.params {
   margin-bottom: 3px;
 }
 
-div.param-wrapper {
-  margin-bottom: 8px;
+// Add&remove buttons (for sentences and slots)
+.add-button, .remove-button {
+  margin-top: 7px;
+}
+
+/*Tokens list*/
+span.token {
+  font-size: 13px;
+
+  .remove-token-button {
+    margin-right: 4px;
+    margin-left: 7px;
+  }
+}
+
+div.tokens {
+  margin-bottom: 9px;
+
+  li {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
 }
 
 /*Token autocomplete menu*/
@@ -96,28 +100,19 @@ div.param-wrapper {
 
 .token-suggestion-match {
   margin-top: 15px;
-}
 
-.token-suggestion-match .lexical-forms {
-  max-width: 550px;
-  overflow-x: auto;
-  padding-left: 14px;
-  padding-top: 7px;
-  margin-left: 45px;
-  margin-top: 7px;
-}
+  .lexical-forms {
+    max-width: 550px;
+    overflow-x: auto;
+    padding-left: 14px;
+    padding-top: 7px;
+    margin-left: 45px;
+    margin-top: 7px;
+  }
 
-.token-suggestion-match .forms ul {
-  padding-bottom: 10px;
-}
-
-.badge.badge-warning {
-  background-color: #efb73e;
-}
-
-.badge.badge-success.inverse {
-  color: #38b44a;
-  background-color: #FFFFFF;
+  .forms ul {
+    padding-bottom: 10px;
+  }
 }
 
 .token-id {
@@ -127,6 +122,7 @@ div.param-wrapper {
 //Script actions bar
 #script-actions-bar {
   background: rgba($gray-light, .5);
+
   button {
     float: right;
     margin-right: 13px;

@@ -12,7 +12,7 @@
       "angular-route": "~1.2.x",
       "angular-resource": "~1.2.x",
       "angular-cookies": "~1.2.x",
-      "angular-ui-bootstrap": "~0.9.0",
+      "angular-ui-bootstrap": "~0.x",
       "angular-ui-sortable": "git://github.com/angular-ui/ui-sortable#angular1.2",
       "ng-grid-bower": "~2.0.7",
       "jquery-ui": "~1.10.3"
