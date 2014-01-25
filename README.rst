@@ -4,6 +4,19 @@ django-wibses (aka Wibses)
 
 .. image:: https://travis-ci.org/vucalur/django-wibses.png?branch=master
    :target: https://travis-ci.org/vucalur/django-wibses
+   
+.. image:: https://cdn.gruntjs.com/builtwith.png
+   :target: http://gruntjs.com
+
+Django:
+
+.. image:: https://badge.fury.io/py/Django.png
+    :target: http://badge.fury.io/py/Django
+   
+AngularJS:
+
+.. image:: https://badge.fury.io/bo/angular.png
+    :target: http://badge.fury.io/bo/angular
 
 django-wibses is a webapp simplifying creation and management of *semantic scripts* (it's basically a complex, structured JSON).
 
